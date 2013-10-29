@@ -1,0 +1,413 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/templates_static.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 25 Oct 2013 18:32:45 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4. Templates and Static Media &mdash; How to Tango with Django</title>
+    
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/twd.ico"/>
+    <link rel="top" title="How to Tango with Django" href="../index-2.html" />
+    <link rel="next" title="5. Models and Databases" href="models.html" />
+    <link rel="prev" title="3. Django Basics" href="setup.html" />
+ <style type="text/css">
+	img{
+	    width: 85%; /* you can use % */
+	    height: auto;
+	}
+	
+	table {
+		margin: auto;
+	}
+	
+	p.caption {
+		font-size: 10pt;
+		font-style: italic;
+	}
+ </style>
+ <script type="text/javascript">
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-44397330-1', 'tangowithdjango.com');
+  ga('send', 'pageview');
+     
+
+  </script>      
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        
+        <li class="right" >
+          <a href="models.html" title="5. Models and Databases"
+             accesskey="N">next</a>
+          </li>
+		
+        <li class="right" >
+          <a href="setup.html" title="3. Django Basics"
+             accesskey="P">previous</a>
+          </li>
+		
+        <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index-2.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">4. Templates and Static Media</a><ul>
+<li><a class="reference internal" href="#using-templates">4.1. Using Templates</a><ul>
+<li><a class="reference internal" href="#configuring-the-templates-directory">4.1.1. Configuring the Templates Directory</a></li>
+<li><a class="reference internal" href="#adding-a-template">4.1.2. Adding a Template</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#serving-static-media">4.2. Serving Static Media</a><ul>
+<li><a class="reference internal" href="#configuring-the-static-media-directory">4.2.1. Configuring the Static Media Directory</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#static-media-files-and-templates">4.3. Static Media Files and Templates</a></li>
+<li><a class="reference internal" href="#the-static-media-server">4.4. The Static Media Server</a></li>
+<li><a class="reference internal" href="#basic-workflow">4.5. Basic Workflow</a></li>
+<li><a class="reference internal" href="#exercises">4.6. Exercises</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="setup.html"
+                        title="previous chapter">3. Django Basics</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="models.html"
+                        title="next chapter">5. Models and Databases</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/chapters/templates_static.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://www.tangowithdjango.com/book/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="templates-and-static-media">
+<span id="templates-label"></span><h1>4. Templates and Static Media<a class="headerlink" href="#templates-and-static-media" title="Permalink to this headline">¶</a></h1>
+<p>In this chapter, we&#8217;ll be extending your knowledge of Django by introducing you to the template engine as well as how to serve <em>static media</em> within your web pages.</p>
+<div class="section" id="using-templates">
+<span id="model-setup-templates-label"></span><h2>4.1. Using Templates<a class="headerlink" href="#using-templates" title="Permalink to this headline">¶</a></h2>
+<p>Up to this point, you have plugged a few things together to create a Django-powered webpage. This is coupled a view, which is in turn coupled with a series of URL mappings. Here we will delve into how to combine templates into the mix.</p>
+<p>Well-designed websites use a lot of repetition in their structure or layout. Whether you see a common header or footer on a website&#8217;s pages, the <a class="reference external" href="http://www.techrepublic.com/blog/web-designer/effective-design-principles-for-web-designers-repetition/">repetition of page layouts</a> aids users with navigation, promotes organisation of the website and reinforces a sense of continuity. Django provides <a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/templates/">templates</a> to make it easier for developers to achieve this design goal, as well as separating application logic from presentational concerns. In this chapter, you&#8217;ll create a basic template which will be used to create a HTML page. This template will then be dispatched via a Django view. In Chapter <a class="reference internal" href="models_templates.html#model-using-label">6</a>, we will take this a step further by using templates in conjunction with models to dispatch dynamically generated data.</p>
+<div class="section" id="configuring-the-templates-directory">
+<h3>4.1.1. Configuring the Templates Directory<a class="headerlink" href="#configuring-the-templates-directory" title="Permalink to this headline">¶</a></h3>
+<p>To get templates up and running, you will need to setup a directory in which template files are stored.</p>
+<p>In your Django project&#8217;s directory (e.g. <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project/</span></tt>), create a new directory called <tt class="docutils literal"><span class="pre">templates</span></tt>. Within the new templates directory, create another directory called <tt class="docutils literal"><span class="pre">rango</span></tt>. So the directory <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project/templates/rango/</span></tt> will be the location in which we will be storing templates associated with our <tt class="docutils literal"><span class="pre">rango</span></tt> application.</p>
+<p>To tell your Django project where the templates will be housed, open your project&#8217;s <tt class="docutils literal"><span class="pre">settings.py</span></tt> file. Find the tuple <tt class="docutils literal"><span class="pre">TEMPLATE_DIRS</span></tt> and add in the path to your newly created <tt class="docutils literal"><span class="pre">templates</span></tt> directory, so it looks like the following example.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">TEMPLATE_DIRS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="c"># Put strings here, like &quot;/home/html/django_templates&quot; or &quot;C:/www/django/templates&quot;.</span>
+    <span class="c"># Always use forward slashes, even on Windows.</span>
+    <span class="c"># Don&#39;t forget to use absolute paths, not relative paths.</span>
+    <span class="s">&#39;&lt;workspace&gt;/tango_with_django_project/templates/&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that you are <em>required to use absolute paths</em> to locate the <tt class="docutils literal"><span class="pre">templates</span></tt> directory. If you are part of a team or working on different computers, this may become a problem in the future. You&#8217;ll have different usernames, meaning different paths to your <tt class="docutils literal"><span class="pre">&lt;workspace&gt;</span></tt> directory. Of course, you could add in the template directory for each different setup, but that would be a pretty nasty way to tackle the problem.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The road to hell is paved with hard-coded paths.
+<a class="reference external" href="http://en.wikipedia.org/wiki/Hard_coding">Hard-coding</a> paths is considered to be a <a class="reference external" href="http://sourcemaking.com/antipatterns">software engineering anti-pattern</a>, and will make your project less <a class="reference external" href="http://en.wikipedia.org/wiki/Software_portability">portable</a>.</p>
+</div>
+<p>Instead, we can be much smarter and make use of some built-in Python functions to obtain the path of our <tt class="docutils literal"><span class="pre">templates</span></tt> directory independently of where your project is stored on a filesystem. At the expense of a little bit more complexity in setting up our Django project, we can make our lives much easier later on when it comes to setting up and running our project on other computers. No pain, no gain!</p>
+<p>Modify the <tt class="docutils literal"><span class="pre">settings.py</span></tt> file to include a variable called <tt class="docutils literal"><span class="pre">PROJECT_PATH</span></tt> which will stored the absolute path of the project. This is obtained by asking your operating system for the path of the <em>current working directory</em>. At the top of <tt class="docutils literal"><span class="pre">settings.py</span></tt>, add the following two lines of code.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">PROJECT_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This code imports the Python <tt class="docutils literal"><span class="pre">os</span></tt> module and asks for the path of the current working directory. This is the path in which you launched <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">runserver</span></tt> from. The path is assigned to variable <tt class="docutils literal"><span class="pre">PROJECT_PATH</span></tt>.</p>
+<p>With the absolute to our project&#8217;s root directory now stored in <tt class="docutils literal"><span class="pre">PROJECT_PATH</span></tt>, we can then join the path together with a further directory or filename to obtain a complete path to our project&#8217;s filesystem resources.</p>
+<p>Create a new variable called TEMPLATE_PATH in the <tt class="docutils literal"><span class="pre">settings.py</span></tt> file and store the path to the templates directory in it as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">TEMPLATE_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_PATH</span><span class="p">,</span> <span class="s">&#39;templates&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, we use the <tt class="docutils literal"><span class="pre">os.path.join()</span></tt> function to let Python handle the concatenation. This is the preferred approach - using this function makes sure that the correct slashes are used depending on our operating system. In the <tt class="docutils literal"><span class="pre">TEMPLATES_DIR</span></tt> tuple, add a reference to <tt class="docutils literal"><span class="pre">TEMPLATE_PATH</span></tt> like in the example below.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">TEMPLATE_DIRS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="c"># Put strings here, like &quot;/home/html/django_templates&quot; or &quot;C:/www/django/templates&quot;.</span>
+    <span class="c"># Always use forward slashes, even on Windows.</span>
+    <span class="c"># Don&#39;t forget to use absolute paths, not relative paths.</span>
+    <span class="n">TEMPLATE_PATH</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>We can keep the <tt class="docutils literal"><span class="pre">TEMPLATE_PATH</span></tt> variable at the top of our <tt class="docutils literal"><span class="pre">settings.py</span></tt> to make it easy to access. This is why we created an additional variable to store the template path.</p>
+</div>
+<div class="section" id="adding-a-template">
+<h3>4.1.2. Adding a Template<a class="headerlink" href="#adding-a-template" title="Permalink to this headline">¶</a></h3>
+<p>With your template directory and path set up, create a file called <tt class="docutils literal"><span class="pre">index.html</span></tt> and place it in the <tt class="docutils literal"><span class="pre">templates/rango/</span></tt> directory. Within this new file, add the following HTML code:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Rango<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>Rango says...<span class="nt">&lt;/h1&gt;</span>
+        hello world! <span class="nt">&lt;strong&gt;</span>{{ boldmessage }}<span class="nt">&lt;/strong&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>From this HTML code, it should be clear that a simple HTML page is going to be generated that greets a user with a <em>hello world</em> message. You might also notice some non-HTML in the form of <tt class="docutils literal"><span class="pre">{{</span> <span class="pre">boldmessage</span> <span class="pre">}}</span></tt>. This is a <em>Django template variable</em>, and we will be able to set a value for this variable to be displayed within the rendered output. We&#8217;ll get to that in a moment.</p>
+<p>To use this template, we need to re-configure the <tt class="docutils literal"><span class="pre">index()</span></tt> view that we created earlier. Instead of dispatching a simple message, we will change it to dispatch our template.</p>
+<p>In <tt class="docutils literal"><span class="pre">rango/views.py</span></tt>, add the following import statements at the top of the file.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">RequestContext</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span>
+</pre></div>
+</div>
+<p>You can then update the <tt class="docutils literal"><span class="pre">index()</span></tt> view function as follows. Check out the inline commentary to see what each line does.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="c"># Request the context of the request.</span>
+    <span class="c"># The context contains information such as the client&#39;s machine details, for example.</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+    <span class="c"># Construct a dictionary to pass to the template engine as its context.</span>
+    <span class="c"># Note the key boldmessage is the same as {{ boldmessage }} in the template!</span>
+    <span class="n">context_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;boldmessage&#39;</span><span class="p">:</span> <span class="s">&quot;I am from the context&quot;</span><span class="p">}</span>
+
+    <span class="c"># Return a rendered response to send to the client.</span>
+    <span class="c"># We make use of the shortcut function to make our lives easier.</span>
+    <span class="c"># Note that the first parameter is the template we wish to use.</span>
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;rango/index.html&#39;</span><span class="p">,</span> <span class="n">context_dict</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In our updated view, we use the <tt class="docutils literal"><span class="pre">RequestContext</span></tt> class to gain access to settings related to the user&#8217;s <tt class="docutils literal"><span class="pre">request</span></tt>. We then create a dictionary to store any data we want to send through to the template, then finally call the <tt class="docutils literal"><span class="pre">render_to_response()</span></tt> helper function. We pass as parameters the template we wish to use, the dictionary with our template variables, and the context we obtained from the user&#8217;s <tt class="docutils literal"><span class="pre">request</span></tt>. The <tt class="docutils literal"><span class="pre">render_to_response()</span></tt> function will take this data and mash it together with the template to produce a complete HTML page. This is then returned and dispatched to the user&#8217;s web browser.</p>
+<p>When a template file is loaded with the Django templating system, a <em>template context</em> is created. In simple terms, a template context is essentially a Python dictionary that maps template variable names with Python variables. In the template we created earlier, we included a template variable name called <tt class="docutils literal"><span class="pre">boldmessage</span></tt>. In our <tt class="docutils literal"><span class="pre">index(request)</span></tt> view example, the string <tt class="docutils literal"><span class="pre">I</span> <span class="pre">am</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">context</span></tt> is mapped to template variable <tt class="docutils literal"><span class="pre">boldmessage</span></tt>. The string <tt class="docutils literal"><span class="pre">I</span> <span class="pre">am</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">context</span></tt> therefore replaces any instance of <tt class="docutils literal"><span class="pre">{{</span> <span class="pre">boldmessage</span> <span class="pre">}}</span></tt> within the template.</p>
+<p>Now that you have updated the view to employ the use of your template, run the Django development server and visit <a class="reference external" href="http://127.0.0.1:8000/rango/">http://127.0.0.1:8000/rango/</a>. You should see your template rendered in all its glory, just like the example shown in Figure <a class="pageref" href="#fig-rango-hello-world-template">1</a>.</p>
+<p>If you don&#8217;t, read the error message presented to see what the problem is, and then double check all the changes that you have made. Ensure that all the changes required have been made. One of the most common issues people have with templates is that the path is set incorrectly in <tt class="docutils literal"><span class="pre">settings.py</span></tt>. Sometimes it&#8217;s worth adding a <tt class="docutils literal"><span class="pre">print</span></tt> statement to <tt class="docutils literal"><span class="pre">settings.py</span></tt> to report the <tt class="docutils literal"><span class="pre">PROJECT_PATH</span></tt> and <tt class="docutils literal"><span class="pre">TEMPLATE_PATH</span></tt>.</p>
+<p>This example demonstrates how to use templates within your views. However, we have only touched upon some of the functionality provided by Django regarding templates. We will use templates in more sophisticated ways as we progress through this tutorial. In the meantime, you can find out more about <a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/templates/">templates from the official Django documentation</a>.</p>
+<div class="align-center figure" id="fig-rango-hello-world-template">
+<img alt="../_images/rango-hello-world-template.png" src="../_images/rango-hello-world-template.png" />
+<p class="caption">Figure 1: A screenshot of Google Chrome rendering the template used with this tutorial.</p>
+</div>
+</div>
+</div>
+<div class="section" id="serving-static-media">
+<h2>4.2. Serving Static Media<a class="headerlink" href="#serving-static-media" title="Permalink to this headline">¶</a></h2>
+<p>Admittedly, the <em>Rango</em> website is pretty plain as we have not included any styling or imagery.  <a class="reference external" href="http://en.wikipedia.org/wiki/Cascading_Style_Sheets">Cascading Style Sheets (CSS)</a>, <a class="reference external" href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a> and images are essentially <em>static media</em> files which we can include in our webpages to add style and introduce dynamic behaviour. These files are served in a slightly different way from webpages. This is because they aren&#8217;t generated on the fly like our HTML pages. This section shows you how to setup your Django project to serve static media to the client. We&#8217;ll also modify our template to include some example static media.</p>
+<div class="section" id="configuring-the-static-media-directory">
+<h3>4.2.1. Configuring the Static Media Directory<a class="headerlink" href="#configuring-the-static-media-directory" title="Permalink to this headline">¶</a></h3>
+<p>To get static media up and running, you will need to set up a directory in which static media files are stored. In your project directory (e.g. <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project/</span></tt>), create a new directory called <tt class="docutils literal"><span class="pre">static</span></tt>.</p>
+<p>Now place an image within the <tt class="docutils literal"><span class="pre">static</span></tt> directory. As shown in Figure <a class="pageref" href="#fig-rango-picture">2</a>, we chose a picture of the chameleon, <a class="reference external" href="http://www.imdb.com/title/tt1192628/">Rango</a> - a fitting mascot, if ever there was one.</p>
+<div class="align-center figure" id="fig-rango-picture">
+<img alt="../_images/rango-picture.png" src="../_images/rango-picture.png" />
+<p class="caption">Figure 2: Rango the chameleon within our static media directory.</p>
+</div>
+<p>With our <tt class="docutils literal"><span class="pre">static</span></tt> directory created, we need to tell Django about it, just like we did with our <tt class="docutils literal"><span class="pre">templates</span></tt> directory earlier. In <tt class="docutils literal"><span class="pre">settings.py</span></tt> file, we need to update two variables:  <tt class="docutils literal"><span class="pre">STATIC_URL</span></tt> and the <tt class="docutils literal"><span class="pre">STATICFILES_DIRS</span></tt> tuple. First, create a variable to store the path to the static directory (<tt class="docutils literal"><span class="pre">STATIC_PATH</span></tt>) as follows.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">STATIC_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_PATH</span><span class="p">,</span><span class="s">&#39;static&#39;</span><span class="p">)</span>
+
+<span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s">&#39;/static/&#39;</span> <span class="c"># You may find this is already defined as such.</span>
+
+<span class="n">STATICFILES_DIRS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">STATIC_PATH</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>You&#8217;ve typed in some code, but what does it represent? The first variable <tt class="docutils literal"><span class="pre">STATIC_URL</span></tt> defines the base URL with which your Django applications will find static media files when the server is running. For example, when running the Django development server with <tt class="docutils literal"><span class="pre">STATIC_URL</span></tt> set to <tt class="docutils literal"><span class="pre">/static/</span></tt> like in the code example above, static media will be available at <tt class="docutils literal"><span class="pre">http://127.0.0.1:8000/static/</span></tt>.  The <a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/settings/#std:setting-STATIC_URL">official documentation on serving up static media</a> warns that it is vitally  important to make sure that those slashes are there. Not configuring this problem can let to a world of pain.</p>
+<p>While <tt class="docutils literal"><span class="pre">STATIC_URL</span></tt> defines the URL to access media via the web server, <tt class="docutils literal"><span class="pre">STATICFILES_DIRS</span></tt> allows you to specify the location of the newly created <tt class="docutils literal"><span class="pre">static</span></tt> directory on your local disk. Just like the <tt class="docutils literal"><span class="pre">TEMPLATE_DIRS</span></tt> tuple, <tt class="docutils literal"><span class="pre">STATICFILES_DIRS</span></tt> requires an absolute path to the <tt class="docutils literal"><span class="pre">static</span></tt> directory. Here, we re-used the <tt class="docutils literal"><span class="pre">PROJECT_PATH</span></tt> defined in Section <a class="reference internal" href="#model-setup-templates-label">4.1</a> to create the <tt class="docutils literal"><span class="pre">STATIC_PATH</span></tt>.</p>
+<p>With those two settings updated, run your Django project&#8217;s development server once more. If we want to view our image of Rango,  visit the URL <tt class="docutils literal"><span class="pre">http://127.0.0.1:8000/static/rango.jpg</span></tt>. If it doesn&#8217;t appear, you will want to check to see if everything has been correctly spelt and that you saved your <tt class="docutils literal"><span class="pre">settings.py</span></tt> file, and restart the development server. If it does appear, try putting in additional file types into the <tt class="docutils literal"><span class="pre">static</span></tt> directory and request them via your browser.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">While using the Django development server to serve your static media files is fine for a development environment, it&#8217;s highly unsuitable for a production - or &#8216;live&#8217; - environment. The <a class="reference external" href="https://docs.djangoproject.com/en/1.5/howto/static-files/deployment/">official Django documentation on Deployment</a> provides further information about deploying static files in a production environment.</p>
+</div>
+</div>
+</div>
+<div class="section" id="static-media-files-and-templates">
+<h2>4.3. Static Media Files and Templates<a class="headerlink" href="#static-media-files-and-templates" title="Permalink to this headline">¶</a></h2>
+<p>Now that you have your Django project set up to handle static media, you can now access such media within your templates.</p>
+<p>To demonstrate how to include static media, open up <tt class="docutils literal"><span class="pre">index.html</span></tt> located in the <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/templates/rango/</span></tt> directory. Modify the HTML source code as follows. The two lines that we add are shown with a HTML comment next to them for easy identification.</p>
+<div class="highlight-html"><pre>&lt;!DOCTYPE html&gt;
+
+{% load static %} &lt;!-- New line --&gt;
+
+&lt;html&gt;
+
+    &lt;head&gt;
+        &lt;title&gt;Rango&lt;/title&gt;
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        &lt;h1&gt;Rango says...&lt;/h1&gt;
+        hello world! &lt;strong&gt;{{ boldmessage }}&lt;/strong&gt;&lt;br /&gt;
+        &lt;a href="/rango/about/"&gt;About&lt;/a&gt;&lt;br /&gt;
+        &lt;img src="{% static "rango.jpg" %}" alt="Picture of Rango" /&gt; &lt;!-- New line --&gt;
+    &lt;/body&gt;
+
+&lt;/html&gt;</pre>
+</div>
+<p>First, we need to inform Django&#8217;s template system that we will be using static media with the <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">load</span> <span class="pre">static</span> <span class="pre">%}</span></tt> tag. This allows us to call the <tt class="docutils literal"><span class="pre">static</span></tt> template tag as done in <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">static</span> <span class="pre">&quot;rango.jpg&quot;</span> <span class="pre">%}</span></tt>. As you can see, Django template tags are denoted by curly brackets <tt class="docutils literal"><span class="pre">{</span> <span class="pre">}</span></tt>. In this example, the <tt class="docutils literal"><span class="pre">static</span></tt> tag will combine the <tt class="docutils literal"><span class="pre">STATIC_URL</span></tt> with <tt class="docutils literal"><span class="pre">&quot;rango.jpg&quot;</span></tt> so that the rendered HTML looks like the following.</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;/static/rango.jpg&quot;</span> <span class="na">alt=</span><span class="s">&quot;Picture of Rango&quot;</span> <span class="nt">/&gt;</span> <span class="c">&lt;!-- New line --&gt;</span>
+</pre></div>
+</div>
+<p>If for some reason the image cannot be loaded, it is always nice to specify an alternative text tagline. This is what the <tt class="docutils literal"><span class="pre">alt</span></tt> attribute provides - the text here is used in the event the image fails to load.</p>
+<p>With these minor changes in place, kick off the Django development server once more and visit <tt class="docutils literal"><span class="pre">http://127.0.0.1:8000/rango</span></tt>. Hopefully, you will see web page something like the one shown in Figure <a class="pageref" href="#fig-rango-site-with-pic">3</a>.</p>
+<div class="align-center figure" id="fig-rango-site-with-pic">
+<img alt="../_images/rango-site-with-pic.png" src="../_images/rango-site-with-pic.png" />
+<p class="caption">Figure 3: Our first Rango template, complete with a picture of Rango the chameleon.</p>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">static</span> <span class="pre">%}</span></tt> function call should be used whenever you wish to reference static media within a template. The code example below demonstrates how you could include JavaScript, CSS and images into your templates - all with the correct HTML markup.</p>
+<div class="highlight-html"><pre>&lt;!DOCTYPE html&gt;
+
+{% load static %}
+
+&lt;html&gt;
+
+    &lt;head&gt;
+        &lt;title&gt;Rango&lt;/title&gt;
+        &lt;link rel="stylesheet" href="{% static "css/base.css" %}" /&gt; &lt;!-- CSS --&gt;
+        &lt;script src="{% static "js/jquery.js" %}"&gt;&lt;/script&gt; &lt;!-- JavaScript --&gt;
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        &lt;h1&gt;Including Static Media&lt;/h1&gt;
+        &lt;img src="{% static "rango.jpg" %}" alt="Picture of Rango" /&gt; &lt;!-- Images --&gt;
+    &lt;/body&gt;
+
+&lt;/html&gt;</pre>
+</div>
+<p>Static files you reference will obviously need to be present within your <tt class="docutils literal"><span class="pre">static</span></tt> directory. If the file is not there or you have referenced it incorrectly, the console output provide by Django&#8217;s lightweight development server will flag up any errors. Try referencing a non-existent file and see what happens.</p>
+<p>For further information about including static media you can read through the official <a class="reference external" href="https://docs.djangoproject.com/en/1.5/howto/static-files/#staticfiles-in-templates">Django documentation on working with static files in templates</a>.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">Care should be taken in your templates to ensure that any <a class="reference external" href="http://en.wikipedia.org/wiki/Document_Type_Declaration">document type declaration</a> (e.g. <tt class="docutils literal"><span class="pre">&lt;!DOCTYPE</span> <span class="pre">html&gt;</span></tt>) you use in your webpages appears in the rendered output on the <em>first line</em>. This is why we put the Django template command <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">load</span> <span class="pre">static</span> <span class="pre">%}</span></tt> on a line underneath the document type declaration, rather than at the very top. It is a requirement of HTML/XHTML variations that the document type declaration be declared on the very first line. Django commands placed before will obviously be removed in the final rendered output, but they may leave behind residual whitespace which means your output <a class="reference external" href="http://www.w3schools.com/web/web_validate.ASP">will fail validation</a> on <a class="reference external" href="http://validator.w3.org/">the W3C markup validation service</a>.</p>
+</div>
+</div>
+<div class="section" id="the-static-media-server">
+<h2>4.4. The Static Media Server<a class="headerlink" href="#the-static-media-server" title="Permalink to this headline">¶</a></h2>
+<p>Now that you can dispatch static files, let&#8217;s look at uploading media. Many websites provide their users with the ability to do this - for example, to upload a profile image. This section shows you how to add a simple development media server to your Django project. The development media server can be used in conjunction with file uploading forms which we will touch upon in Chapter <a class="reference internal" href="login.html#login-label">8</a>.</p>
+<p>So, how do we go about setting up a development media server? The first step is to create another new directory called <tt class="docutils literal"><span class="pre">media</span></tt> within our Django project&#8217;s root (e.g. <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project/</span></tt>). The new <tt class="docutils literal"><span class="pre">media</span></tt> directory should now be sitting alongside your <tt class="docutils literal"><span class="pre">templates</span></tt> and <tt class="docutils literal"><span class="pre">static</span></tt> directories. After you create the directory, you must then modify your Django project&#8217;s <tt class="docutils literal"><span class="pre">urls.py</span></tt> file, located in the project configuration directory (e.g. <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project/tango_with_django_project/</span></tt>). Add the following code to the <tt class="docutils literal"><span class="pre">urls.py</span></tt> file.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># At the top of your urls.py file, add the following line:</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+
+<span class="c"># UNDERNEATH your urlpatterns definition, add the following two lines:</span>
+<span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
+        <span class="n">urlpatterns</span> <span class="o">+=</span> <span class="n">patterns</span><span class="p">(</span>
+                <span class="s">&#39;django.views.static&#39;</span><span class="p">,</span>
+                <span class="p">(</span><span class="s">r&#39;media/(?P&lt;path&gt;.*)&#39;</span><span class="p">,</span>
+                <span class="s">&#39;serve&#39;</span><span class="p">,</span>
+                <span class="p">{</span><span class="s">&#39;document_root&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_ROOT</span><span class="p">}),</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">settings</span></tt> module from <tt class="docutils literal"><span class="pre">django.conf</span></tt> allows us access to the variables defined within our project&#8217;s <tt class="docutils literal"><span class="pre">settings.py</span></tt> file. The conditional statement then checks if the Django project is being run in <a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/settings/#debug">DEBUG</a> mode. If the project&#8217;s <tt class="docutils literal"><span class="pre">DEBUG</span></tt> setting is set to <tt class="docutils literal"><span class="pre">True</span></tt>, then an additional URL matching pattern is appended to the <tt class="docutils literal"><span class="pre">urlpatterns</span></tt> tuple. The pattern states that for any file requested with a URL starting with <tt class="docutils literal"><span class="pre">media/</span></tt>, the request will be passed to the <tt class="docutils literal"><span class="pre">django.views.static</span></tt> view. This view handles the dispatching of uploaded media files for you.</p>
+<p>With your <tt class="docutils literal"><span class="pre">urls.py</span></tt> file updated, we now need to modify our project&#8217;s <tt class="docutils literal"><span class="pre">settings.py</span></tt> file. We now need to set the values of two variables. In your file, find <tt class="docutils literal"><span class="pre">MEDIA_URL</span></tt> and <tt class="docutils literal"><span class="pre">MEDIA_ROOT</span></tt>, setting them to the values as shown below.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">MEDIA_URL</span> <span class="o">=</span> <span class="s">&#39;/media/&#39;</span>
+<span class="n">MEDIA_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_PATH</span><span class="p">,</span> <span class="s">&#39;media&#39;</span><span class="p">)</span> <span class="c"># Absolute path to the media directory</span>
+</pre></div>
+</div>
+<p>The first variable <tt class="docutils literal"><span class="pre">MEDIA_URL</span></tt> defines the base URL from which all media files will be accessible on your development server. Setting the <tt class="docutils literal"><span class="pre">MEDIA_URL</span></tt> for example to <tt class="docutils literal"><span class="pre">/media/</span></tt> will mean that user uploaded files will be available from the URL <tt class="docutils literal"><span class="pre">http://127.0.0.1:8000/media/</span></tt>. <tt class="docutils literal"><span class="pre">MEDIA_ROOT</span></tt> is used to tell Django where uploaded files should be stored on your local disk. In the example above, we set this variable to the result of joining our <tt class="docutils literal"><span class="pre">PROJECT_PATH</span></tt> variable defined in Section <a class="reference internal" href="#model-setup-templates-label">4.1</a> with <tt class="docutils literal"><span class="pre">/media/</span></tt>. This gives an absolute path of <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project/media/</span></tt>.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">As previously mentioned, the development media server supplied with Django is very useful for debugging purposes. However, it should <strong>not</strong> be used in a production environment. The official <a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/contrib/staticfiles/#static-file-development-view">Django documentation on static files</a> warns that such an approach is <em>&#8220;grossly inefficient and insecure&#8221;</em>. If you do come to deploying your Django project, read the documentation to see an alternative solution for file uploading that can handle a high volume of requests in a much more secure manner.</p>
+</div>
+<p>You can test this setup works by placing an image file in your newly created <tt class="docutils literal"><span class="pre">media</span></tt> directory. Drop the file in, start the Django development server, and request the image in your browser. For example, if you added the file <tt class="docutils literal"><span class="pre">rango.jpg</span></tt> to <tt class="docutils literal"><span class="pre">media</span></tt>, the URL you should enter would look like <tt class="docutils literal"><span class="pre">http://127.0.0.1:8000/media/rango.jpg</span></tt>. The image should show in your browser. If it doesn&#8217;t, you&#8217;ll need to go back and check your setup.</p>
+</div>
+<div class="section" id="basic-workflow">
+<h2>4.5. Basic Workflow<a class="headerlink" href="#basic-workflow" title="Permalink to this headline">¶</a></h2>
+<p>With the chapter complete, you should now know how to setup and create templates, use templates within your views, setup and use Django to send static media files, include images within your templates <em>and</em> setup Django&#8217;s static media server to allow for file uploads. We&#8217;ve actually covered quite a lot!</p>
+<p>Creating a template and integrating it within a Django view is a key concept for you to understand. It takes several steps, but becomes second nature to you after a few attempts.</p>
+<ol class="arabic simple">
+<li>First, create the template you wish to use and save it within the <tt class="docutils literal"><span class="pre">templates</span></tt> directory you specified in your project&#8217;s <tt class="docutils literal"><span class="pre">settings.py</span></tt> file. You may wish to use Django template variables (e.g. <tt class="docutils literal"><span class="pre">{{</span> <span class="pre">variable_name</span> <span class="pre">}}</span></tt>) within your template. You&#8217;ll be able to replace these with whatever you like within the corresponding view.</li>
+<li>Find or create a new view within an application&#8217;s <tt class="docutils literal"><span class="pre">views.py</span></tt> file.</li>
+<li>Add your view-specific logic (if you have any) to the view. For example, this may involve extracting data from a database.</li>
+<li>Within the view, construct a dictionary object which you can pass to the template engine as part of the template&#8217;s <em>context</em>.</li>
+<li>Make use of the <tt class="docutils literal"><span class="pre">RequestContext()</span></tt> class and <tt class="docutils literal"><span class="pre">render_to_response()</span></tt> helper function to generate the rendered response. Ensure you reference the correct template file for the first <tt class="docutils literal"><span class="pre">render_to_response()</span></tt> parameter!</li>
+<li>If you haven&#8217;t already done so, map the view to a URL by modifying your project&#8217;s <tt class="docutils literal"><span class="pre">urls.py</span></tt> file - and the application-specific <tt class="docutils literal"><span class="pre">urls.py</span></tt> file if you have one.</li>
+</ol>
+<p>The steps involved for getting a static media file onto one of your pages is another important process you should be familiar with. Check out the steps below on how to do this.</p>
+<ol class="arabic simple">
+<li>Take the static media file you wish to use and place it within your project&#8217;s <tt class="docutils literal"><span class="pre">static</span></tt> directory. This is the directory you specify in your project&#8217;s <tt class="docutils literal"><span class="pre">STATICFILES_DIRS</span></tt> tuple within <tt class="docutils literal"><span class="pre">settings.py</span></tt>.</li>
+<li>Add a reference to the static media file to a template. For example, an image would be inserted into an HTML page through the use of the <tt class="docutils literal"><span class="pre">&lt;img</span> <span class="pre">/&gt;</span></tt> tag. Remember to use the <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">load</span> <span class="pre">static</span> <span class="pre">%}</span></tt> and <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">static</span> <span class="pre">&quot;filename&quot;</span> <span class="pre">%}</span></tt> commands within the template to make your life easier!</li>
+<li>Load the view that utilises the template you modified in your browser. Your static media should appear.</li>
+</ol>
+<p>The next chapter will look at databases. We&#8217;ll see how to make use of Django&#8217;s excellent database layer to make your life easier and SQL free!</p>
+</div>
+<div class="section" id="exercises">
+<h2>4.6. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p>Give the following exercises a go to reinforce what you&#8217;ve learnt from this chapter.</p>
+<ul class="simple">
+<li>Convert the about page to use a template too from a template called <tt class="docutils literal"><span class="pre">about.html</span></tt>.</li>
+<li>Within the <tt class="docutils literal"><span class="pre">about.html</span></tt> template, add a picture stored within your project&#8217;s static media.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        
+        <li class="right" >
+          <a href="models.html" title="5. Models and Databases"
+             >next</a>
+          </li>
+		
+        <li class="right" >
+          <a href="setup.html" title="3. Django Basics"
+             >previous</a>
+          </li>
+		
+        <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Leif Azzopardi and David Maxwell.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+    </div>
+  </body>
+
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/templates_static.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 25 Oct 2013 18:32:47 GMT -->
+</html>

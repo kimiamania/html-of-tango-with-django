@@ -1,0 +1,436 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/forms.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 25 Oct 2013 18:33:07 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>7. Fun with Forms &mdash; How to Tango with Django</title>
+    
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/twd.ico"/>
+    <link rel="top" title="How to Tango with Django" href="../index-2.html" />
+    <link rel="next" title="8. User Authentication" href="login.html" />
+    <link rel="prev" title="6. Models, Templates and Views" href="models_templates.html" />
+ <style type="text/css">
+	img{
+	    width: 85%; /* you can use % */
+	    height: auto;
+	}
+	
+	table {
+		margin: auto;
+	}
+	
+	p.caption {
+		font-size: 10pt;
+		font-style: italic;
+	}
+ </style>
+ <script type="text/javascript">
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-44397330-1', 'tangowithdjango.com');
+  ga('send', 'pageview');
+     
+
+  </script>      
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        
+        <li class="right" >
+          <a href="login.html" title="8. User Authentication"
+             accesskey="N">next</a>
+          </li>
+		
+        <li class="right" >
+          <a href="models_templates.html" title="6. Models, Templates and Views"
+             accesskey="P">previous</a>
+          </li>
+		
+        <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index-2.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">7. Fun with Forms</a><ul>
+<li><a class="reference internal" href="#basic-workflow">7.1. Basic Workflow</a></li>
+<li><a class="reference internal" href="#page-and-category-forms">7.2. Page and Category Forms</a><ul>
+<li><a class="reference internal" href="#creating-modelform-classes">7.2.1. Creating <tt class="docutils literal"><span class="pre">ModelForm</span></tt> Classes</a></li>
+<li><a class="reference internal" href="#creating-an-add-category-view">7.2.2. Creating an <em>Add Category</em> View</a></li>
+<li><a class="reference internal" href="#creating-the-add-category-template">7.2.3. Creating the <em>Add Category</em> Template</a></li>
+<li><a class="reference internal" href="#mapping-the-add-category-view">7.2.4. Mapping the <em>Add Category</em> View</a></li>
+<li><a class="reference internal" href="#modifying-the-index-page-view">7.2.5. Modifying the Index Page View</a></li>
+<li><a class="reference internal" href="#demo">7.2.6. Demo</a></li>
+<li><a class="reference internal" href="#cleaner-forms">7.2.7. Cleaner Forms</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercises">7.3. Exercises</a><ul>
+<li><a class="reference internal" href="#creating-an-add-pages-view-template-and-url-mapping">7.3.1. Creating an <em>Add Pages</em> View, Template and URL Mapping</a></li>
+<li><a class="reference internal" href="#hints">7.3.2. Hints</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="models_templates.html"
+                        title="previous chapter">6. Models, Templates and Views</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="login.html"
+                        title="next chapter">8. User Authentication</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/chapters/forms.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://www.tangowithdjango.com/book/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="fun-with-forms">
+<span id="forms-label"></span><h1>7. Fun with Forms<a class="headerlink" href="#fun-with-forms" title="Permalink to this headline">¶</a></h1>
+<p>So far we have only presented data through the views and templates that we have created. In this chapter, we will run through how to capture data through web forms. Django comes with some neat form handling functionality, making it a pretty straightforward process to gather information from users and send it back to your web application. According to <a class="reference external" href="https://docs.djangoproject.com/en/1.5/topics/forms/">Django&#8217;s documentation on forms</a>, the form handling functionality allows you to:</p>
+<ol class="arabic simple">
+<li>display an HTML form with automatically generated <em>form widgets</em> (like a text field or date picker);</li>
+<li>check submitted data against a set of validation rules;</li>
+<li>redisplay a form in case of validation errors; and</li>
+<li>convert submitted form data to the relevant Python data types.</li>
+</ol>
+<p>One of the major advantages of using Django&#8217;s forms functionality is that it can save you a lot of time and HTML hassle.  This part of the tutorial will look at how to implement the necessary infrastructure that will allow users of Rango to add categories and pages to the database via forms.</p>
+<div class="section" id="basic-workflow">
+<h2>7.1. Basic Workflow<a class="headerlink" href="#basic-workflow" title="Permalink to this headline">¶</a></h2>
+<p>The basic steps involved in creating a form and allowing users to enter data via the form is as follows.</p>
+<ol class="arabic simple">
+<li>If you haven&#8217;t already got one, create a <tt class="docutils literal"><span class="pre">forms.py</span></tt> file within your Django application&#8217;s directory to store form-related classes.</li>
+<li>Create a <tt class="docutils literal"><span class="pre">ModelForm</span></tt> class for each model that you wish to represent as a form.</li>
+<li>Customise the forms as you desire.</li>
+<li>Create or update a view to handle the form - including <em>displaying</em> the form, <em>saving</em> the form data, and <em>flagging up errors</em> which may occur when the user enters incorrect data (or no data at all) in the form.</li>
+<li>Create or update a template to display the form.</li>
+<li>Add a <tt class="docutils literal"><span class="pre">urlpattern</span></tt> to map to the new view (if you created a new one).</li>
+</ol>
+<p>This workflow is a bit more complicated than previous workflows, and the views that we have to construct have a lot more complexity as well. However, once you undertake the process a few times it will be pretty clear how everything pieces together.</p>
+</div>
+<div class="section" id="page-and-category-forms">
+<h2>7.2. Page and Category Forms<a class="headerlink" href="#page-and-category-forms" title="Permalink to this headline">¶</a></h2>
+<p>First, create a file called <tt class="docutils literal"><span class="pre">forms.py</span></tt> within the <tt class="docutils literal"><span class="pre">rango</span></tt> application directory. While this step is not absolutely necessary, as you could put the forms in the <tt class="docutils literal"><span class="pre">models.py</span></tt>, this makes the codebase a lot cleaner and clearer to understand.</p>
+<div class="section" id="creating-modelform-classes">
+<h3>7.2.1. Creating <tt class="docutils literal"><span class="pre">ModelForm</span></tt> Classes<a class="headerlink" href="#creating-modelform-classes" title="Permalink to this headline">¶</a></h3>
+<p>Within Rango&#8217;s <tt class="docutils literal"><span class="pre">forms.py</span></tt> module, we will be creating a number of classes that inherit from Django&#8217;s <tt class="docutils literal"><span class="pre">ModelForm</span></tt>. In essence, <a class="reference external" href="https://docs.djangoproject.com/en/1.5/topics/forms/modelforms/#modelform">a ModelForm</a> is a <em>helper class</em> that allows you to create a Django <tt class="docutils literal"><span class="pre">Form</span></tt> from a pre-existing model. As we&#8217;ve already got two models defined for Rango (<tt class="docutils literal"><span class="pre">Category</span></tt> and <tt class="docutils literal"><span class="pre">Page</span></tt>), we&#8217;ll create <tt class="docutils literal"><span class="pre">ModelForms</span></tt> for both.</p>
+<p>In <tt class="docutils literal"><span class="pre">rango/forms.py</span></tt> add the following code.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">forms</span>
+<span class="kn">from</span> <span class="nn">rango.models</span> <span class="kn">import</span> <span class="n">Page</span><span class="p">,</span> <span class="n">Category</span>
+
+<span class="k">class</span> <span class="nc">CategoryForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s">&quot;Please enter the category name.&quot;</span><span class="p">)</span>
+    <span class="n">views</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">likes</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c"># An inline class to provide additional information on the form.</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="c"># Provide an association between the ModelForm and a model</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Category</span>
+
+<span class="k">class</span> <span class="nc">PageForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s">&quot;Please enter the title of the page.&quot;</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">URLField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s">&quot;Please enter the URL of the page.&quot;</span><span class="p">)</span>
+    <span class="n">views</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="c"># Provide an association between the ModelForm and a model</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Page</span>
+
+        <span class="c"># What fields do we want to include in our form?</span>
+        <span class="c"># This way we don&#39;t need every field in the model present.</span>
+        <span class="c"># Some fields may allow NULL values, so we may not want to include them...</span>
+        <span class="c"># Here, we are hiding the foreign key.</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="s">&#39;url&#39;</span><span class="p">,</span><span class="s">&#39;views&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Django provides us with a number of ways to customise the forms that are created on our behalf. In the code sample above, we&#8217;ve specified the widgets that we wish to use for each field to be displayed. For example, in our <tt class="docutils literal"><span class="pre">PageForm</span></tt> class, we&#8217;ve defined <tt class="docutils literal"><span class="pre">forms.CharField</span></tt> for the <tt class="docutils literal"><span class="pre">title</span></tt> field, and <tt class="docutils literal"><span class="pre">forms.URLField</span></tt> for <tt class="docutils literal"><span class="pre">url</span></tt> field. Both fields provide text entry for users. Note the <tt class="docutils literal"><span class="pre">max_length</span></tt> parameters we supply to our fields - the lengths that we specify are identical to the maximum length of each field we specified in the underlying data models. Go back to Chapter <a class="reference internal" href="models.html#model-label">5</a> to check for yourself, or have a look at Rango&#8217;s <tt class="docutils literal"><span class="pre">models.py</span></tt> file.</p>
+<p>You will also notice that we have included several <tt class="docutils literal"><span class="pre">IntegerField</span></tt> entries for the views and likes fields in each form. Note that we have set the widget to be hidden with the parameter setting <tt class="docutils literal"><span class="pre">widget=forms.HiddenInput()</span></tt>, and then set the value to zero with <tt class="docutils literal"><span class="pre">initial=0</span></tt>. This is one way to set the field to zero without giving the control to the user as the field will be hidden, yet the form will provide the value to the model. However, as you can see in the <tt class="docutils literal"><span class="pre">PageForm</span></tt>, despite the fact that we have a hidden field, we still need to include the field in the form. If in <tt class="docutils literal"><span class="pre">fields</span></tt> we excluded <tt class="docutils literal"><span class="pre">views</span></tt>, then the form would not contain that field (despite it being specified) and so the form would not return the value zero for that field. This may raise an error depending on how the model has been set up. If in the models we specified that the <tt class="docutils literal"><span class="pre">default=0</span></tt> for these fields then we can rely on the model to automatically populate field with the default value - and thus avoid a <tt class="docutils literal"><span class="pre">not</span> <span class="pre">null</span></tt> error. In this case, it would not be necessary to have these hidden fields. Essentially, you need to be careful when you define your models and forms to make sure that form is going to contain and pass on all the data that is required to populate your model correctly.</p>
+<p>Besides the <tt class="docutils literal"><span class="pre">CharField</span></tt> and <tt class="docutils literal"><span class="pre">IntegerField</span></tt> widget, many more are available for use. As an example, Django provides <tt class="docutils literal"><span class="pre">IntegerField</span></tt> (integer entry), <tt class="docutils literal"><span class="pre">ChoiceField</span></tt> (radio input buttons), and <tt class="docutils literal"><span class="pre">DateField</span></tt> (for date/time entry). There are many other field types you can use, which perform error checking for you (e.g. <em>is the value provided a valid integer?</em>). We highly recommend you have a look at the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/forms/widgets/">official Django documentation on widgets</a> to see what components exist and the arguments you can provide to customise them.</p>
+<p>Perhaps the most important aspect of a class inheriting from <tt class="docutils literal"><span class="pre">ModelForm</span></tt> is the need to define <em>which model we&#8217;re wanting to provide a form for.</em> We take care of this through our nested <tt class="docutils literal"><span class="pre">Meta</span></tt> class. Set the <tt class="docutils literal"><span class="pre">model</span></tt> attribute of the nested <tt class="docutils literal"><span class="pre">Meta</span></tt> class to the model you wish to use. For example, our <tt class="docutils literal"><span class="pre">CategoryForm</span></tt> class has a reference to the <tt class="docutils literal"><span class="pre">Category</span></tt> model. This is a crucial step enabling Django to take care of creating a form in the image of the specified model. It will also help in handling flagging up any errors along with saving and displaying the data in the form.</p>
+<p>We also use the <tt class="docutils literal"><span class="pre">Meta</span></tt> class to specify which fields that we wish to include in our form through the <tt class="docutils literal"><span class="pre">fields</span></tt> tuple. Use a tuple of field names to specify the fields you wish to include.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We highly recommend you check out the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/forms/">official Django documentation on forms</a> for further information about how to customise them.</p>
+</div>
+</div>
+<div class="section" id="creating-an-add-category-view">
+<h3>7.2.2. Creating an <em>Add Category</em> View<a class="headerlink" href="#creating-an-add-category-view" title="Permalink to this headline">¶</a></h3>
+<p>With our <tt class="docutils literal"><span class="pre">CategoryForm</span></tt> class now defined, we&#8217;re now ready to create a new view to display the form and handle the posting of form data. To do this, add the following code to <tt class="docutils literal"><span class="pre">rango/views.py</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">rango.forms</span> <span class="kn">import</span> <span class="n">CategoryForm</span>
+
+<span class="k">def</span> <span class="nf">add_category</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="c"># Get the context from the request.</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+    <span class="c"># A HTTP POST?</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CategoryForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+
+        <span class="c"># Have we been provided with a valid form?</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="c"># Save the new category to the database.</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+            <span class="c"># Now call the index() view.</span>
+            <span class="c"># The user will be shown the homepage.</span>
+            <span class="k">return</span> <span class="n">index</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># The supplied form contained errors - just print them to the terminal.</span>
+            <span class="k">print</span> <span class="n">form</span><span class="o">.</span><span class="n">errors</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># If the request was not a POST, display the form to enter details.</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CategoryForm</span><span class="p">()</span>
+
+    <span class="c"># Bad form (or form details), no form supplied...</span>
+    <span class="c"># Render the form with error messages (if any).</span>
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;rango/add_category.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The new <tt class="docutils literal"><span class="pre">add_category()</span></tt> view adds several key pieces of functionality for handling forms. First, we access the context surrounding the HTTP request. This then allows us to determine the type of request being made - whether it be a HTTP <tt class="docutils literal"><span class="pre">GET</span></tt> or <tt class="docutils literal"><span class="pre">POST</span></tt>. This allows us to handle different requests appropriately - whether we want to show a form (i.e. on <tt class="docutils literal"><span class="pre">GET</span></tt>), or process form data (i.e. on <tt class="docutils literal"><span class="pre">POST</span></tt>) - all from the same URL. The <tt class="docutils literal"><span class="pre">add_category()</span></tt> view function can handle three different scenarios:</p>
+<ul class="simple">
+<li>showing a new, blank form for adding a category;</li>
+<li>saving form data provided by the user to the associated model, and rendering the Rango homepage; and</li>
+<li>if there are errors, redisplay the form with error messages.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>What do we mean by <tt class="docutils literal"><span class="pre">GET</span></tt> and <tt class="docutils literal"><span class="pre">POST</span></tt>? They are two different types of <em>HTTP requests</em>.</p>
+<ul class="last simple">
+<li>A HTTP <tt class="docutils literal"><span class="pre">GET</span></tt> is used to <em>request a representation of the specified resource.</em> In other words, we use a HTTP <tt class="docutils literal"><span class="pre">GET</span></tt> to retrieve a particular resource, whether it be a webpage, image or other file.</li>
+<li>In contrast, a HTTP <tt class="docutils literal"><span class="pre">POST</span></tt> <em>submits data from the client&#8217;s web browser to be processed.</em> This type of request is used for example when submitting the contents of a HTML form.</li>
+<li>Ultimately, a HTTP <tt class="docutils literal"><span class="pre">POST</span></tt> may end up being programmed to create a new resource (e.g. a new database entry) on the server. This can later be accessed through a HTTP <tt class="docutils literal"><span class="pre">GET</span></tt> request.</li>
+</ul>
+</div>
+<p>Django&#8217;s form handling machinery has also been utilised to process the data returned from a user&#8217;s browser via a HTTP <tt class="docutils literal"><span class="pre">POST</span></tt> request. It not only handles the saving of form data into the chosen model, but will also automatically generate any error messages for each form field (if any are required). This means that Django will not store any submitted forms with missing information which could potentially cause problems for your database&#8217;s referential integrity. For example, supplying no value in the category name field will return an error, as the field cannot be blank.</p>
+<p>You&#8217;ll notice from the line in which we call <tt class="docutils literal"><span class="pre">render_to_response()</span></tt> that we refer to a new template called <tt class="docutils literal"><span class="pre">add_category.html</span></tt> which will contain the relevant Django template code and HTML for the form and page.</p>
+</div>
+<div class="section" id="creating-the-add-category-template">
+<h3>7.2.3. Creating the <em>Add Category</em> Template<a class="headerlink" href="#creating-the-add-category-template" title="Permalink to this headline">¶</a></h3>
+<p>Create the file <tt class="docutils literal"><span class="pre">templates/rango/add_category.html</span></tt>. Within the file, add the following HTML markup and Django template code.</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Rango<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>Add a Category<span class="nt">&lt;/h1&gt;</span>
+
+        <span class="nt">&lt;form</span> <span class="na">id=</span><span class="s">&quot;category_form&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="na">action=</span><span class="s">&quot;/rango/add_category/&quot;</span><span class="nt">&gt;</span>
+
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text}}
+                {{ field }}
+            {% endfor %}
+
+            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">name=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;Create Category&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/form&gt;</span>
+
+    <span class="nt">&lt;/body&gt;</span>
+
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>Now, what does this code do? You can see that within the <tt class="docutils literal"><span class="pre">&lt;body&gt;</span></tt> of the HTML page that we place a <tt class="docutils literal"><span class="pre">&lt;form&gt;</span></tt> element. Looking at the attributes for the <tt class="docutils literal"><span class="pre">&lt;form&gt;</span></tt> element, you can see that all data captured within this form is sent to the URL <tt class="docutils literal"><span class="pre">/rango/add_category/</span></tt> as a HTTP <tt class="docutils literal"><span class="pre">POST</span></tt> request (the <tt class="docutils literal"><span class="pre">method</span></tt> attribute is case insensitive, so you can do <tt class="docutils literal"><span class="pre">POST</span></tt> or <tt class="docutils literal"><span class="pre">post</span></tt> - both provide the same functionality). Within the form, we have two for loops - one controlling <em>hidden</em> form fields, the other <em>visible</em> form fields - with visible fields controlled by the <tt class="docutils literal"><span class="pre">fields</span></tt> attribute of your <tt class="docutils literal"><span class="pre">ModelForm</span></tt> <tt class="docutils literal"><span class="pre">Meta</span></tt> class. These loops produce HTML markup for each form element. For visible form fields, we also add in any errors that may be present with a particular field and help text which can be used to explain to the user what he or she needs to enter.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The need for hidden as well as visible form fields is necessitated by the fact that HTTP is a stateless protocol. You can&#8217;t persist state between different HTTP requests which can make certain parts of web applications difficult to implement. To overcome this limitation, hidden HTML form fields were created which allow web applications to pass important information to a client (which cannot be seen on the rendered page) in a HTML form, only to be sent back to the originating server when the user submits the form.</p>
+</div>
+<p>You should also take note of the code snippet <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">csrf_token</span> <span class="pre">%}</span></tt>. This is a <em>Cross-Site Request Forgery (CSRF) token</em>, which helps to protect and secure the HTTP <tt class="docutils literal"><span class="pre">POST</span></tt> action that is initiated on the subsequent submission of a form. <em>The CSRF token is required by the Django framework. If you forget to include a CSRF token in your forms, a user may encounter errors when he or she submits the form.</em> Check out the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/contrib/csrf/">official Django documentation on CSRF tokens</a> for more information about this.</p>
+</div>
+<div class="section" id="mapping-the-add-category-view">
+<h3>7.2.4. Mapping the <em>Add Category</em> View<a class="headerlink" href="#mapping-the-add-category-view" title="Permalink to this headline">¶</a></h3>
+<p>Now we need to map the <tt class="docutils literal"><span class="pre">add_category()</span></tt> view to a URL. In the template we have used the URL <tt class="docutils literal"><span class="pre">/rango/add_category/</span></tt> in the form&#8217;s submit attribute. So we will need to follow suit in <tt class="docutils literal"><span class="pre">rango/urls.py</span></tt> and modify the <tt class="docutils literal"><span class="pre">urlpatterns</span></tt> as follows.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^$&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;index&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^add_category/$&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">add_category</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;add_category&#39;</span><span class="p">),</span> <span class="c"># NEW MAPPING!</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^(?P&lt;category_name_url&gt;\w+)&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">category</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;category&#39;</span><span class="p">),)</span>
+</pre></div>
+</div>
+<p>Note the order in which we placed our new URL mapping. Django looks for a matching URL, starting with the first tuple entry. It then moves along the tuple sequentially until a match is found (a HTTP 404 error is raised if no match is found). In our example, the URL <tt class="docutils literal"><span class="pre">/add_category/</span></tt> is our new URL for adding a category. As such, this must always return the add category form, and should take precedence over the category view mapping, which could match to any string combination. If the URL provided does not match <tt class="docutils literal"><span class="pre">/add_category/</span></tt>, Django then falls back to the category view mapping as a last resort. Take a look at the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/topics/http/urls/#how-django-processes-a-request">official Django documentation on how Django process a request</a> for more information.</p>
+</div>
+<div class="section" id="modifying-the-index-page-view">
+<h3>7.2.5. Modifying the Index Page View<a class="headerlink" href="#modifying-the-index-page-view" title="Permalink to this headline">¶</a></h3>
+<p>As a final step let&#8217;s put a link on the index page so that we can easily add categories. Edit the template <tt class="docutils literal"><span class="pre">rango/index.html</span></tt> and add the following HTML hyperlink just before the <tt class="docutils literal"><span class="pre">&lt;/body&gt;</span></tt> closing tag.</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/rango/add_category/&quot;</span><span class="nt">&gt;</span>Add a New Category<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="demo">
+<h3>7.2.6. Demo<a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h3>
+<p>Now let&#8217;s try it out! Run your Django development server, and navigate to <tt class="docutils literal"><span class="pre">http://127.0.0.1:8000/rango/</span></tt>. Use your new link to jump to the add category page, and try adding a category. Figure <a class="pageref" href="#fig-rango-form-steps">1</a> shows screenshots of the of the Add Category and Index Pages.</p>
+<div class="align-center figure" id="fig-rango-form-steps">
+<img alt="../_images/rango-form-steps.png" src="../_images/rango-form-steps.png" />
+<p class="caption">Figure 1: Adding a new category to Rango with our new form. The diagram illustrates the steps involved.</p>
+</div>
+</div>
+<div class="section" id="cleaner-forms">
+<h3>7.2.7. Cleaner Forms<a class="headerlink" href="#cleaner-forms" title="Permalink to this headline">¶</a></h3>
+<p>Since we have defined the <tt class="docutils literal"><span class="pre">url</span></tt> attribute in the <tt class="docutils literal"><span class="pre">Page</span></tt> model to be a <tt class="docutils literal"><span class="pre">URLField</span></tt>, Django expects to be provided with a fully formed URL. Since it can be cumbersome for users to type in an entire URL like <tt class="docutils literal"><span class="pre">http://www.url.com</span></tt>, we can override the <tt class="docutils literal"><span class="pre">clean()</span></tt> method implemented in <tt class="docutils literal"><span class="pre">ModelForm</span></tt>. For example, in the <tt class="docutils literal"><span class="pre">PageForm</span></tt> class, include the following method that checks if <tt class="docutils literal"><span class="pre">http://</span></tt> is included at the start of a new URL - and if not, prepends <tt class="docutils literal"><span class="pre">http://</span></tt> to the string.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">PageForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+
+    <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cleaned_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;url&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;http://&#39;</span><span class="p">):</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://&#39;</span> <span class="o">+</span> <span class="n">url</span>
+
+            <span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">url</span>
+            <span class="k">return</span> <span class="n">cleaned_data</span>
+</pre></div>
+</div>
+<p>This trivial example shows how we can clean the data being passed through the form before being stored. This is pretty handy, especially when particular fields need to have default values - or data within the form is missing, and we need to handle such data entry problems.</p>
+</div>
+</div>
+<div class="section" id="exercises">
+<h2>7.3. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p>Now that you&#8217;ve worked through the chapter, try these exercises to solidify your knowledge on Django&#8217;s form functionality.</p>
+<ul class="simple">
+<li>What happens when you don&#8217;t enter in a category name on the add category form?</li>
+<li>What happens when you try to add a category that already exists?</li>
+<li>What happens when you visit a category that does not exist?</li>
+<li>How could you gracefully handle when a user visits a category that does not exist?</li>
+<li>Undertake the <a class="reference external" href="https://docs.djangoproject.com/en/dev/intro/tutorial04/">part four of the official Django Tutorial</a> if you have not done so already to reinforce what you have learnt here.</li>
+</ul>
+<div class="section" id="creating-an-add-pages-view-template-and-url-mapping">
+<h3>7.3.1. Creating an <em>Add Pages</em> View, Template and URL Mapping<a class="headerlink" href="#creating-an-add-pages-view-template-and-url-mapping" title="Permalink to this headline">¶</a></h3>
+<p>A next logical step would be to allow users to add pages to a given category. To do this, repeat the same workflow above for Pages - create a new view (and URL mapping), a new template, the URL mapping and then a link from the category page. To get you started, here&#8217;s the view logic for you.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">rango.forms</span> <span class="kn">import</span> <span class="n">PageForm</span>
+
+<span class="k">def</span> <span class="nf">add_page</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">category_name_url</span><span class="p">):</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+    <span class="n">category_name</span> <span class="o">=</span> <span class="n">decode_url</span><span class="p">(</span><span class="n">category_name_url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">PageForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="c"># This time we cannot commit straight away.</span>
+            <span class="c"># Not all fields are automatically populated!</span>
+            <span class="n">page</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+            <span class="c"># Retrieve the associated Category object so we can add it.</span>
+            <span class="n">cat</span> <span class="o">=</span> <span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">category_name</span><span class="p">)</span>
+            <span class="n">page</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">cat</span>
+
+            <span class="c"># Also, create a default value for the number of views.</span>
+            <span class="n">page</span><span class="o">.</span><span class="n">views</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="c"># With this, we can then save our new model instance.</span>
+            <span class="n">page</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+            <span class="c"># Now that the page is saved, display the category instead.</span>
+            <span class="k">return</span> <span class="n">category</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">category_name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">form</span><span class="o">.</span><span class="n">errors</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">PageForm</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span> <span class="s">&#39;rango/add_page.html&#39;</span><span class="p">,</span>
+            <span class="p">{</span><span class="s">&#39;category_name_url&#39;</span><span class="p">:</span> <span class="n">category_name_url</span><span class="p">,</span>
+             <span class="s">&#39;category_name&#39;</span><span class="p">:</span> <span class="n">category_name</span><span class="p">,</span> <span class="s">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">},</span>
+             <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="hints">
+<h3>7.3.2. Hints<a class="headerlink" href="#hints" title="Permalink to this headline">¶</a></h3>
+<p>To help you with the exercises above, the following hints may be of some use to you.</p>
+<ul class="simple">
+<li>Update the category view to pass through the <tt class="docutils literal"><span class="pre">category_name_url</span></tt>.</li>
+<li>Update the <tt class="docutils literal"><span class="pre">category.html</span></tt> with a link to <tt class="docutils literal"><span class="pre">/rango/category/&lt;category_name_url&gt;/add_page/</span></tt>.</li>
+<li>Update <tt class="docutils literal"><span class="pre">rango/urls.py</span></tt> with a URL mapping to handle the above link.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        
+        <li class="right" >
+          <a href="login.html" title="8. User Authentication"
+             >next</a>
+          </li>
+		
+        <li class="right" >
+          <a href="models_templates.html" title="6. Models, Templates and Views"
+             >previous</a>
+          </li>
+		
+        <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Leif Azzopardi and David Maxwell.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+    </div>
+  </body>
+
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/forms.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 25 Oct 2013 18:33:08 GMT -->
+</html>

@@ -1,0 +1,547 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/models.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 25 Oct 2013 18:32:47 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>5. Models and Databases &mdash; How to Tango with Django</title>
+    
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/twd.ico"/>
+    <link rel="top" title="How to Tango with Django" href="../index-2.html" />
+    <link rel="next" title="6. Models, Templates and Views" href="models_templates.html" />
+    <link rel="prev" title="4. Templates and Static Media" href="templates_static.html" />
+ <style type="text/css">
+	img{
+	    width: 85%; /* you can use % */
+	    height: auto;
+	}
+	
+	table {
+		margin: auto;
+	}
+	
+	p.caption {
+		font-size: 10pt;
+		font-style: italic;
+	}
+ </style>
+ <script type="text/javascript">
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-44397330-1', 'tangowithdjango.com');
+  ga('send', 'pageview');
+     
+
+  </script>      
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        
+        <li class="right" >
+          <a href="models_templates.html" title="6. Models, Templates and Views"
+             accesskey="N">next</a>
+          </li>
+		
+        <li class="right" >
+          <a href="templates_static.html" title="4. Templates and Static Media"
+             accesskey="P">previous</a>
+          </li>
+		
+        <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index-2.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">5. Models and Databases</a><ul>
+<li><a class="reference internal" href="#rango-s-requirements">5.1. Rango&#8217;s Requirements</a></li>
+<li><a class="reference internal" href="#telling-django-about-your-database">5.2. Telling Django About Your Database</a></li>
+<li><a class="reference internal" href="#creating-models">5.3. Creating Models</a></li>
+<li><a class="reference internal" href="#creating-and-synchronising-the-database">5.4. Creating and Synchronising the Database</a></li>
+<li><a class="reference internal" href="#generated-sql">5.5. Generated SQL</a></li>
+<li><a class="reference internal" href="#django-models-and-the-django-shell">5.6. Django Models and the Django Shell</a></li>
+<li><a class="reference internal" href="#configuring-the-admin-interface">5.7. Configuring the Admin Interface</a></li>
+<li><a class="reference internal" href="#creating-a-population-script">5.8. Creating a Population Script</a></li>
+<li><a class="reference internal" href="#basic-workflows">5.9. Basic Workflows</a><ul>
+<li><a class="reference internal" href="#setting-up-your-database">5.9.1. Setting up your Database</a></li>
+<li><a class="reference internal" href="#adding-a-model">5.9.2. Adding a Model</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercises">5.10. Exercises</a><ul>
+<li><a class="reference internal" href="#hint">5.10.1. Hint</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="templates_static.html"
+                        title="previous chapter">4. Templates and Static Media</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="models_templates.html"
+                        title="next chapter">6. Models, Templates and Views</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/chapters/models.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://www.tangowithdjango.com/book/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="models-and-databases">
+<span id="model-label"></span><h1>5. Models and Databases<a class="headerlink" href="#models-and-databases" title="Permalink to this headline">¶</a></h1>
+<p>Working with databases often requires you to get your hands dirty messing about with SQL. In Django, a lot of this hassle is taken care of for you by Django&#8217;s <em>object relational mapping (ORM)</em> functions, and how Django encapsulates databases tables through models. Essentially, a model is a Python object that describes your data model/table. Instead of directly working on the database table via SQL, all you have to do is manipulate the corresponding Python object. In this chapter, we&#8217;ll walkthrough how to setup a database and the models required for Rango.</p>
+<div class="section" id="rango-s-requirements">
+<h2>5.1. Rango&#8217;s Requirements<a class="headerlink" href="#rango-s-requirements" title="Permalink to this headline">¶</a></h2>
+<p>First, let&#8217;s go over the data requirements for Rango. The following list provides the key details of Rango&#8217;s data requirements.</p>
+<ul class="simple">
+<li>Rango is a essentially a <em>web page directory</em> - a site containing links to other websites.</li>
+<li>There are a number of different <em>webpage categories</em>, and each category houses a number of links. We assumed in Chapter <a class="reference internal" href="overview.html#overview-label">1</a> that this is a one-to-many relationship. See the Entity Relationship Diagram below.</li>
+<li>A category has a name, number of visits, and number of likes.</li>
+<li>A page refers to a category, has a title, URL and a number of views.</li>
+</ul>
+<div class="align-center figure">
+<a class="reference internal image-reference" href="../_images/rango-erd.svg"><img src="../_images/rango-erd.svg" /></a>
+<p class="caption">Figure 1: The Entity Relationship Diagram of Rango&#8217;s two main entities.</p>
+</div>
+</div>
+<div class="section" id="telling-django-about-your-database">
+<h2>5.2. Telling Django About Your Database<a class="headerlink" href="#telling-django-about-your-database" title="Permalink to this headline">¶</a></h2>
+<p>Before we can create any models, we must first setup our database configuration. To do this, open the <tt class="docutils literal"><span class="pre">settings.py</span></tt> and locate the dictionary called <tt class="docutils literal"><span class="pre">DATABASES</span></tt>. Now, modify the <tt class="docutils literal"><span class="pre">default</span></tt> key/value pair so it looks something like the following example.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s">&#39;django.db.backends.sqlite3&#39;</span><span class="p">,</span>
+        <span class="s">&#39;NAME&#39;</span><span class="p">:</span> <span class="n">DATABASE_PATH</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Also create a new variable called <tt class="docutils literal"><span class="pre">DATABASE_PATH</span></tt> and add that to the top of your <tt class="docutils literal"><span class="pre">settings.py</span></tt> along with your other previously defined paths.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DATABASE_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_PATH</span><span class="p">,</span> <span class="s">&#39;rango.db&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, we have defined the <em>default</em> database to use the SQLite Django backend. This provides us with access to the lightweight python database, <a class="reference external" href="http://www.sqlite.org/">SQLite</a>, which is great for development purposes.
+The only other value we need to set is the <tt class="docutils literal"><span class="pre">NAME</span></tt> key/value pair, which we have set to <tt class="docutils literal"><span class="pre">DATABASE_PATH</span></tt>.
+For SQLite databases, the remaining keys of <tt class="docutils literal"><span class="pre">USER</span></tt>, <tt class="docutils literal"><span class="pre">PASSWORD</span></tt>, <tt class="docutils literal"><span class="pre">HOST</span></tt> and <tt class="docutils literal"><span class="pre">PORT</span></tt> are not required and can thus be safely removed.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">While using an SQLite engine for this tutorial is fine, it may not perhaps be the best option when it comes to deploying your application. Instead, it may be better to use a more robust and scalable database engine. Django comes with out of the box support for several other popular database engines, such as  <a class="reference external" href="http://www.postgresql.org/">PostgreSQL</a> and <a class="reference external" href="http://www.mysql.com/">MySQL</a>. See the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/settings/#std:setting-DATABASE-ENGINE">official Django documentation on Database Engines</a> for more details.</p>
+</div>
+</div>
+<div class="section" id="creating-models">
+<h2>5.3. Creating Models<a class="headerlink" href="#creating-models" title="Permalink to this headline">¶</a></h2>
+<p>With your database configured in <tt class="docutils literal"><span class="pre">settings.py</span></tt>, let&#8217;s now create the two initial data models for the Rango application.</p>
+<p>In <tt class="docutils literal"><span class="pre">rango/models.py</span></tt>, we will define two classes - both of which must inherit from <tt class="docutils literal"><span class="pre">django.db.models.Model</span></tt>. The two Python classes will be the definitions for models representing <em>categories</em> and <em>pages</em>. Define the <tt class="docutils literal"><span class="pre">Category</span></tt> and <tt class="docutils literal"><span class="pre">Page</span></tt> models as follows.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Category</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+<span class="k">class</span> <span class="nc">Page</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Category</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">URLField</span><span class="p">()</span>
+    <span class="n">views</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+</pre></div>
+</div>
+<p>When you define a model, you need to specify the list of attributes and their associated types along with any optional parameters. Django provides a number of built-in fields. Some of the most commonly used are listed below.</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">CharField</span></tt>, a field for storing character data (e.g. strings). Specify <tt class="docutils literal"><span class="pre">max_length</span></tt> to provide a maximum number of characters the field can store.</li>
+<li><tt class="docutils literal"><span class="pre">URLField</span></tt>, much like a <tt class="docutils literal"><span class="pre">CharField</span></tt>, but designed for storing resource URLs. You may also specify a <tt class="docutils literal"><span class="pre">max_length</span></tt> parameter.</li>
+<li><tt class="docutils literal"><span class="pre">IntegerField</span></tt>, which stores integers.</li>
+<li><tt class="docutils literal"><span class="pre">DateField</span></tt>, which stores a Python <tt class="docutils literal"><span class="pre">datetime.date</span></tt>.</li>
+</ul>
+<p>Check out the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/models/fields/">Django documentation on model fields</a> for a full listing.</p>
+<p>For each field, you can specify the <tt class="docutils literal"><span class="pre">unique</span></tt> attribute. If set to <tt class="docutils literal"><span class="pre">True</span></tt>, only one instance of a particular value in that field may exist throughout the entire database model. For example, take a look at our <tt class="docutils literal"><span class="pre">Category</span></tt> model defined above. The field <tt class="docutils literal"><span class="pre">name</span></tt> has been set to unique - thus every category name must be unique.</p>
+<p>This is useful if you wish to use a particular field as an additional database key. You can also specify additional attributes for each field such as specifying a default value (<tt class="docutils literal"><span class="pre">default='value'</span></tt>), and whether the value for a field can be <tt class="docutils literal"><span class="pre">NULL</span></tt> (<tt class="docutils literal"><span class="pre">null=True</span></tt>) or not.</p>
+<p>Django also provides simple mechanisms that allows us to relate models/database tables together. These mechanisms are encapsulated in three further field types, and are listed below.</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">ForeignKey</span></tt>, a field type that allows us to create a one-to-many relationship.</li>
+<li><tt class="docutils literal"><span class="pre">OneToOneField</span></tt>, a field type that allows us to define a strict one-to-one relationship.</li>
+<li><tt class="docutils literal"><span class="pre">ManyToManyField</span></tt>, a field type which allows us to define a many-to-many relationship.</li>
+</ul>
+<p>From our model examples above, the field <tt class="docutils literal"><span class="pre">category</span></tt> in model <tt class="docutils literal"><span class="pre">Page</span></tt> is of type <tt class="docutils literal"><span class="pre">ForeignKey</span></tt>. This allows us to create a one-to-many relationship with model/table <tt class="docutils literal"><span class="pre">Category</span></tt>, which is specified as an argument to the field&#8217;s constructor. <em>You should be aware that Django creates an ID field for you automatically in each table relating to a model. You therefore do not need to explicitly define a primary key for each model.</em> Django makes your life so much easier!</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When creating a Django model, it&#8217;s good practice to make sure you include the <tt class="docutils literal"><span class="pre">__unicode__()</span></tt> method - a method almost identical to the <tt class="docutils literal"><span class="pre">__str__()</span></tt> method. If you&#8217;re unfamiliar with both of these, think of them as methods analogous to the <tt class="docutils literal"><span class="pre">toString()</span></tt> method in a Java class. The method is used to provide a unicode representation of a model instance. Our <tt class="docutils literal"><span class="pre">Category</span></tt> model for example returns the name of the category in the <tt class="docutils literal"><span class="pre">__unicode__()</span></tt> method - something which will be incredibly handy to you when you begin to use the Django admin interface later on in this chapter.</p>
+</div>
+</div>
+<div class="section" id="creating-and-synchronising-the-database">
+<h2>5.4. Creating and Synchronising the Database<a class="headerlink" href="#creating-and-synchronising-the-database" title="Permalink to this headline">¶</a></h2>
+<p>With our models defined, we can now let Django work its magic and create the table representations in our database. To do this, we need to synchronise the database using the <tt class="docutils literal"><span class="pre">manage.py</span></tt> script by invoking the following command.</p>
+<p><tt class="docutils literal"><span class="pre">$</span> <span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">syncdb</span></tt></p>
+<p>You can then follow the on-screen instructions. You&#8217;ll notice that Django creates a number of tables within your selected database. Of particular interest to you are the two tables <tt class="docutils literal"><span class="pre">rango_category</span></tt> and <tt class="docutils literal"><span class="pre">rango_page</span></tt>. These correspond to your two Rango models <tt class="docutils literal"><span class="pre">Category</span></tt> and <tt class="docutils literal"><span class="pre">Page</span></tt> respectively. Check out the example output the script produces below.</p>
+<div class="highlight-python"><pre>$ python manage.py syncdb
+
+Creating tables ...
+Creating table auth_permission
+Creating table auth_group_permissions
+Creating table auth_group
+Creating table auth_user_groups
+Creating table auth_user_user_permissions
+Creating table auth_user
+Creating table django_content_type
+Creating table django_session
+Creating table django_site
+Creating table rango_category &lt;-- Rango Category model
+Creating table rango_page     &lt;-- Rango Page model
+
+You just installed Django's auth system, which means you don't have any superusers defined.
+Would you like to create one now? (yes/no): yes
+Username (leave blank to use '&lt;YOUR USERNAME&gt;'): &lt;ENTER A USERNAME&gt;
+Email address: &lt;ENTER YOUR E-MAIL ADDRESS&gt;
+Password: &lt;ENTER PASSWORD&gt;
+Password (again): &lt;ENTER PASSWORD AGAIN&gt;
+Superuser created successfully.
+Installing custom SQL ...
+Installing indexes ...
+Installed 0 object(s) from 0 fixture(s)</pre>
+</div>
+<p>You may be asked if you wish to create a superuser account, just like in the example above. The superuser account will be used to access the Django admin interface later on in this tutorial, so we recommend that you bite the bullet and set up an account now. Enter <tt class="docutils literal"><span class="pre">yes</span></tt>, then enter a username for the account, your e-mail address and provide a password when prompted. Once completed, the script should finish successfully. Make sure you take a note of the username and password for your superuser account.</p>
+<p>After this process has been completed you will be able to see a new file called <tt class="docutils literal"><span class="pre">rango.db</span></tt> in your project directory.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Whenever you change your database models, you will have to delete the database file and then re-sync the database by running <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">syncdb</span></tt> again. If you add a new model however, you can <tt class="docutils literal"><span class="pre">syncdb</span></tt> your database without deleting it. This is a known drawback of Django, and can be quite frustrating. <em>New models will by synchronised, but changes to existing models will not be.</em> You may have also noticed that we forgot to include a couple of fields in our <tt class="docutils literal"><span class="pre">Category</span></tt> model - we will add these in later to remind you of this process.</p>
+</div>
+</div>
+<div class="section" id="generated-sql">
+<h2>5.5. Generated SQL<a class="headerlink" href="#generated-sql" title="Permalink to this headline">¶</a></h2>
+<p>The database synchronisation process essentially converts the Django models into SQL tables. To see the SQL that is produced, you can run the command <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">sql</span> <span class="pre">rango</span></tt>. This will output the SQL code that was issued to the database backend on your behalf. Notice that while we did not specify an <tt class="docutils literal"><span class="pre">id''</span> <span class="pre">attribute</span> <span class="pre">in</span> <span class="pre">our</span> <span class="pre">model,</span> <span class="pre">Django</span> <span class="pre">automatically</span> <span class="pre">assigns</span> <span class="pre">an</span> <span class="pre">``id</span></tt> to every model. You should also note that in the <tt class="docutils literal"><span class="pre">rango_page</span></tt> table, the reference to <tt class="docutils literal"><span class="pre">Category</span></tt> is created as a foreign key.</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">BEGIN</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="ss">&quot;rango_category&quot;</span> <span class="p">(</span>
+    <span class="ss">&quot;id&quot;</span> <span class="nb">integer</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+    <span class="ss">&quot;name&quot;</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">UNIQUE</span>
+<span class="p">)</span>
+<span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="ss">&quot;rango_page&quot;</span> <span class="p">(</span>
+    <span class="ss">&quot;id&quot;</span> <span class="nb">integer</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+    <span class="ss">&quot;category_id&quot;</span> <span class="nb">integer</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">REFERENCES</span> <span class="ss">&quot;rango_category&quot;</span> <span class="p">(</span><span class="ss">&quot;id&quot;</span><span class="p">),</span>
+    <span class="ss">&quot;title&quot;</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="ss">&quot;url&quot;</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="ss">&quot;views&quot;</span> <span class="nb">integer</span> <span class="k">NOT</span> <span class="k">NULL</span>
+<span class="p">)</span>
+<span class="p">;</span>
+
+<span class="k">COMMIT</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Since Django provides a wrapper over the database engines all we need to worry about is interfacing with the models (and the Object Relation Mapping). However, you still have the ability to issue SQL commands directly to the database if you wish. This is detailed in the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/topics/db/sql/#executing-custom-sql-directly">Official Django Documentation on running custom SQL</a>.</p>
+</div>
+<div class="section" id="django-models-and-the-django-shell">
+<h2>5.6. Django Models and the Django Shell<a class="headerlink" href="#django-models-and-the-django-shell" title="Permalink to this headline">¶</a></h2>
+<p>Before we turn our attention to demonstrating the Django admin interface, it&#8217;s worth noting that you can interact with Django models from the Django shell - a very useful aid for debugging purposes. We&#8217;ll demonstrate how to create a <tt class="docutils literal"><span class="pre">Category</span></tt> instance using this method.</p>
+<p>To access the shell, we need to call <tt class="docutils literal"><span class="pre">manage.py</span></tt> from within your Django project&#8217;s root directory once more. Run the following command.</p>
+<p><tt class="docutils literal"><span class="pre">$</span> <span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">shell</span></tt></p>
+<p>This will start an instance of the Python interpreter and load in your project&#8217;s settings for you. You can then interact with the models. The following terminal session demonstrates this functionality. Check out the inline commentary to see what each command does.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Import the Category model from the Rango application</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">rango.models</span> <span class="kn">import</span> <span class="n">Category</span>
+
+<span class="c"># Show all the current categories</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="p">[]</span> <span class="c"># Returns an empty list (no categories have been defined!)</span>
+
+<span class="c"># Create a new category object, and save it to the database.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">Category</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Test&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+<span class="c"># Now list all the category objects stored once more.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="p">[</span><span class="o">&lt;</span><span class="n">Category</span><span class="p">:</span> <span class="n">test</span><span class="o">&gt;</span><span class="p">]</span> <span class="c"># We now have a category called &#39;test&#39; saved in the database!</span>
+
+<span class="c"># Quit the Django shell.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">quit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In the example, we first import the model that we want to manipulate. We then print out all the existing categories, of which there are none because our table is empty. Then we create and save a Category, before printing out all the categories again. This second <tt class="docutils literal"><span class="pre">print</span></tt> should then show the <tt class="docutils literal"><span class="pre">Category</span></tt> just added.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The example we provide above is only a very basic taster on database related activities you can perform in the Django shell. If you have not done so already, it is good time to complete part one of the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/intro/tutorial01/">official Django Tutorial to learn more about interacting with the models</a>. Also check out the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/django-admin/#available-commands">official Django documentation on the list of available commands</a> for working with models.</p>
+</div>
+</div>
+<div class="section" id="configuring-the-admin-interface">
+<h2>5.7. Configuring the Admin Interface<a class="headerlink" href="#configuring-the-admin-interface" title="Permalink to this headline">¶</a></h2>
+<p>One of the stand-out features of Django is that it provides a built in, web-based administrative interface that allows us to browse and edit data stored within our models and corresponding database tables. Like everything else, we need to configure the admin interface for use before we can access it.</p>
+<p>First, we must open our Django project&#8217;s <tt class="docutils literal"><span class="pre">settings.py</span></tt> file. This is located within the project configuration directory. Within the file, locate the <tt class="docutils literal"><span class="pre">INSTALLED_APPS</span></tt> tuple, and uncomment the line which adds <tt class="docutils literal"><span class="pre">django.contrib.admin</span></tt>. The tuple should now look something like the following example. Check out the inline comment to easily spot see the uncommented line.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.sites&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
+    <span class="c"># Uncomment the next line to enable the admin:</span>
+    <span class="s">&#39;django.contrib.admin&#39;</span><span class="p">,</span> <span class="c"># THIS LINE SHOULD NOW BE UNCOMMENTED</span>
+    <span class="c"># Uncomment the next line to enable admin documentation:</span>
+    <span class="c"># &#39;django.contrib.admindocs&#39;,</span>
+        <span class="s">&#39;rango&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>When this has been done, save the file and synchronise the database. We need to do this as the <tt class="docutils literal"><span class="pre">django.contrib.admin</span></tt> application needs to add some additional database tables in order to function correctly. To synchronise the database, run the <tt class="docutils literal"><span class="pre">syncdb</span></tt> command once more.</p>
+<p><tt class="docutils literal"><span class="pre">$</span> <span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">syncdb</span></tt></p>
+<p>You should see that the table <tt class="docutils literal"><span class="pre">django_admin_log</span></tt> is created for you. Once done, open your project&#8217;s <tt class="docutils literal"><span class="pre">urls.py</span></tt> file. This was created in the project configuration directory. Within the file, first uncomment the two lines after the import statements. We also need to ensure that the URL pattern for <tt class="docutils literal"><span class="pre">/admin/</span></tt> is present, and points to the <tt class="docutils literal"><span class="pre">admin.site.urls</span></tt> module as shown below.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">patterns</span><span class="p">,</span> <span class="n">include</span><span class="p">,</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+
+<span class="c"># Uncomment the next two lines to enable the admin:</span>
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span> <span class="c"># UNCOMMENT THIS LINE</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">autodiscover</span><span class="p">()</span> <span class="c"># UNCOMMENT THIS LINE, TOO!</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^rango/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;rango.urls&#39;</span><span class="p">)),</span>
+        <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^admin/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">)),</span> <span class="c"># ADD THIS LINE</span>
+        <span class="p">)</span>
+
+<span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
+        <span class="n">urlpatterns</span> <span class="o">+=</span> <span class="n">patterns</span><span class="p">(</span>
+                <span class="s">&#39;django.views.static&#39;</span><span class="p">,</span>
+                <span class="p">(</span><span class="s">r&#39;media/(?P&lt;path&gt;.*)&#39;</span><span class="p">,</span>
+                <span class="s">&#39;serve&#39;</span><span class="p">,</span>
+                <span class="p">{</span><span class="s">&#39;document_root&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_ROOT</span><span class="p">}),</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>We&#8217;re almost there! Next, we need to now tell the Django <tt class="docutils literal"><span class="pre">admin</span></tt> application what models we wish to make available to the admin interface. To do this, you will need to create a new python file in <tt class="docutils literal"><span class="pre">rango</span></tt> application directory called <tt class="docutils literal"><span class="pre">admin.py</span></tt>. Add the following code to the new file.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+<span class="kn">from</span> <span class="nn">rango.models</span> <span class="kn">import</span> <span class="n">Category</span><span class="p">,</span> <span class="n">Page</span>
+
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Category</span><span class="p">)</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Page</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will <em>register</em> the models with the admin interface. If we were to have another model, it would be a trivial case of calling the <tt class="docutils literal"><span class="pre">admin.site.register()</span></tt> function, passing the model in as a parameter.</p>
+<p>With all of these changes made, start or restart the Django development server and visit: <tt class="docutils literal"><span class="pre">http://127.0.0.1:8000/admin/</span></tt>. You should then see a login box, prompting you for a username and password. Enter the superuser username and password you created when setting up your database, and you should then see a webpage similar to that shown in Figure <a class="pageref" href="#fig-rango-admin">2</a>.</p>
+<div class="align-center figure" id="fig-rango-admin">
+<img alt="../_images/ch5-rango-admin-models.png" src="../_images/ch5-rango-admin-models.png" />
+<p class="caption">Figure 2: The Django admin interface. Note the Rango category, and the two models contained within.</p>
+</div>
+<p>Try clicking the <tt class="docutils literal"><span class="pre">Categorys</span></tt> link within the <tt class="docutils literal"><span class="pre">Rango</span></tt> section. From here, you should see the <tt class="docutils literal"><span class="pre">test</span></tt> category that we created via the Django shell. Try deleting the category as we&#8217;ll be populating the database with a population script next. The interface is easy to use. Spend a few minutes creating, modifying and deleting both categories and pages. You can also add new users who can login to the Django admin interface for your project by adding a user to the <tt class="docutils literal"><span class="pre">User</span></tt> in the <tt class="docutils literal"><span class="pre">Auth</span></tt> application.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Note the typo within the admin interface (categorys, not categories). This problem can be fixed by adding a nested <tt class="docutils literal"><span class="pre">Meta</span></tt> class into your model definitions with the <tt class="docutils literal"><span class="pre">verbose_name_plural</span></tt> attribute. Check out <a class="reference external" href="https://docs.djangoproject.com/en/1.5/topics/db/models/#meta-options">Django&#8217;s official documentation on models</a> for more information.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The example <tt class="docutils literal"><span class="pre">admin.py</span></tt> file for our Rango application is the most simple, functional example available. There are many different features which you can use in the <tt class="docutils literal"><span class="pre">admin.py</span></tt> to perform all sorts of cool customisations, such as changing the way models appear in the admin interface. For this tutorial, we&#8217;ll stick with the bare-bones admin interface, but you can check out the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/contrib/admin/">official Django documentation on the admin interface</a> for more information if you&#8217;re interested.</p>
+</div>
+</div>
+<div class="section" id="creating-a-population-script">
+<h2>5.8. Creating a Population Script<a class="headerlink" href="#creating-a-population-script" title="Permalink to this headline">¶</a></h2>
+<p>It&#8217;s highly likely that during the course of development, you&#8217;ll come to a point where you will need to modify a Django model. When you do this, the easiest option - without external software - is to re-create your entire database and run <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">syncdb</span></tt> ...again! Since this slow and repetitive task can be such a pain, it&#8217;s good practice to create what we call a <em>population script</em> for your database. This script is designed to automatically populate your database with test data for you, which can potentially save you lots of time.</p>
+<p>To create a population script for Rango&#8217;s database, we start by creating a new Python module within our Django project&#8217;s root directory (e.g. <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project/</span></tt>). Create the <tt class="docutils literal"><span class="pre">populate_rango.py</span></tt> file and add the following code.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">def</span> <span class="nf">populate</span><span class="p">():</span>
+    <span class="n">python_cat</span> <span class="o">=</span> <span class="n">add_cat</span><span class="p">(</span><span class="s">&#39;Python&#39;</span><span class="p">)</span>
+
+    <span class="n">add_page</span><span class="p">(</span><span class="n">cat</span><span class="o">=</span><span class="n">python_cat</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">&quot;Official Python Tutorial&quot;</span><span class="p">,</span>
+        <span class="n">url</span><span class="o">=</span><span class="s">&quot;http://docs.python.org/2/tutorial/&quot;</span><span class="p">)</span>
+
+    <span class="n">add_page</span><span class="p">(</span><span class="n">cat</span><span class="o">=</span><span class="n">python_cat</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">&quot;How to Think like a Computer Scientist&quot;</span><span class="p">,</span>
+        <span class="n">url</span><span class="o">=</span><span class="s">&quot;http://www.greenteapress.com/thinkpython/&quot;</span><span class="p">)</span>
+
+    <span class="n">add_page</span><span class="p">(</span><span class="n">cat</span><span class="o">=</span><span class="n">python_cat</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">&quot;Learn Python in 10 Minutes&quot;</span><span class="p">,</span>
+        <span class="n">url</span><span class="o">=</span><span class="s">&quot;http://www.korokithakis.net/tutorials/python/&quot;</span><span class="p">)</span>
+
+    <span class="n">django_cat</span> <span class="o">=</span> <span class="n">add_cat</span><span class="p">(</span><span class="s">&quot;Django&quot;</span><span class="p">)</span>
+
+    <span class="n">add_page</span><span class="p">(</span><span class="n">cat</span><span class="o">=</span><span class="n">django_cat</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">&quot;Official Django Tutorial&quot;</span><span class="p">,</span>
+        <span class="n">url</span><span class="o">=</span><span class="s">&quot;https://docs.djangoproject.com/en/1.5/intro/tutorial01/&quot;</span><span class="p">)</span>
+
+    <span class="n">add_page</span><span class="p">(</span><span class="n">cat</span><span class="o">=</span><span class="n">django_cat</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">&quot;Django Rocks&quot;</span><span class="p">,</span>
+        <span class="n">url</span><span class="o">=</span><span class="s">&quot;http://www.djangorocks.com/&quot;</span><span class="p">)</span>
+
+    <span class="n">add_page</span><span class="p">(</span><span class="n">cat</span><span class="o">=</span><span class="n">django_cat</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">&quot;How to Tango with Django&quot;</span><span class="p">,</span>
+        <span class="n">url</span><span class="o">=</span><span class="s">&quot;http://www.tangowithdjango.com/&quot;</span><span class="p">)</span>
+
+    <span class="n">frame_cat</span> <span class="o">=</span> <span class="n">add_cat</span><span class="p">(</span><span class="s">&quot;Other Frameworks&quot;</span><span class="p">)</span>
+
+    <span class="n">add_page</span><span class="p">(</span><span class="n">cat</span><span class="o">=</span><span class="n">frame_cat</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">&quot;Bottle&quot;</span><span class="p">,</span>
+        <span class="n">url</span><span class="o">=</span><span class="s">&quot;http://bottlepy.org/docs/dev/&quot;</span><span class="p">)</span>
+
+    <span class="n">add_page</span><span class="p">(</span><span class="n">cat</span><span class="o">=</span><span class="n">frame_cat</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">&quot;Flask&quot;</span><span class="p">,</span>
+        <span class="n">url</span><span class="o">=</span><span class="s">&quot;http://flask.pocoo.org&quot;</span><span class="p">)</span>
+
+    <span class="c"># Print out what we have added to the user.</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">Page</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">category</span><span class="o">=</span><span class="n">c</span><span class="p">):</span>
+            <span class="k">print</span> <span class="s">&quot;- {0} - {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">add_page</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">views</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">Page</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">category</span><span class="o">=</span><span class="n">cat</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">views</span><span class="o">=</span><span class="n">views</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">p</span>
+
+<span class="k">def</span> <span class="nf">add_cat</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">c</span>
+
+<span class="c"># Start execution here!</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Starting Rango population script...&quot;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s">&#39;DJANGO_SETTINGS_MODULE&#39;</span><span class="p">,</span> <span class="s">&#39;tango_with_django_project.settings&#39;</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">rango.models</span> <span class="kn">import</span> <span class="n">Category</span><span class="p">,</span> <span class="n">Page</span>
+    <span class="n">populate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>While this looks like a lot of code, what it does is relatively simple. As we define a series of functions at the top of the file, code execution begins towards the bottom - look for the line <tt class="docutils literal"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">'__main__'</span></tt>. We then import Rango&#8217;s settings and our models <tt class="docutils literal"><span class="pre">Category</span></tt> and <tt class="docutils literal"><span class="pre">Page</span></tt> and call the <tt class="docutils literal"><span class="pre">populate()</span></tt> function.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">When importing Django models, make sure you have imported your project&#8217;s settings by that stage. If you don&#8217;t, an exception will be raised. This is why we import <tt class="docutils literal"><span class="pre">Category</span></tt> and <tt class="docutils literal"><span class="pre">Page</span></tt> towards the end of the population script, rather than at the top.</p>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">populate()</span></tt> function is responsible for the calling the <tt class="docutils literal"><span class="pre">add_cat()</span></tt> and <tt class="docutils literal"><span class="pre">add_page()</span></tt> functions, who are in turn responsible for the creation of new categories and pages respectively. <tt class="docutils literal"><span class="pre">populate()</span></tt> keeps tabs on category references for us as we create each individual <tt class="docutils literal"><span class="pre">Page</span></tt> model instance and store them within our database. Finally, we loop through our <tt class="docutils literal"><span class="pre">Category</span></tt> and <tt class="docutils literal"><span class="pre">Page</span></tt> models to print to the user all the <tt class="docutils literal"><span class="pre">Page</span></tt> instances and their corresponding categories.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We make use of the convenience <tt class="docutils literal"><span class="pre">get_or_create()</span></tt> function for creating model instances. Check out the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/models/querysets/#get-or-create">official Django documentation</a> for more information on this function. The documentation will explain why we pass index <tt class="docutils literal"><span class="pre">[0]</span></tt> of the function&#8217;s returned value!</p>
+</div>
+<p>When saved, we can run the script by changing the current working directory in a terminal to our Django project&#8217;s root and executing the module with the command <tt class="docutils literal"><span class="pre">$</span> <span class="pre">python</span> <span class="pre">populate_rango.py</span></tt>. You should then see output similar to that shown below.</p>
+<div class="highlight-python"><pre>$ python populate_rango.py
+Starting Rango population script...
+- Python - Official Python Tutorial
+- Python - How to Think like a Computer Scientist
+- Python - Learn Python in 10 Minutes
+- Django - Official Django Tutorial
+- Django - Django Rocks
+- Django - How to Tango with Django
+- Other Frameworks - Bottle
+- Other Frameworks - Flask</pre>
+</div>
+<p>Now let&#8217;s verify that the population script populated the database. Restart the Django development server, navigate to the admin interface, and check that you have some new categories and pages. Do you see all the pages if you click <tt class="docutils literal"><span class="pre">Pages</span></tt>, like in Figure <a class="pageref" href="#fig-admin-populated">3</a>?</p>
+<div class="align-center figure" id="fig-admin-populated">
+<img alt="../_images/ch5-rango-admin.png" src="../_images/ch5-rango-admin.png" />
+<p class="caption">Figure 3: The Django admin interface, showing the Page table populated with sample data from our population script.</p>
+</div>
+<p>A population script takes a bit of time to write but if you ever change your models, you&#8217;ll be glad you have it. Remember to update your population script when you update your models too - you don&#8217;t want the two to get out of sync with each other.</p>
+</div>
+<div class="section" id="basic-workflows">
+<h2>5.9. Basic Workflows<a class="headerlink" href="#basic-workflows" title="Permalink to this headline">¶</a></h2>
+<p>Now that we&#8217;ve covered the core principles of dealing with Django&#8217;s models functionality, now is a good time to summarise the processes involved in setting everything up. We&#8217;ve split the core tasks into separate sections for you.</p>
+<div class="section" id="setting-up-your-database">
+<h3>5.9.1. Setting up your Database<a class="headerlink" href="#setting-up-your-database" title="Permalink to this headline">¶</a></h3>
+<p>With a new Django project, you should first tell Django about the database you intend to use (i.e. configure <tt class="docutils literal"><span class="pre">DATABASES</span></tt> in settings.py). Without doing so, Django won&#8217;t have anywhere to store your data. You can also enable the admin interface to make your life a little bit easier - and remember, you can always disable it later if you want to.</p>
+</div>
+<div class="section" id="adding-a-model">
+<h3>5.9.2. Adding a Model<a class="headerlink" href="#adding-a-model" title="Permalink to this headline">¶</a></h3>
+<p>The workflow for adding models can be broken down into five steps.</p>
+<ol class="arabic simple">
+<li>First, create your new model(s) in your Django application&#8217;s <tt class="docutils literal"><span class="pre">models.py</span></tt> file.</li>
+<li>With the model created, reconfigure the admin interface to include your new model(s), if you are using it.</li>
+<li>You should then synchronise or resynchronise your database with the <tt class="docutils literal"><span class="pre">$</span> <span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">syncdb</span></tt> command. This will create the necessary infrastructure within the database for your new model(s).</li>
+<li>Create/Edit and then run your population script for your new model(s).</li>
+</ol>
+<p>You should also remember about the nuances of the <tt class="docutils literal"><span class="pre">syncdb</span></tt> command. Note that the command can be used only for adding new models to your database - if you wish to amend an existing model, you must recreate the database.</p>
+</div>
+</div>
+<div class="section" id="exercises">
+<h2>5.10. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p>Now that you&#8217;ve completed the chapter, try out these exercises to reinforce and practice what you have learnt.</p>
+<ul class="simple">
+<li>Update the Category model to include the additional attributes, <tt class="docutils literal"><span class="pre">views</span></tt> and <tt class="docutils literal"><span class="pre">likes</span></tt> where the default value  is zero.</li>
+<li>Re-sync your database, and update your population script so that the Python category has 128 views and 64 likes, the Django category has 64 views and 32 likes, and the Other Frameworks category has 32 views and 16 likes.</li>
+<li>Undertake the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/intro/tutorial02/">part two of official Django tutorial</a> if you have not done so. This will help to reinforce further what you have learnt here, and to learn more about customising the admin interface.</li>
+<li>Customise the Admin Interface - so that when you view the Page model it displays in a list the category, the name of the page and the url.</li>
+</ul>
+<div class="section" id="hint">
+<h3>5.10.1. Hint<a class="headerlink" href="#hint" title="Permalink to this headline">¶</a></h3>
+<p>If you require some help or inspiration to get these exercises done, these hints will hopefully help you out.</p>
+<ul class="simple">
+<li>To customise the admin interface, you will need to edit <tt class="docutils literal"><span class="pre">rango/admin.py</span></tt> and create a PageAdmin class that inherits from admin.ModelAdmin.</li>
+<li>Then set <tt class="docutils literal"><span class="pre">list_display</span> <span class="pre">=</span> <span class="pre">('category','title',</span> <span class="pre">'url')</span></tt> in the PageAdmin class</li>
+<li>Finally, register it with Django&#8217;s admin interface by adding the line <tt class="docutils literal"><span class="pre">admin.site.register(Page,</span> <span class="pre">PageAdmin)</span></tt> to your app&#8217;s <tt class="docutils literal"><span class="pre">admin.py</span></tt> file.</li>
+</ul>
+<div class="align-center figure" id="fig-admin-customised">
+<img alt="../_images/ch5-rango-admin-custom.png" src="../_images/ch5-rango-admin-custom.png" />
+<p class="caption">Figure 4: The updated admin interface page view, complete with columns for category and URL.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        
+        <li class="right" >
+          <a href="models_templates.html" title="6. Models, Templates and Views"
+             >next</a>
+          </li>
+		
+        <li class="right" >
+          <a href="templates_static.html" title="4. Templates and Static Media"
+             >previous</a>
+          </li>
+		
+        <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Leif Azzopardi and David Maxwell.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+    </div>
+  </body>
+
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/models.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 25 Oct 2013 18:32:52 GMT -->
+</html>

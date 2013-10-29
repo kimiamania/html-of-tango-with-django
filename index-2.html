@@ -1,0 +1,530 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from www.tangowithdjango.com/book/index.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 25 Oct 2013 18:33:42 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How To Tango With Django &mdash; How to Tango with Django</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/twd.ico"/>
+    <link rel="top" title="How to Tango with Django" href="#" />
+    <link rel="next" title="1. Overview" href="chapters/overview.html" />
+ <style type="text/css">
+	img{
+	    width: 85%; /* you can use % */
+	    height: auto;
+	}
+	
+	table {
+		margin: auto;
+	}
+	
+	p.caption {
+		font-size: 10pt;
+		font-style: italic;
+	}
+ </style>
+ <script type="text/javascript">
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-44397330-1', 'tangowithdjango.com');
+  ga('send', 'pageview');
+     
+
+  </script>      
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        
+        <li class="right" >
+          <a href="chapters/overview.html" title="1. Overview"
+             accesskey="N">next</a>
+          </li>
+		
+        <li><a href="#">How to Tango with Django</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How To Tango With Django</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="chapters/overview.html"
+                        title="next chapter">1. Overview</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://www.tangowithdjango.com/book/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="how-to-tango-with-django">
+<h1>How To Tango With Django<a class="headerlink" href="#how-to-tango-with-django" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="chapters/overview.html">1. Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/overview.html#why-work-with-this-book">1.1. Why Work with this Book?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/overview.html#what-you-will-learn">1.2. What You will Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/overview.html#technologies-and-services">1.3. Technologies and Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/overview.html#rango-initial-design-and-specification">1.4. Rango: Initial Design and Specification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/overview.html#design-brief">1.4.1. Design Brief</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/overview.html#exercises">1.5. Exercises</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/overview.html#n-tier-architecture">1.6. N-Tier Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/overview.html#wireframes">1.7. Wireframes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/overview.html#pages-and-url-mappings">1.8. Pages and URL Mappings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/overview.html#entity-relationship-diagram">1.9. Entity-Relationship Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/overview.html#summary">1.10. Summary</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/overview.html#working-with-the-official-django-tutorials">1.10.1. Working with The Official Django Tutorials</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/requirements.html">2. Getting Ready to Tango</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/requirements.html#using-the-terminal">2.1. Using the Terminal</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/requirements.html#core-commands">2.1.1. Core Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/requirements.html#installing-the-software">2.2. Installing the Software</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/requirements.html#installing-python">2.2.1. Installing Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/requirements.html#setting-up-the-pythonpath">2.2.2. Setting Up the <tt class="docutils literal"><span class="pre">PYTHONPATH</span></tt></a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/requirements.html#using-setuptools-and-pip">2.2.3. Using Setuptools and Pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/requirements.html#installing-django">2.2.4. Installing Django</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/requirements.html#installing-the-python-imaging-library">2.2.5. Installing the Python Imaging Library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/requirements.html#installing-other-python-packages">2.2.6. Installing Other Python Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/requirements.html#sharing-your-package-list">2.2.7. Sharing your Package List</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/requirements.html#integrated-development-environment">2.3. Integrated Development Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/requirements.html#exercises">2.4. Exercises</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/requirements.html#virtual-environments">2.4.1. Virtual Environments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/requirements.html#code-repository">2.4.2. Code Repository</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/setup.html">3. Django Basics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/setup.html#testing-your-setup">3.1. Testing your Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/setup.html#creating-your-django-project">3.2. Creating your Django Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/setup.html#creating-a-django-application">3.3. Creating a Django Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/setup.html#creating-a-view">3.4. Creating a View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/setup.html#mapping-urls">3.5. Mapping URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/setup.html#basic-workflows">3.6. Basic Workflows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/setup.html#creating-a-new-django-project">3.6.1. Creating a new Django Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/setup.html#creating-a-new-django-application">3.6.2. Creating a new Django application</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/setup.html#exercises">3.7. Exercises</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/setup.html#hints">3.7.1. Hints</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/templates_static.html">4. Templates and Static Media</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/templates_static.html#using-templates">4.1. Using Templates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/templates_static.html#configuring-the-templates-directory">4.1.1. Configuring the Templates Directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/templates_static.html#adding-a-template">4.1.2. Adding a Template</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/templates_static.html#serving-static-media">4.2. Serving Static Media</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/templates_static.html#configuring-the-static-media-directory">4.2.1. Configuring the Static Media Directory</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/templates_static.html#static-media-files-and-templates">4.3. Static Media Files and Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/templates_static.html#the-static-media-server">4.4. The Static Media Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/templates_static.html#basic-workflow">4.5. Basic Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/templates_static.html#exercises">4.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/models.html">5. Models and Databases</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/models.html#rango-s-requirements">5.1. Rango&#8217;s Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/models.html#telling-django-about-your-database">5.2. Telling Django About Your Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/models.html#creating-models">5.3. Creating Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/models.html#creating-and-synchronising-the-database">5.4. Creating and Synchronising the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/models.html#generated-sql">5.5. Generated SQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/models.html#django-models-and-the-django-shell">5.6. Django Models and the Django Shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/models.html#configuring-the-admin-interface">5.7. Configuring the Admin Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/models.html#creating-a-population-script">5.8. Creating a Population Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/models.html#basic-workflows">5.9. Basic Workflows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/models.html#setting-up-your-database">5.9.1. Setting up your Database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/models.html#adding-a-model">5.9.2. Adding a Model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/models.html#exercises">5.10. Exercises</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/models.html#hint">5.10.1. Hint</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/models_templates.html">6. Models, Templates and Views</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/models_templates.html#basic-workflow-data-driven-pages">6.1. Basic Workflow: Data Driven Pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/models_templates.html#showing-categories-on-rango-s-homepage">6.2. Showing Categories on Rango&#8217;s Homepage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/models_templates.html#importing-required-models">6.2.1. Importing Required Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/models_templates.html#modifying-the-index-view">6.2.2. Modifying the Index View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/models_templates.html#modifying-the-index-template">6.2.3. Modifying the Index Template</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/models_templates.html#creating-a-details-page">6.3. Creating a Details Page</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/models_templates.html#url-design-and-mapping">6.3.1. URL Design and Mapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/models_templates.html#category-page-workflow">6.3.2. Category Page Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/models_templates.html#category-view">6.3.3. Category View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/models_templates.html#category-template">6.3.4. Category Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/models_templates.html#parameterised-url-mapping">6.3.5. Parameterised URL Mapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/models_templates.html#modifying-the-index-view-and-template">6.3.6. Modifying the Index View and Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/models_templates.html#demo">6.3.7. Demo</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/models_templates.html#exercises">6.4. Exercises</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/models_templates.html#hints">6.4.1. Hints</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/forms.html">7. Fun with Forms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/forms.html#basic-workflow">7.1. Basic Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/forms.html#page-and-category-forms">7.2. Page and Category Forms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/forms.html#creating-modelform-classes">7.2.1. Creating <tt class="docutils literal"><span class="pre">ModelForm</span></tt> Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/forms.html#creating-an-add-category-view">7.2.2. Creating an <em>Add Category</em> View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/forms.html#creating-the-add-category-template">7.2.3. Creating the <em>Add Category</em> Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/forms.html#mapping-the-add-category-view">7.2.4. Mapping the <em>Add Category</em> View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/forms.html#modifying-the-index-page-view">7.2.5. Modifying the Index Page View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/forms.html#demo">7.2.6. Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/forms.html#cleaner-forms">7.2.7. Cleaner Forms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/forms.html#exercises">7.3. Exercises</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/forms.html#creating-an-add-pages-view-template-and-url-mapping">7.3.1. Creating an <em>Add Pages</em> View, Template and URL Mapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/forms.html#hints">7.3.2. Hints</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/login.html">8. User Authentication</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/login.html#setting-up-authentication">8.1. Setting up Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/login.html#the-user-model">8.2. The <tt class="docutils literal"><span class="pre">User</span></tt> Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/login.html#additional-user-attributes">8.3. Additional User Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/login.html#creating-a-user-registration-view-and-template">8.4. Creating a <em>User Registration</em> View and Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/login.html#creating-the-userform-and-userprofileform">8.4.1. Creating the <tt class="docutils literal"><span class="pre">UserForm</span></tt> and <tt class="docutils literal"><span class="pre">UserProfileForm</span></tt></a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/login.html#creating-the-register-view">8.4.2. Creating the <tt class="docutils literal"><span class="pre">register()</span></tt> View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/login.html#creating-the-registration-template">8.4.3. Creating the <em>Registration</em> Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/login.html#the-register-view-url-mapping">8.4.4. The <tt class="docutils literal"><span class="pre">register()</span></tt> View URL Mapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/login.html#linking-together">8.4.5. Linking Together</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/login.html#demo">8.4.6. Demo</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/login.html#adding-login-functionality">8.5. Adding Login Functionality</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/login.html#creating-the-login-view">8.5.1. Creating the <tt class="docutils literal"><span class="pre">login()</span></tt> View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/login.html#creating-a-login-template">8.5.2. Creating a <em>Login</em> Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/login.html#mapping-the-login-view-to-a-url">8.5.3. Mapping the Login View to a URL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/login.html#id1">8.5.4. Linking Together</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/login.html#id2">8.5.5. Demo</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/login.html#restricting-access">8.6. Restricting Access</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/login.html#restricting-access-with-a-decorator">8.6.1. Restricting Access with a Decorator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/login.html#logging-out">8.7. Logging Out</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/login.html#exercises">8.8. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/templates.html">9. Working with Templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/templates.html#reoccurring-html-and-the-base-template">9.1. Reoccurring HTML and The Base Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/templates.html#template-blocks">9.2. Template Blocks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/templates.html#abstracting-further">9.2.1. Abstracting Further</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/templates.html#template-inheritance">9.3. Template Inheritance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/templates.html#exercises">9.4. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/cookie.html">10. Cookies and Sessions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/cookie.html#cookies-cookies-everywhere">10.1. Cookies, Cookies Everywhere!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/cookie.html#sessions-and-the-stateless-protocol">10.2. Sessions and the Stateless Protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/cookie.html#setting-up-sessions-in-django">10.3. Setting up Sessions in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/cookie.html#a-cookie-tasting-session">10.4. A Cookie Tasting Session</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/cookie.html#testing-cookie-functionality">10.4.1. Testing Cookie Functionality</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/cookie.html#client-side-cookies-a-site-counter-example">10.5. Client Side Cookies: A Site Counter Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/cookie.html#session-data">10.6. Session Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/cookie.html#browser-length-and-persistent-sessions">10.7. Browser-Length and Persistent Sessions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/cookie.html#basic-considerations-and-workflow">10.8. Basic Considerations and Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/cookie.html#exercises">10.9. Exercises</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/cookie.html#hint">10.9.1. Hint</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/bootstrap.html">11. Bootstrapping Rango</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/bootstrap.html#setting-up-the-base-template">11.1. Setting up The Base Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/bootstrap.html#download-bootstrap">11.1.1. Download Bootstrap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/bootstrap.html#download-jquery">11.1.2. Download JQuery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/bootstrap.html#including-css-js-in-the-base-template">11.1.3. Including CSS/JS in The Base Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/bootstrap.html#structuring-the-base-template">11.1.4. Structuring the Base Template</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/bootstrap.html#quick-style-change">11.2. Quick Style Change</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/bootstrap.html#the-index-page">11.2.1. The Index Page</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/bootstrap.html#the-login-page">11.3. The Login Page</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/bootstrap.html#other-form-based-templates">11.3.1. Other Form-based Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/bootstrap.html#the-registration-template">11.4. The Registration Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/bootstrap.html#the-end-result">11.5. The End Result</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/bing_search.html">12. Adding External Search Functionality</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/bing_search.html#the-bing-search-api">12.1. The Bing Search API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/bing_search.html#registering-for-a-bing-api-key">12.1.1. Registering for a Bing API Key</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/bing_search.html#adding-search-functionality">12.2. Adding Search Functionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/bing_search.html#putting-search-into-rango">12.3. Putting Search into Rango</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/bing_search.html#adding-a-search-template">12.3.1. Adding a Search Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/bing_search.html#adding-the-view">12.3.2. Adding the View</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/bing_search.html#exercises">12.4. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/tango.html">13. Making Rango Tango! Exercises</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/tango.html#providing-categories-on-every-page">13.1. Providing Categories on Every Page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/tango.html#searching-within-a-category-page">13.2. Searching Within a Category Page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/tango.html#view-profile">13.3. View Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/tango.html#track-page-click-throughs">13.4. Track Page Click Throughs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango.html#hint">13.4.1. Hint</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/tango_too.html">14. Doing the Tango with Rango!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/tango_too.html#list-categories-on-each-page">14.1. List Categories on Each Page</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango_too.html#creating-a-category-list-template">14.1.1. Creating a Category List Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango_too.html#updating-the-base-template">14.1.2. Updating the Base Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango_too.html#creating-get-category-list-function">14.1.3. Creating Get Category List Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango_too.html#updating-views">14.1.4. Updating Views</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/tango_too.html#searching-within-a-category-page">14.2. Searching Within a Category Page</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango_too.html#decommissioning-generic-search">14.2.1. Decommissioning Generic Search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango_too.html#creating-a-search-form-template">14.2.2. Creating a Search Form Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango_too.html#updating-the-category-view">14.2.3. Updating the Category View</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/tango_too.html#view-profile">14.3. View Profile</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango_too.html#creating-the-profile-template">14.3.1. Creating the Profile Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango_too.html#creating-profile-view">14.3.2. Creating Profile View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango_too.html#mapping-the-profile-view-and-url">14.3.3. Mapping the Profile View and URL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango_too.html#id1">14.3.4. Updating the Base Template</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/tango_too.html#track-page-click-throughs">14.4. Track Page Click Throughs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango_too.html#creating-a-url-tracking-view">14.4.1. Creating a URL Tracking View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango_too.html#mapping-url">14.4.2. Mapping URL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango_too.html#updating-the-category-template">14.4.3. Updating the Category Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/tango_too.html#updating-category-view">14.4.4. Updating Category View</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/ajax.html">15. AJAX, Django and JQuery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/ajax.html#add-a-like-button">15.1. Add a &#8220;Like Button&#8221;</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/ajax.html#workflow">15.1.1. Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/ajax.html#updating-category-template">15.1.2. Updating Category Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/ajax.html#update-the-category-view">15.1.3. Update the Category View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/ajax.html#create-a-like-category-view">15.1.4. Create a Like Category View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/ajax.html#making-the-ajax-request">15.1.5. Making the AJAX request</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/ajax.html#adding-inline-category-suggestions">15.2. Adding Inline Category Suggestions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/ajax.html#id1">15.2.1. Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/ajax.html#parameterise-the-get-category-list-function">15.2.2. Parameterise the Get Category List Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/ajax.html#create-a-suggest-category-view">15.2.3. Create a Suggest Category View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/ajax.html#map-view-to-url">15.2.4. Map View to URL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/ajax.html#update-base-template">15.2.5. Update Base Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/ajax.html#add-ajax-to-request-suggestions">15.2.6. Add AJAX to Request Suggestions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/ajax.html#exercises">15.3. Exercises</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/ajax.html#hints">15.3.1. Hints</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/deploy.html">16. Deploying Your Project</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/deploy.html#creating-a-pythonanywhere-account">16.1. Creating a PythonAnywhere Account</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/deploy.html#the-pythonanywhere-web-interface">16.2. The PythonAnywhere Web Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/deploy.html#creating-a-virtual-environment">16.3. Creating a Virtual Environment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/deploy.html#virtual-environment-switching">16.3.1. Virtual Environment Switching</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/deploy.html#cloning-your-git-repository">16.4. Cloning your Git Repository</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/deploy.html#setting-up-the-database">16.4.1. Setting Up the Database</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/deploy.html#setting-up-your-web-application">16.5. Setting up your Web Application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/deploy.html#configuring-the-wsgi-script">16.5.1. Configuring the WSGI Script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/deploy.html#assigning-static-paths">16.5.2. Assigning Static Paths</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/deploy.html#bing-api-key">16.5.3. Bing API Key</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/deploy.html#turning-off-debug-mode">16.5.4. Turning off <tt class="docutils literal"><span class="pre">DEBUG</span></tt> Mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/deploy.html#log-files">16.6. Log Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/deploy.html#exercises">16.7. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/summary.html">17. Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/git.html">18. A Git Crash Course</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/git.html#why-use-version-control">18.1. Why Use Version Control?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/git.html#git-on-windows">18.2. Git on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/git.html#the-git-system">18.3. The Git System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/git.html#setting-up-git">18.4. Setting up Git</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/git.html#how-to-clone-a-remote-repository">18.4.1. How to Clone a Remote Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/git.html#the-directory-structure">18.4.2. The Directory Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/git.html#final-tweaks">18.4.3. Final Tweaks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/git.html#basic-commands-and-workflow">18.5. Basic Commands and Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/git.html#starting-off">18.5.1. 1. Starting Off</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/git.html#doing-some-work">18.5.2. 2. Doing Some Work!</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/git.html#committing-your-changes">18.5.3. 3. Committing your Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/git.html#synchronising-your-repository">18.5.4. 4. Synchronising your Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/git.html#pushing-your-commit-s">18.5.5. 5. Pushing your Commit(s)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/git.html#recovering-from-mistakes">18.6. Recovering from Mistakes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/git.html#exercises">18.7. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/css_intro.html">19. A CSS Crash Course</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/css_intro.html#including-stylesheets">19.1. Including Stylesheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/css_intro.html#basic-css-selectors">19.2. Basic CSS Selectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/css_intro.html#element-selectors">19.3. Element Selectors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/css_intro.html#id-selectors">19.3.1. ID Selectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/css_intro.html#class-selectors">19.3.2. Class Selectors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/css_intro.html#fonts">19.4. Fonts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/css_intro.html#colours-and-backgrounds">19.5. Colours and Backgrounds</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/css_intro.html#text-colours">19.5.1. Text Colours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/css_intro.html#borders">19.5.2. Borders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/css_intro.html#background-colours">19.5.3. Background Colours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/css_intro.html#background-images">19.5.4. Background Images</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/css_intro.html#containers-block-level-and-inline-elements">19.6. Containers, Block-Level and Inline Elements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/css_intro.html#block-level-elements">19.6.1. Block-Level Elements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/css_intro.html#inline-elements">19.6.2. Inline Elements</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/css_intro.html#basic-positioning">19.7. Basic Positioning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/css_intro.html#floats">19.7.1. Floats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/css_intro.html#relative-positioning">19.7.2. Relative Positioning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/css_intro.html#absolute-positioning">19.7.3. Absolute Positioning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/css_intro.html#the-box-model">19.8. The Box Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/css_intro.html#styling-lists">19.9. Styling Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/css_intro.html#styling-links">19.10. Styling Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/css_intro.html#the-cascade">19.11. The Cascade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/css_intro.html#additional-reading">19.12. Additional Reading</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/javascript.html">20. Javascript and JQuery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/test.html">21. Test Driven Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/test.html#exercises">21.1. Exercises</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        
+        <li class="right" >
+          <a href="chapters/overview.html" title="1. Overview"
+             >next</a>
+          </li>
+		
+        <li><a href="#">How to Tango with Django</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Leif Azzopardi and David Maxwell.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+    </div>
+  </body>
+
+<!-- Mirrored from www.tangowithdjango.com/book/index.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 25 Oct 2013 18:33:42 GMT -->
+</html>
