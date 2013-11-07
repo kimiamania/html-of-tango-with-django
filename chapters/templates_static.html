@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/templates_static.html by HTTrack Website Copier/3.x [XR&CO'2008], Wed, 30 Oct 2013 23:59:22 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/templates_static.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 07 Nov 2013 01:42:33 GMT -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
@@ -157,7 +157,7 @@
 <a class="reference external" href="http://en.wikipedia.org/wiki/Hard_coding">Hard-coding</a> paths is considered to be a <a class="reference external" href="http://sourcemaking.com/antipatterns">software engineering anti-pattern</a>, and will make your project less <a class="reference external" href="http://en.wikipedia.org/wiki/Software_portability">portable</a>.</p>
 </div>
 <p>Instead, we can be much smarter and make use of some built-in Python functions to obtain the path of our <tt class="docutils literal"><span class="pre">templates</span></tt> directory independently of where your project is stored on a filesystem. At the expense of a little bit more complexity in setting up our Django project, we can make our lives much easier later on when it comes to setting up and running our project on other computers. No pain, no gain!</p>
-<p>Modify the <tt class="docutils literal"><span class="pre">settings.py</span></tt> file to include a variable called <tt class="docutils literal"><span class="pre">PROJECT_PATH</span></tt> which will stored the absolute path of the project. This is obtained by asking your operating system for the path of the <em>current working directory</em>. At the top of <tt class="docutils literal"><span class="pre">settings.py</span></tt>, add the following two lines of code.</p>
+<p>Modify the <tt class="docutils literal"><span class="pre">settings.py</span></tt> file to include a variable called <tt class="docutils literal"><span class="pre">PROJECT_PATH</span></tt> which will store the absolute path of the project. This is obtained by asking your operating system for the path of the <em>current working directory</em>. At the top of <tt class="docutils literal"><span class="pre">settings.py</span></tt>, add the following two lines of code.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
 <span class="n">PROJECT_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
 </pre></div>
@@ -191,7 +191,8 @@
 
     <span class="nt">&lt;body&gt;</span>
         <span class="nt">&lt;h1&gt;</span>Rango says...<span class="nt">&lt;/h1&gt;</span>
-        hello world! <span class="nt">&lt;strong&gt;</span>{{ boldmessage }}<span class="nt">&lt;/strong&gt;</span>
+        hello world! <span class="nt">&lt;strong&gt;</span>{{ boldmessage }}<span class="nt">&lt;/strong&gt;&lt;br</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/rango/about/&quot;</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;&lt;br</span> <span class="nt">/&gt;</span>
     <span class="nt">&lt;/body&gt;</span>
 
 <span class="nt">&lt;/html&gt;</span>
@@ -409,5 +410,5 @@
     </div>
   </body>
 
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/templates_static.html by HTTrack Website Copier/3.x [XR&CO'2008], Wed, 30 Oct 2013 23:59:22 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/templates_static.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 07 Nov 2013 01:42:33 GMT -->
 </html>

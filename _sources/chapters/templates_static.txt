@@ -37,7 +37,7 @@ Note that you are *required to use absolute paths* to locate the ``templates`` d
 
 Instead, we can be much smarter and make use of some built-in Python functions to obtain the path of our ``templates`` directory independently of where your project is stored on a filesystem. At the expense of a little bit more complexity in setting up our Django project, we can make our lives much easier later on when it comes to setting up and running our project on other computers. No pain, no gain!
 
-Modify the ``settings.py`` file to include a variable called ``PROJECT_PATH`` which will stored the absolute path of the project. This is obtained by asking your operating system for the path of the *current working directory*. At the top of ``settings.py``, add the following two lines of code.
+Modify the ``settings.py`` file to include a variable called ``PROJECT_PATH`` which will store the absolute path of the project. This is obtained by asking your operating system for the path of the *current working directory*. At the top of ``settings.py``, add the following two lines of code.
 
 .. code-block:: python
 	
@@ -82,7 +82,8 @@ With your template directory and path set up, create a file called ``index.html`
 	    
 	    <body>
 	        <h1>Rango says...</h1>
-	        hello world! <strong>{{ boldmessage }}</strong>
+	        hello world! <strong>{{ boldmessage }}</strong><br />
+	        <a href="/rango/about/">About</a><br />
 	    </body>
 	
 	</html>

@@ -317,7 +317,7 @@ If you examine ``requirements.txt`` using either the command ``more``, ``less`` 
 
 ::
 	
-	$ pip install -r requirements.txt --no-index --find-links
+	$ pip install -r requirements.txt
 
 Integrated Development Environment
 ----------------------------------

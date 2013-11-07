@@ -62,7 +62,7 @@ In ``rango/forms.py`` add the following code.
 	        # This way we don't need every field in the model present.
 	        # Some fields may allow NULL values, so we may not want to include them...
 	        # Here, we are hiding the foreign key.
-	        fields = ('title', 'url','views')
+	        fields = ('title', 'url', 'views')
 
 Django provides us with a number of ways to customise the forms that are created on our behalf. In the code sample above, we've specified the widgets that we wish to use for each field to be displayed. For example, in our ``PageForm`` class, we've defined ``forms.CharField`` for the ``title`` field, and ``forms.URLField`` for ``url`` field. Both fields provide text entry for users. Note the ``max_length`` parameters we supply to our fields - the lengths that we specify are identical to the maximum length of each field we specified in the underlying data models. Go back to Chapter :ref:`model-label` to check for yourself, or have a look at Rango's ``models.py`` file.
 
@@ -178,10 +178,11 @@ Now we need to map the ``add_category()`` view to a URL. In the template we have
 	
 	urlpatterns = patterns('',
 	    url(r'^$', views.index, name='index'),
+	    url(r'^about/$', views.about, name='about'),
 	    url(r'^add_category/$', views.add_category, name='add_category'), # NEW MAPPING!
-	    url(r'^(?P<category_name_url>\w+)', views.category, name='category'),)
+	    url(r'^category/(?P<category_name_url>\w+)$', views.category, name='category'),)
 
-Note the order in which we placed our new URL mapping. Django looks for a matching URL, starting with the first tuple entry. It then moves along the tuple sequentially until a match is found (a HTTP 404 error is raised if no match is found). In our example, the URL ``/add_category/`` is our new URL for adding a category. As such, this must always return the add category form, and should take precedence over the category view mapping, which could match to any string combination. If the URL provided does not match ``/add_category/``, Django then falls back to the category view mapping as a last resort. Take a look at the `official Django documentation on how Django process a request <https://docs.djangoproject.com/en/1.5/topics/http/urls/#how-django-processes-a-request>`_ for more information.
+Ordering doesn't necessarily matter in this instance. However, take a look at the `official Django documentation on how Django process a request <https://docs.djangoproject.com/en/1.5/topics/http/urls/#how-django-processes-a-request>`_ for more information. Our new URL for adding a category is ``/rango/add_category/``.
 
 Modifying the Index Page View
 .............................
@@ -215,12 +216,12 @@ Since we have defined the ``url`` attribute in the ``Page`` model to be a ``URLF
 	    def clean(self):
 	        cleaned_data = self.cleaned_data
 	        url = cleaned_data.get('url')
-	        
-	        if not url.startswith('http://'):
+	        # If url is not empty and doesn't start with 'http://' add 'http://' to the beginning.
+	        if url and not url.startswith('http://'):
 	            url = 'http://' + url
 	            
 	            cleaned_data['url'] = url
-	            return cleaned_data
+            return cleaned_data
 
 This trivial example shows how we can clean the data being passed through the form before being stored. This is pretty handy, especially when particular fields need to have default values - or data within the form is missing, and we need to handle such data entry problems.
 
@@ -265,7 +266,7 @@ A next logical step would be to allow users to add pages to a given category. To
 	            page.save()
 	            
 	            # Now that the page is saved, display the category instead.
-	            return category(request, category_name)
+	            return category(request, category_name_url)
 	        else:
 	            print form.errors
 	    else:
@@ -283,3 +284,4 @@ To help you with the exercises above, the following hints may be of some use to 
 * Update the category view to pass through the ``category_name_url``.
 * Update the ``category.html`` with a link to ``/rango/category/<category_name_url>/add_page/``.
 * Update ``rango/urls.py`` with a URL mapping to handle the above link.
+* In the sample code above, we make use of the ``decode_url()`` function created in Chapter :ref:`model-using-label`. If you haven't created this function, you'll need to do so now.

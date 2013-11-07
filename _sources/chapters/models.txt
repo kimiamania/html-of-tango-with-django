@@ -130,7 +130,7 @@ You may be asked if you wish to create a superuser account, just like in the exa
 
 After this process has been completed you will be able to see a new file called ``rango.db`` in your project directory. 
 
-.. note:: Whenever you change your database models, you will have to delete the database file and then re-sync the database by running ``python manage.py syncdb`` again. If you add a new model however, you can ``syncdb`` your database without deleting it. This is a known drawback of Django, and can be quite frustrating. *New models will by synchronised, but changes to existing models will not be.* You may have also noticed that we forgot to include a couple of fields in our ``Category`` model - we will add these in later to remind you of this process.
+.. note:: Whenever you change your database models, you will have to delete the database file and then re-sync the database by running ``python manage.py syncdb`` again. If you add a new model however, you can ``syncdb`` your database without deleting it. This is a known drawback of Django, and can be quite frustrating. *New models will by synchronised, but changes to existing models will not be.* You may have also noticed that we forgot to include a couple of fields in our ``Category`` model. We will add these in later to remind you of this process. One solution to this problem is using a third party application like `South <https://pypi.python.org/pypi/South>`_ that handles schema migrations (changes to models). South is currently in active development and is considered a standard solution for schema migrations until something like this becomes part of the standard Django codebase. However, we won't be covering South in this book.
 
 Generated SQL 
 -------------
@@ -404,7 +404,7 @@ Hint
 If you require some help or inspiration to get these exercises done, these hints will hopefully help you out.
 
 * To customise the admin interface, you will need to edit ``rango/admin.py`` and create a PageAdmin class that inherits from admin.ModelAdmin. 
-* Then set ``list_display = ('category','title', 'url')`` in the PageAdmin class
+* Then set ``list_display = ('category', 'title', 'url')`` in the PageAdmin class
 * Finally, register it with Django's admin interface by adding the line ``admin.site.register(Page, PageAdmin)`` to your app's ``admin.py`` file.
 
 .. _fig-admin-customised:

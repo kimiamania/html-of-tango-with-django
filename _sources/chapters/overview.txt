@@ -248,8 +248,8 @@ The resulting tables are shown below, where ``Str`` denotes a ``string`` or ``ch
 			</tr>
 			
 			<tr>
-				<td>likes</td>
-				<td>Int</td>
+				<td class="none">&nbsp;</td>
+				<td class="none">&nbsp;</td>
 		
 				<td class="none">&nbsp;</td>
 		

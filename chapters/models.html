@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/models.html by HTTrack Website Copier/3.x [XR&CO'2008], Wed, 30 Oct 2013 23:59:22 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/models.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 07 Nov 2013 01:42:33 GMT -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
@@ -251,7 +251,7 @@ Installed 0 object(s) from 0 fixture(s)</pre>
 <p>After this process has been completed you will be able to see a new file called <tt class="docutils literal"><span class="pre">rango.db</span></tt> in your project directory.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Whenever you change your database models, you will have to delete the database file and then re-sync the database by running <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">syncdb</span></tt> again. If you add a new model however, you can <tt class="docutils literal"><span class="pre">syncdb</span></tt> your database without deleting it. This is a known drawback of Django, and can be quite frustrating. <em>New models will by synchronised, but changes to existing models will not be.</em> You may have also noticed that we forgot to include a couple of fields in our <tt class="docutils literal"><span class="pre">Category</span></tt> model - we will add these in later to remind you of this process.</p>
+<p class="last">Whenever you change your database models, you will have to delete the database file and then re-sync the database by running <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">syncdb</span></tt> again. If you add a new model however, you can <tt class="docutils literal"><span class="pre">syncdb</span></tt> your database without deleting it. This is a known drawback of Django, and can be quite frustrating. <em>New models will by synchronised, but changes to existing models will not be.</em> You may have also noticed that we forgot to include a couple of fields in our <tt class="docutils literal"><span class="pre">Category</span></tt> model. We will add these in later to remind you of this process. One solution to this problem is using a third party application like <a class="reference external" href="https://pypi.python.org/pypi/South">South</a> that handles schema migrations (changes to models). South is currently in active development and is considered a standard solution for schema migrations until something like this becomes part of the standard Django codebase. However, we won&#8217;t be covering South in this book.</p>
 </div>
 </div>
 <div class="section" id="generated-sql">
@@ -503,7 +503,7 @@ Starting Rango population script...
 <p>If you require some help or inspiration to get these exercises done, these hints will hopefully help you out.</p>
 <ul class="simple">
 <li>To customise the admin interface, you will need to edit <tt class="docutils literal"><span class="pre">rango/admin.py</span></tt> and create a PageAdmin class that inherits from admin.ModelAdmin.</li>
-<li>Then set <tt class="docutils literal"><span class="pre">list_display</span> <span class="pre">=</span> <span class="pre">('category','title',</span> <span class="pre">'url')</span></tt> in the PageAdmin class</li>
+<li>Then set <tt class="docutils literal"><span class="pre">list_display</span> <span class="pre">=</span> <span class="pre">('category',</span> <span class="pre">'title',</span> <span class="pre">'url')</span></tt> in the PageAdmin class</li>
 <li>Finally, register it with Django&#8217;s admin interface by adding the line <tt class="docutils literal"><span class="pre">admin.site.register(Page,</span> <span class="pre">PageAdmin)</span></tt> to your app&#8217;s <tt class="docutils literal"><span class="pre">admin.py</span></tt> file.</li>
 </ul>
 <div class="align-center figure" id="fig-admin-customised">
@@ -543,5 +543,5 @@ Starting Rango population script...
     </div>
   </body>
 
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/models.html by HTTrack Website Copier/3.x [XR&CO'2008], Wed, 30 Oct 2013 23:59:22 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/models.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 07 Nov 2013 01:42:33 GMT -->
 </html>

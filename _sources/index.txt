@@ -31,6 +31,8 @@ How To Tango With Django
    chapters/css_intro
    chapters/javascript
    chapters/test
+   chapters/acknowledgements
+
 
 Indices and tables
 ==================

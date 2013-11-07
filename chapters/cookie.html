@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/cookie.html by HTTrack Website Copier/3.x [XR&CO'2008], Wed, 30 Oct 2013 23:59:24 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/cookie.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 07 Nov 2013 01:42:36 GMT -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
@@ -134,7 +134,7 @@
             
   <div class="section" id="cookies-and-sessions">
 <span id="cookie-label"></span><h1>10. Cookies and Sessions<a class="headerlink" href="#cookies-and-sessions" title="Permalink to this headline">¶</a></h1>
-<p>In this chapter, we will be going through how to <em>sessions</em> and <em>cookies</em>, both of which go hand in hand, and are of paramount importance in modern day web applications. In the previous chapter, the Django framework used sessions and cookies to handle the login and logout functionality (all behind the scenes). Here we will explore how to explicitly used cookies for other purposes.</p>
+<p>In this chapter, we will be going through <em>sessions</em> and <em>cookies</em>, both of which go hand in hand, and are of paramount importance in modern day web applications. In the previous chapter, the Django framework used sessions and cookies to handle the login and logout functionality (all behind the scenes). Here we will explore how to explicitly use cookies for other purposes.</p>
 <div class="section" id="cookies-cookies-everywhere">
 <h2>10.1. Cookies, Cookies Everywhere!<a class="headerlink" href="#cookies-cookies-everywhere" title="Permalink to this headline">¶</a></h2>
 <p>If you are already comfortable with the ideas and concepts behind cookies, then skip straight to Section <a class="reference internal" href="#model-cookies-protocols-label">10.2</a>, if not read on.</p>
@@ -171,7 +171,7 @@
 <h2>10.3. Setting up Sessions in Django<a class="headerlink" href="#setting-up-sessions-in-django" title="Permalink to this headline">¶</a></h2>
 <p>Although this should already be setup and working correctly, it&#8217;s nevertheless good practice to learn which Django modules provide which functionality. In the case of sessions, Django provides <a class="reference external" href="https://docs.djangoproject.com/en/1.5/topics/http/middleware/">middleware</a> that implements session functionality.</p>
 <p>To check that everything is in order, open your Django project&#8217;s <tt class="docutils literal"><span class="pre">settings.py</span></tt> file. Within the file, locate the <tt class="docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></tt> tuple. You should find the <tt class="docutils literal"><span class="pre">django.contrib.sessions.middleware.SessionMiddleware</span></tt> module listed as a string in the tuple - if you don&#8217;t, add it to the tuple now. It is the <tt class="docutils literal"><span class="pre">SessionMiddleware</span></tt> middleware which enables the creation of unique <tt class="docutils literal"><span class="pre">sessionid</span></tt> cookies.</p>
-<p>The <tt class="docutils literal"><span class="pre">SessionMiddleware</span></tt> is designed to work flexibly with different ways to store session information. There are many approaches that can be taken - you could store everything in a file, in a database, or even in a cache. The most straightforward approach is to use the <tt class="docutils literal"><span class="pre">django.contrib.sessions</span></tt> application to store session information in a Django model/database (specifically, the model <tt class="docutils literal"><span class="pre">django.contrib.sessions.models.Session</span></tt>). To use this approach, you&#8217;ll also need to make sure thet <tt class="docutils literal"><span class="pre">django.contrib.sessions</span></tt> is in the <tt class="docutils literal"><span class="pre">INSTALLED_APPS</span></tt> tuple of your Django project&#8217;s <tt class="docutils literal"><span class="pre">settings.py</span></tt> file. If you add the application now, you&#8217;ll need to synchronise your database using the <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">syncdb</span></tt> command to add the new tables to your database.</p>
+<p>The <tt class="docutils literal"><span class="pre">SessionMiddleware</span></tt> is designed to work flexibly with different ways to store session information. There are many approaches that can be taken - you could store everything in a file, in a database, or even in a cache. The most straightforward approach is to use the <tt class="docutils literal"><span class="pre">django.contrib.sessions</span></tt> application to store session information in a Django model/database (specifically, the model <tt class="docutils literal"><span class="pre">django.contrib.sessions.models.Session</span></tt>). To use this approach, you&#8217;ll also need to make sure that <tt class="docutils literal"><span class="pre">django.contrib.sessions</span></tt> is in the <tt class="docutils literal"><span class="pre">INSTALLED_APPS</span></tt> tuple of your Django project&#8217;s <tt class="docutils literal"><span class="pre">settings.py</span></tt> file. If you add the application now, you&#8217;ll need to synchronise your database using the <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">syncdb</span></tt> command to add the new tables to your database.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">If you are looking for lightning fast performance, you may want to consider a cached approach for storing session information. You can check out the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/topics/http/sessions/#using-cached-sessions">official Django documentation for advice on cached sessions</a>.</p>
@@ -208,7 +208,7 @@
 </div>
 <div class="section" id="client-side-cookies-a-site-counter-example">
 <h2>10.5. Client Side Cookies: A Site Counter Example<a class="headerlink" href="#client-side-cookies-a-site-counter-example" title="Permalink to this headline">¶</a></h2>
-<p>Now we know cookies work let&#8217;s implement a very simple site visit counter. To achieve this, we&#8217;re going to be creating two cookies. One to track the number of times the user has visited the Rango website, and the other to track the last time he or she accessed the site. Keeping track of the date and time of the last access will allow us to only increment the site counter once per day, for example.</p>
+<p>Now we know cookies work, let&#8217;s implement a very simple site visit counter. To achieve this, we&#8217;re going to be creating two cookies: one to track the number of times the user has visited the Rango website, and the other to track the last time he or she accessed the site. Keeping track of the date and time of the last access will allow us to only increment the site counter once per day, for example.</p>
 <p>The sensible place to assume a user enters the Rango site is at the index page. Open <tt class="docutils literal"><span class="pre">rango/index.py</span></tt> and edit the <tt class="docutils literal"><span class="pre">index()</span></tt> view as follows:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
@@ -295,6 +295,7 @@
 
         <span class="k">if</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">last_visit_time</span><span class="p">[:</span><span class="o">-</span><span class="mi">7</span><span class="p">],</span> <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">days</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s">&#39;visits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">visits</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s">&#39;last_visit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c"># The get returns None, and the session does not have a value for the last visit.</span>
         <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s">&#39;last_visit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
@@ -356,8 +357,8 @@
 <p>You&#8217;ll have to pass the value from the cookie to the template context for it to be rendered as part of the page, as shown in the example below.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># If the visits session varible exists, take it and use it.</span>
 <span class="c"># If it doesn&#39;t, we haven&#39;t visited the site so set the count to zero.</span>
-<span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s">&#39;visits&#39;</span><span class="p">]:</span>
-    <span class="n">count</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s">&#39;visits&#39;</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;visits&#39;</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;visits&#39;</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -405,5 +406,5 @@
     </div>
   </body>
 
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/cookie.html by HTTrack Website Copier/3.x [XR&CO'2008], Wed, 30 Oct 2013 23:59:24 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/cookie.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 07 Nov 2013 01:42:36 GMT -->
 </html>

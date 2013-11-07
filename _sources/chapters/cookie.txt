@@ -3,7 +3,7 @@
 Cookies and Sessions
 ====================
 
-In this chapter, we will be going through how to *sessions* and *cookies*, both of which go hand in hand, and are of paramount importance in modern day web applications. In the previous chapter, the Django framework used sessions and cookies to handle the login and logout functionality (all behind the scenes). Here we will explore how to explicitly used cookies for other purposes.
+In this chapter, we will be going through *sessions* and *cookies*, both of which go hand in hand, and are of paramount importance in modern day web applications. In the previous chapter, the Django framework used sessions and cookies to handle the login and logout functionality (all behind the scenes). Here we will explore how to explicitly use cookies for other purposes.
 
 Cookies, Cookies Everywhere!
 ----------------------------
@@ -56,7 +56,7 @@ Although this should already be setup and working correctly, it's nevertheless g
 
 To check that everything is in order, open your Django project's ``settings.py`` file. Within the file, locate the ``MIDDLEWARE_CLASSES`` tuple. You should find the ``django.contrib.sessions.middleware.SessionMiddleware`` module listed as a string in the tuple - if you don't, add it to the tuple now. It is the ``SessionMiddleware`` middleware which enables the creation of unique ``sessionid`` cookies.
 
-The ``SessionMiddleware`` is designed to work flexibly with different ways to store session information. There are many approaches that can be taken - you could store everything in a file, in a database, or even in a cache. The most straightforward approach is to use the ``django.contrib.sessions`` application to store session information in a Django model/database (specifically, the model ``django.contrib.sessions.models.Session``). To use this approach, you'll also need to make sure thet ``django.contrib.sessions`` is in the ``INSTALLED_APPS`` tuple of your Django project's ``settings.py`` file. If you add the application now, you'll need to synchronise your database using the ``python manage.py syncdb`` command to add the new tables to your database.
+The ``SessionMiddleware`` is designed to work flexibly with different ways to store session information. There are many approaches that can be taken - you could store everything in a file, in a database, or even in a cache. The most straightforward approach is to use the ``django.contrib.sessions`` application to store session information in a Django model/database (specifically, the model ``django.contrib.sessions.models.Session``). To use this approach, you'll also need to make sure that ``django.contrib.sessions`` is in the ``INSTALLED_APPS`` tuple of your Django project's ``settings.py`` file. If you add the application now, you'll need to synchronise your database using the ``python manage.py syncdb`` command to add the new tables to your database.
 
 .. note:: If you are looking for lightning fast performance, you may want to consider a cached approach for storing session information. You can check out the `official Django documentation for advice on cached sessions <https://docs.djangoproject.com/en/1.5/topics/http/sessions/#using-cached-sessions>`_.
 
@@ -99,7 +99,7 @@ If the message isn't displayed, you'll want to check your browser's security set
 
 Client Side Cookies: A Site Counter Example
 -------------------------------------------
-Now we know cookies work let's implement a very simple site visit counter. To achieve this, we're going to be creating two cookies. One to track the number of times the user has visited the Rango website, and the other to track the last time he or she accessed the site. Keeping track of the date and time of the last access will allow us to only increment the site counter once per day, for example.
+Now we know cookies work, let's implement a very simple site visit counter. To achieve this, we're going to be creating two cookies: one to track the number of times the user has visited the Rango website, and the other to track the last time he or she accessed the site. Keeping track of the date and time of the last access will allow us to only increment the site counter once per day, for example.
 
 The sensible place to assume a user enters the Rango site is at the index page. Open ``rango/index.py`` and edit the ``index()`` view as follows:
 
@@ -200,6 +200,7 @@ Now if you want to check if the cookie has been stored you can do so by accessin
 	        
 	        if (datetime.now() - datetime.strptime(last_visit_time[:-7], "%Y-%m-%d %H:%M:%S")).days > 0:
 	            request.session['visits'] = visits + 1
+	            request.session['last_visit'] = str(datetime.now())
 	    else:
 	        # The get returns None, and the session does not have a value for the last visit.
 	        request.session['last_visit'] = str(datetime.now())
@@ -262,8 +263,8 @@ You'll have to pass the value from the cookie to the template context for it to 
 	
 	# If the visits session varible exists, take it and use it.
 	# If it doesn't, we haven't visited the site so set the count to zero.
-	if request.session['visits']:
-	    count = request.session['visits']
+	if request.session.get('visits'):
+	    count = request.session.get('visits')
 	else:
 	    count = 0
 

@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/tango_too.html by HTTrack Website Copier/3.x [XR&CO'2008], Wed, 30 Oct 2013 23:59:25 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/tango_too.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 07 Nov 2013 01:42:38 GMT -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
@@ -223,7 +223,7 @@
 <p>Take the search form from <tt class="docutils literal"><span class="pre">search.html</span></tt> and put it into the <tt class="docutils literal"><span class="pre">category.html</span></tt>. Be sure to change the action to point to the <tt class="docutils literal"><span class="pre">category()</span></tt> view as shown below.</p>
 <div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;container-fluid&quot;</span><span class="nt">&gt;</span>
     <span class="nt">&lt;p&gt;</span>Search for a page.<span class="nt">&lt;/p&gt;</span>
-    <span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">&quot;span8 form-search&quot;</span> <span class="na">id=</span><span class="s">&quot;search_form&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="na">action=</span><span class="s">&quot;/rango/category/{{ category_name_url }}&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">&quot;span8 form-search&quot;</span> <span class="na">id=</span><span class="s">&quot;search_form&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="na">action=</span><span class="s">&quot;/rango/category/{{ category_name_url }}/&quot;</span><span class="nt">&gt;</span>
         {% csrf_token %}
         <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">class=</span><span class="s">&quot;input-long search-query&quot;</span>  <span class="na">name=</span><span class="s">&quot;query&quot;</span> <span class="na">value=</span><span class="s">&quot;{{ category_name }}&quot;</span> <span class="na">id=</span><span class="s">&quot;query&quot;</span> <span class="nt">/&gt;</span>
         <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-success&quot;</span> <span class="na">name=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;Search&quot;</span><span class="nt">&gt;</span>Search<span class="nt">&lt;/button&gt;</span>
@@ -460,5 +460,5 @@
     </div>
   </body>
 
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/tango_too.html by HTTrack Website Copier/3.x [XR&CO'2008], Wed, 30 Oct 2013 23:59:25 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/tango_too.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 07 Nov 2013 01:42:38 GMT -->
 </html>

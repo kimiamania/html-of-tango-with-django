@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/setup.html by HTTrack Website Copier/3.x [XR&CO'2008], Wed, 30 Oct 2013 23:59:22 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/setup.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 07 Nov 2013 01:42:32 GMT -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
@@ -166,9 +166,9 @@
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The project configuration directory has been created with new Django projects since version 1.4. Having two directories with the same name may seem quite a bit odd, but the change was made to make separate out the project from the applications within your project.</p>
+<p class="last">The project configuration directory has been created with new Django projects since version 1.4. Having two directories with the same name may seem quite a bit odd, but the change was made to separate out project-related components from its individual applications.</p>
 </div>
-<p>In the project directory, you will see there is a file called <tt class="docutils literal"><span class="pre">manage.py</span></tt>. We will be called this script time and time again as we develop our project, as it provides you with a series of commands you can run to maintain your Django project. For example, <tt class="docutils literal"><span class="pre">manage.py</span></tt> allows you to run the built-in Django development server to test your work and run database commands. You&#8217;ll be using this script a lot throughout the development cycle.</p>
+<p>In the project directory, you will see there is a file called <tt class="docutils literal"><span class="pre">manage.py</span></tt>. We will be calling this script time and time again as we develop our project, as it provides you with a series of commands you can run to maintain your Django project. For example, <tt class="docutils literal"><span class="pre">manage.py</span></tt> allows you to run the built-in Django development server to test your work and run database commands. You&#8217;ll be using this script a lot throughout the development cycle.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">See the Django documentation for more details about the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/django-admin/#django-admin-py-and-manage-py">Admin and Manage scripts</a>.</p>
@@ -204,7 +204,7 @@ Quit the server with CONTROL-C.</pre>
 </div>
 <div class="section" id="creating-a-django-application">
 <h2>3.3. Creating a Django Application<a class="headerlink" href="#creating-a-django-application" title="Permalink to this headline">¶</a></h2>
-<p>A Django project is a collection of <em>configurations</em> and <em>applications</em> that together make up a given web application or website. One of the intended outcomes of using this approach is to promote good software engineering practices. By developing a small series of applications, the idea is that you can theoretically drop an existing application into a different Django project and have it working with minimal effort. Why reinvent the wheel if it&#8217;s already there?</p>
+<p>A Django project is a collection of <em>configurations</em> and <em>applications</em> that together make up a given web application or website. One of the intended outcomes of using this approach is to promote good software engineering practices. By developing a small series of applications, the idea is that you can theoretically drop an existing application into a different Django project and have it working with minimal effort. Why reinvent the wheel if it&#8217;s already there? <a class="footnote-reference" href="#f2" id="id3"><sup>2</sup></a></p>
 <p>A Django application exists to perform a particular task. You need to create specific applications that are responsible for providing your site with particular kinds of functionality. For example, we could imagine that a project might consist of several applications including a polling app, a registration app, and a specific content related app. In another project, we may wish to re-use the polling and registration apps and use them with to dispatch different content. There are many Django applications you can <a class="reference external" href="https://code.djangoproject.com/wiki/DjangoResources#Djangoapplicationcomponents">download</a> and use in your projects. Since we are getting started, we&#8217;ll kick off by walking through how to create your own application.</p>
 <p>To start, create a new application called <em>Rango</em>. From within your Django project directory (e.g. <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project</span></tt>), run the following command.</p>
 <div class="highlight-python"><pre>$ python manage.py startapp rango</pre>
@@ -266,7 +266,7 @@ Quit the server with CONTROL-C.</pre>
 </pre></div>
 </div>
 <p>This code imports the relevant Django machinery that we use to create URL mappings. Importing the <tt class="docutils literal"><span class="pre">views</span></tt> module from <tt class="docutils literal"><span class="pre">rango</span></tt> also provides us with access to our simple view implemented previously, allowing us to reference the view.</p>
-<p>To create our mappings, we use a <tt class="docutils literal"><span class="pre">urlpatterns</span></tt> tuple. Django uses this tuple to identify valid mappings. Here, we define a URL mapping with a regular expression <tt class="docutils literal"><span class="pre">^$</span></tt>. This regular expression matches an string that is empty. When a matching string is supplied, the method <tt class="docutils literal"><span class="pre">rango.views.index</span></tt> is invoked, and is passed a <tt class="docutils literal"><span class="pre">HttpRequest</span></tt> object. This may seem a bit odd, but when this pattern matching takes places only a portion of the original URL string is considered. This is because our Django project will first process the original URL string (i.e. <tt class="docutils literal"><span class="pre">http://www.tangowithdjango.com/rango/</span></tt>).</p>
+<p>To create our mappings, we use a <tt class="docutils literal"><span class="pre">urlpatterns</span></tt> tuple. Django uses this tuple to identify valid mappings. Here, we define a URL mapping with a regular expression <tt class="docutils literal"><span class="pre">^$</span></tt>. This regular expression matches a string that is empty. When a matching string is supplied, the method <tt class="docutils literal"><span class="pre">rango.views.index</span></tt> is invoked, and is passed a <tt class="docutils literal"><span class="pre">HttpRequest</span></tt> object. This may seem a bit odd, but when this pattern matching takes places only a portion of the original URL string is considered. This is because our Django project will first process the original URL string (i.e. <tt class="docutils literal"><span class="pre">http://www.tangowithdjango.com/rango/</span></tt>).</p>
 <p>This means we need to configure the <tt class="docutils literal"><span class="pre">urls.py</span></tt> of our project <tt class="docutils literal"><span class="pre">tango_with_django_project</span></tt> and connect up our main project with our Rango application.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -350,6 +350,12 @@ Quit the server with CONTROL-C.</pre>
 <tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>This assumes that you are using the IP address 127.0.0.1 and port 8000 when running your Django development web server. If you do not explicitly provide a port to run the development server on, Django defaults to port 8000 for you.</td></tr>
 </tbody>
 </table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>There are many applications available out there that you can use in your project. Take a look at <a class="reference external" href="https://pypi.python.org/pypi?%3Aaction=search&amp;term=django&amp;submit=search">PyPI</a> and <a class="reference external" href="https://www.djangopackages.com/">Django Packages</a> to search for reusable apps which you can drop into your projects.</td></tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -383,5 +389,5 @@ Quit the server with CONTROL-C.</pre>
     </div>
   </body>
 
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/setup.html by HTTrack Website Copier/3.x [XR&CO'2008], Wed, 30 Oct 2013 23:59:22 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/setup.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 07 Nov 2013 01:42:32 GMT -->
 </html>

@@ -97,7 +97,7 @@ Take the search form from ``search.html`` and put it into the ``category.html``.
 	
 	<div class="container-fluid">
 	    <p>Search for a page.</p>
-	    <form class="span8 form-search" id="search_form" method="post" action="/rango/category/{{ category_name_url }}">
+	    <form class="span8 form-search" id="search_form" method="post" action="/rango/category/{{ category_name_url }}/">
 	        {% csrf_token %}
 	        <input type="text" class="input-long search-query"  name="query" value="{{ category_name }}" id="query" />
 	        <button type="submit" class="btn btn-success" name="submit" value="Search">Search</button>

@@ -88,9 +88,11 @@ So, how do we accomplish our goal of adding additional user profile fields? This
 
 For Rango, we've added two fields to complete our user profile, and provided a ``__unicode__()`` method to return a meaningful value when a unicode representation of a ``UserProfile`` model instance is requested.
 
-For the two fields we have set ``blank=True`` for both. This allows each of the fields to be blank if necessary, meaning that users need not supply values for the attributes if they do not wish to.
+For the two fields ``website`` and ``picture``, we have set ``blank=True`` for both. This allows each of the fields to be blank if necessary, meaning that users need not supply values for the attributes if they do not wish to.
 
-Note that the ``ImageField`` field has a ``upload_to`` attribute. The value of this attribute is conjoined with the project's ``MEDIA_ROOT`` setting to provide a path with which uploaded profile images will be stored. For example, a ``MEDIA_ROOT`` of ``<workspace>/tango_with_django_project/media/`` and ``upload_to`` attribute of ``profile_images`` will result in all profile images being stored in ``<workspace>/tango_with_django_project/media/profile_images/``.
+Note that the ``ImageField`` field has an ``upload_to`` attribute. The value of this attribute is conjoined with the project's ``MEDIA_ROOT`` setting to provide a path with which uploaded profile images will be stored. For example, a ``MEDIA_ROOT`` of ``<workspace>/tango_with_django_project/media/`` and ``upload_to`` attribute of ``profile_images`` will result in all profile images being stored in the directory ``<workspace>/tango_with_django_project/media/profile_images/``.
+
+.. warning:: The Django ``ImageField`` field makes use of the *Python Imaging Library (PIL).* Back in Chapter :ref:`requirements-label`, we discussed installing PIL along with Django to your setup. If you haven't got PIL installed, you'll need to install it now. If you don't, you'll be greeted with exceptions stating that the module ``pil`` cannot be found!
 
 With our ``UserProfile`` model defined, we now edit Rango's ``admin.py`` file to include the new ``UserProfile`` model in the Django administration web interface. In the ``admin.py`` file, add the following line.
 
@@ -98,24 +100,24 @@ With our ``UserProfile`` model defined, we now edit Rango's ``admin.py`` file to
 	
 	admin.site.register(UserProfile)
 
-You also need to import the ``UserProfile`` model by adding one of the following lines at the top of the ``admin.py`` file.
+You also need to import the ``UserProfile`` model by adding one of the following lines at the top of the ``admin.py`` file. Choose which one you like - the first imports ``UserProfile`` with a separate import statement, while the second combines the import of ``UserProfile`` with Rango models that we have used previously in ``admin.py``.
 
 .. code-block:: python
 	
-	# Import the UserProfile model individually
+	# Import the UserProfile model individually.
 	from rango.models import UserProfile
 	
-	# Import the UserProfile model with Category and Page
+	# Import the UserProfile model with Category and Page.
+	# If you choose this option, you'll want to modify the import statement you've already got to include UserProfile.
 	from rango.models import Category, Page, UserProfile
 
-.. note:: Remember that with the creation of a new model, you much synchronise your database. Run the ``$ python manage.py syncb`` command to synchronise the new ``UserProfile`` model. Not doing so will result in errors explaining that the required database tables cannot be found.
+.. note:: Remember that with the creation of a new model, you must synchronise your database. Run ``$ python manage.py syncb`` from your terminal to synchronise the new ``UserProfile`` model. Not doing so will result in errors explaining that the required database tables cannot be found.
 
 Creating a *User Registration* View and Template
 ------------------------------------------------
 With our authentication infrastructure laid out, we can now begin to build onto it by providing users of our application with the opportunity to create new user accounts. We will achieve this via the creation of a new view and template combination.
 
 .. note:: We feel it's important to note that there are several off-the-shelf user registration packages available for you to download and use in your Django projects. Examples include the `Django Registration application <https://bitbucket.org/ubernostrum/django-registration/>`_, and you can also check out the table on `this webpage <https://www.djangopackages.com/grids/g/registration/>`_ which lists other registration packages. While these exist, we'll be showing you how to set up everything from scratch. While this is at odds with the DRY principle, it is also important to get a feeling for the user authentication package and feature. It will also re-enforce your understanding of working with forms, how to extend upon the user model, and how to upload media.
-
 
 To set everything the user registration functionality will we go through the following steps:
 
@@ -126,10 +128,13 @@ To set everything the user registration functionality will we go through the fol
 #. Link the index page to the register page
 
 
+.. _login-formclasses-label:
+
 Creating the ``UserForm`` and ``UserProfileForm``
 .................................................
+In ``rango/forms.py``, we now need to create two classes inheriting from ``forms.ModelForm``. We'll be creating one for the base ``User`` class, as well as one for the new ``UserProfile`` model that we just created. The two ``ModelForm`` inheriting classes allow us to display a HTML form displaying the necessary form fields for a particular model, taking away a significant amount of work for us. Neat!
 
-In ``rango/forms.py``, add the following classes.
+In ``rango/forms.py``, let's create our two classes which inherit from ``forms.ModelForm``. Add the following code to the module.
 
 .. code-block:: python
 	
@@ -145,9 +150,11 @@ In ``rango/forms.py``, add the following classes.
 	        model = UserProfile
 	        fields = ('website', 'picture')
 
-Here, we added *four* additional classes. We defined two classes which handle the form representation of our two models, ``User`` and ``UserProfile``. These both inherit from ``forms.ModelForm``. The remaining two classes - both called ``Meta`` - are `nested classes <http://www.brpreiss.com/books/opus7/html/page598.html>`_. The ``Meta`` class allows us to specify information about each ``ModelForm`` class. For example, the attribute ``model`` allows us to specify which model each form class should use. ``fields`` accepts a list or tuple of field names which you wish to include in the form. With ``fields``, you can fine tune what fields you want users to see.
+You'll notice that within both classes we create, we add a `nested <http://www.brpreiss.com/books/opus7/html/page598.html>`_ ``Meta`` class. As `the name of the nested class may suggest <http://www.webopedia.com/TERM/M/meta.html>`_, anything within a nested ``Meta`` class describes additional properties about the particular ``ModelForm`` class it belongs to. Each ``Meta`` class must at a bare minimum supply a ``model`` field, which references back to the model the ``ModelForm`` inheriting class should relate to. Our ``UserForm`` class is therefore associated with the ``User`` model, for example. By default, Django then renders a HTML form for *all* fields within the associated model.
 
-We have additionally set the form field of ``password`` in ``UserForm`` to be a ``forms.PasswordInput()`` widget. This will ensure that when a user enters his or her password it will be hidden from prying eyes.
+However, there may be scenarios where we would not want a user to provide information for *all* fields within the associated model. For example, certain form fields may need to be filled in automatically by your code - such as in the ``UserProfileForm``. Recall that the ``UserProfile`` model contains a ``user`` attribute, providing a one-to-one relationship to the ``User`` model. We don't want users to see this abstraction - we want Rango to handle it for them! With the ``fields`` attribute, we can fine tune what fields the user sees in a rendered form. ``UserProfileForm`` will therefore display entries for the ``website`` and ``picture`` fields, but will not provide anything for the ``user`` field.
+
+You'll also notice that ``UserForm`` includes a definition of the ``password`` attribute. While a ``User`` model instance contains a ``password`` attribute by default, the rendered HTML form element is of the incorrect type. If a user types a password, the password will be visible. By updating the ``password`` attribute definition, we can then specify that the ``CharField`` instance should hide a user's input from prying eyes through use of the ``PasswordInput()`` widget.
 
 You shouldn't forget to include the required classes at the top of the ``forms.py`` module!
 
@@ -225,8 +232,9 @@ Next we need to handle both the rendering of the form, and the processing of for
 	            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
 	            context)
 
+Is the view a lot more complex? It might look so at first, but it isn't really. The only added complexity from our previous ``add_category()`` view is the need to handle two distinct ``ModelForm`` instances - one for the ``User`` model, and one for the ``UserProfile`` model. We also need to handle a user's profile image, if he or she chooses to upload one.
 
-Is the view a lot more complex? Not really. The only added complexity from our previous ``add_category()`` view is the need to handle two distinct ``ModelForm`` instances - one for the ``User`` model, and one for the ``UserProfile`` model. We also need to handle a user's profile image, if he or she chooses to upload one. We must also establish a link between the two model instances that we create. After creating a new ``User`` model instance, we reference it in the ``UserProfile`` instance with the line ``profile.user = user``.
+We also establish a link between the two model instances that we create. After creating a new ``User`` model instance, we reference it in the ``UserProfile`` instance with the line ``profile.user = user``. This is where we populate the ``user`` attribute of the ``UserProfileForm`` form, which we hid from users in Section :ref:`login-formclasses-label`.
 
 
 Creating the *Registration* Template
@@ -246,7 +254,7 @@ Now create a new template file, ``rango/register.html`` and add the following co
 
 	        {% if registered %}
 	        Rango says: <strong>thank you for registering!</strong>
-	        <a href="/rango/" >Return to the homepage.</a><br />
+	        <a href="/rango/">Return to the homepage.</a><br />
 	        {% else %}
 	        Rango says: <strong>register here!</strong><br />
 
@@ -586,7 +594,7 @@ Like in the previous section, we'll be modifying Rango's ``index.html`` template
 	<a href="/rango/about/">About</a><br/>
 	<a href="/rango/add_category/">Add a New Category</a><br />
 
-Simple - when a user is authenticated and logged in, he is she can see the ``Restricted Page`` and ``Logout`` links. If he or she isn't logged in, ``Register Here`` and ``Login`` are presented. As ``About`` and ``Add a New Category`` are not within the template conditional blocks, these links are available to both anonymous and logged in users.
+Simple - when a user is authenticated and logged in, he or she can see the ``Restricted Page`` and ``Logout`` links. If he or she isn't logged in, ``Register Here`` and ``Login`` are presented. As ``About`` and ``Add a New Category`` are not within the template conditional blocks, these links are available to both anonymous and logged in users.
 
 Exercises
 ---------

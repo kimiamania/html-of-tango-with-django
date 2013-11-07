@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/forms.html by HTTrack Website Copier/3.x [XR&CO'2008], Wed, 30 Oct 2013 23:59:23 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/forms.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 07 Nov 2013 01:42:34 GMT -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
@@ -189,7 +189,7 @@
         <span class="c"># This way we don&#39;t need every field in the model present.</span>
         <span class="c"># Some fields may allow NULL values, so we may not want to include them...</span>
         <span class="c"># Here, we are hiding the foreign key.</span>
-        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="s">&#39;url&#39;</span><span class="p">,</span><span class="s">&#39;views&#39;</span><span class="p">)</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="s">&#39;url&#39;</span><span class="p">,</span> <span class="s">&#39;views&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Django provides us with a number of ways to customise the forms that are created on our behalf. In the code sample above, we&#8217;ve specified the widgets that we wish to use for each field to be displayed. For example, in our <tt class="docutils literal"><span class="pre">PageForm</span></tt> class, we&#8217;ve defined <tt class="docutils literal"><span class="pre">forms.CharField</span></tt> for the <tt class="docutils literal"><span class="pre">title</span></tt> field, and <tt class="docutils literal"><span class="pre">forms.URLField</span></tt> for <tt class="docutils literal"><span class="pre">url</span></tt> field. Both fields provide text entry for users. Note the <tt class="docutils literal"><span class="pre">max_length</span></tt> parameters we supply to our fields - the lengths that we specify are identical to the maximum length of each field we specified in the underlying data models. Go back to Chapter <a class="reference internal" href="models.html#model-label">5</a> to check for yourself, or have a look at Rango&#8217;s <tt class="docutils literal"><span class="pre">models.py</span></tt> file.</p>
@@ -298,11 +298,12 @@
 <p>Now we need to map the <tt class="docutils literal"><span class="pre">add_category()</span></tt> view to a URL. In the template we have used the URL <tt class="docutils literal"><span class="pre">/rango/add_category/</span></tt> in the form&#8217;s submit attribute. So we will need to follow suit in <tt class="docutils literal"><span class="pre">rango/urls.py</span></tt> and modify the <tt class="docutils literal"><span class="pre">urlpatterns</span></tt> as follows.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
     <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^$&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;index&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^about/$&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">about</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;about&#39;</span><span class="p">),</span>
     <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^add_category/$&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">add_category</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;add_category&#39;</span><span class="p">),</span> <span class="c"># NEW MAPPING!</span>
-    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^(?P&lt;category_name_url&gt;\w+)&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">category</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;category&#39;</span><span class="p">),)</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^category/(?P&lt;category_name_url&gt;\w+)$&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">category</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;category&#39;</span><span class="p">),)</span>
 </pre></div>
 </div>
-<p>Note the order in which we placed our new URL mapping. Django looks for a matching URL, starting with the first tuple entry. It then moves along the tuple sequentially until a match is found (a HTTP 404 error is raised if no match is found). In our example, the URL <tt class="docutils literal"><span class="pre">/add_category/</span></tt> is our new URL for adding a category. As such, this must always return the add category form, and should take precedence over the category view mapping, which could match to any string combination. If the URL provided does not match <tt class="docutils literal"><span class="pre">/add_category/</span></tt>, Django then falls back to the category view mapping as a last resort. Take a look at the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/topics/http/urls/#how-django-processes-a-request">official Django documentation on how Django process a request</a> for more information.</p>
+<p>Ordering doesn&#8217;t necessarily matter in this instance. However, take a look at the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/topics/http/urls/#how-django-processes-a-request">official Django documentation on how Django process a request</a> for more information. Our new URL for adding a category is <tt class="docutils literal"><span class="pre">/rango/add_category/</span></tt>.</p>
 </div>
 <div class="section" id="modifying-the-index-page-view">
 <h3>7.2.5. Modifying the Index Page View<a class="headerlink" href="#modifying-the-index-page-view" title="Permalink to this headline">¶</a></h3>
@@ -329,12 +330,12 @@
     <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">cleaned_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;url&#39;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;http://&#39;</span><span class="p">):</span>
+        <span class="c"># If url is not empty and doesn&#39;t start with &#39;http://&#39; add &#39;http://&#39; to the beginning.</span>
+        <span class="k">if</span> <span class="n">url</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;http://&#39;</span><span class="p">):</span>
             <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://&#39;</span> <span class="o">+</span> <span class="n">url</span>
 
             <span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">url</span>
-            <span class="k">return</span> <span class="n">cleaned_data</span>
+    <span class="k">return</span> <span class="n">cleaned_data</span>
 </pre></div>
 </div>
 <p>This trivial example shows how we can clean the data being passed through the form before being stored. This is pretty handy, especially when particular fields need to have default values - or data within the form is missing, and we need to handle such data entry problems.</p>
@@ -378,7 +379,7 @@
             <span class="n">page</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
             <span class="c"># Now that the page is saved, display the category instead.</span>
-            <span class="k">return</span> <span class="n">category</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">category_name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">category</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">category_name_url</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">print</span> <span class="n">form</span><span class="o">.</span><span class="n">errors</span>
     <span class="k">else</span><span class="p">:</span>
@@ -398,6 +399,7 @@
 <li>Update the category view to pass through the <tt class="docutils literal"><span class="pre">category_name_url</span></tt>.</li>
 <li>Update the <tt class="docutils literal"><span class="pre">category.html</span></tt> with a link to <tt class="docutils literal"><span class="pre">/rango/category/&lt;category_name_url&gt;/add_page/</span></tt>.</li>
 <li>Update <tt class="docutils literal"><span class="pre">rango/urls.py</span></tt> with a URL mapping to handle the above link.</li>
+<li>In the sample code above, we make use of the <tt class="docutils literal"><span class="pre">decode_url()</span></tt> function created in Chapter <a class="reference internal" href="models_templates.html#model-using-label">6</a>. If you haven&#8217;t created this function, you&#8217;ll need to do so now.</li>
 </ul>
 </div>
 </div>
@@ -432,5 +434,5 @@
     </div>
   </body>
 
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/forms.html by HTTrack Website Copier/3.x [XR&CO'2008], Wed, 30 Oct 2013 23:59:23 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/forms.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 07 Nov 2013 01:42:34 GMT -->
 </html>
