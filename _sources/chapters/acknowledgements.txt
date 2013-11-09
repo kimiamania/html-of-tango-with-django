@@ -25,7 +25,7 @@ In this book, we have pulled together the relevant information and details so th
 * Svante Kvarnström @sjktje
 * Ramdog https://github.com/ramdog
 * Krace Kumar  https://github.com/kracekumar
-* J Paskaruk <jpaskaruk@gmail.com>
+* James Yeo
 
 for their suggestions, comments and feedback, which have greatly improved the quality of this resource.
 
