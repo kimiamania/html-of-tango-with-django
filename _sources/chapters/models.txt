@@ -42,7 +42,7 @@ Here, we have defined the *default* database to use the SQLite Django backend. T
 The only other value we need to set is the ``NAME`` key/value pair, which we have set to ``DATABASE_PATH``.
 For SQLite databases, the remaining keys of ``USER``, ``PASSWORD``, ``HOST`` and ``PORT`` are not required and can thus be safely removed.
 
-.. note:: While using an SQLite engine for this tutorial is fine, it may not perhaps be the best option when it comes to deploying your application. Instead, it may be better to use a more robust and scalable database engine. Django comes with out of the box support for several other popular database engines, such as  `PostgreSQL <http://www.postgresql.org/>`_ and `MySQL <http://www.mysql.com/>`_. See the `official Django documentation on Database Engines <https://docs.djangoproject.com/en/1.5/ref/settings/#std:setting-DATABASE-ENGINE>`_ for more details.
+.. note:: While using an SQLite engine for this tutorial is fine, it may not perhaps be the best option when it comes to deploying your application. Instead, it may be better to use a more robust and scalable database engine. Django comes with out of the box support for several other popular database engines, such as  `PostgreSQL <http://www.postgresql.org/>`_ and `MySQL <http://www.mysql.com/>`_. See the `official Django documentation on Database Engines <https://docs.djangoproject.com/en/1.5/ref/settings/#std:setting-DATABASE-ENGINE>`_ for more details. You can also check out `this excellent article <http://www.sqlite.org/whentouse.html>`_ on the SQLite website which explains situation where you should and you shouldn't consider using the lightweight SQLite engine.
 
 Creating Models
 ---------------

@@ -47,12 +47,14 @@ If you download or look at the source for http://getbootstrap.com/2.3.2/examples
 By adding it to a file we can minimise the code in our template. Now update the ``<head>`` section of ``base.html`` as follows.
 
 .. code-block:: html
-	
+	{% load static %}
+        <!DOCTYPE html>
+        <html>
 	<head>
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	    <!-- Bootstrap -->
-	    <link href="{% static 'css/bootstrap-fluid-adj.css'%} " rel="stylesheet">
-	    <link href="{% static 'css/bootstrap.min.css'%} " rel="stylesheet" media="screen">
+	    <link href="{% static 'css/bootstrap-fluid-adj.css' %}" rel="stylesheet">
+	    <link href="{% static 'css/bootstrap.min.css'% }" rel="stylesheet" media="screen">
 	    <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
 	    
 	    <title>Rango - {% block title %}How to Tango with Django!{% endblock %}</title>
@@ -97,7 +99,7 @@ In the body of base put in the navigation bar code, just like in the example bel
 	                    <li><a href="/rango/login/">Login</a></li>
 	                   {% endif %}
 	               </ul>
-	            <ul class="nav">
+	               <ul class="nav">
 	                   {% if user.is_authenticated %}
 	                    <li><a href="/rango/restricted/">Restricted</a></li>
 	                    <li><a href="/rango/add_category/">Add Category</a></li>
@@ -115,21 +117,21 @@ After this, you can add in the next ``<div>`` which will house the side bar navi
 .. code-block:: html
 	
 	<div class="container-fluid">
-	<div class="row-fluid">
-	    <div class="span3">
-	        <div class="well sidebar-nav">
-	            <!--- Empty for the timebeing -->
-	        </div>
-	        <!--/.well -->
-	    </div>
-	    <!--/span-->
-	    <div class="span9">
-	        {% block body_block %}
-	        {% endblock %}
-	    </div>
-	    <!--/span-->
-	</div>
-	<!--/row-->
+            <div class="row-fluid">
+                <div class="span3">
+                    <div class="well sidebar-nav">
+                        <!--- Empty for the timebeing -->
+                    </div>
+                    <!--/.well -->
+                </div>
+                <!--/span-->
+                <div class="span9">
+                    {% block body_block %}
+                    {% endblock %}
+                </div>
+                <!--/span-->
+            </div>
+            <!--/row-->
 	</div>
 	<!--/.fluid-container-->
 	
@@ -152,15 +154,15 @@ Now that we have the ``base.html`` all set up and ready to go, we can do a reall
 .. code-block:: html
 	
 	{% block body_block %}
-	    <div class="hero-unit">
-	    <h1>About Rango</h1>
-	    This is <strong>Rango's about page</strong>.<br />
-	
-	    You've visited the site on <strong>{{ visit_count }} occasion(s).</strong><br />
-	
-	    Here's a picture of Rango!<br />
-	    <img src="{% static "rango.jpg" %}" alt="Picture of Rango" />
-	        </div>
+        <div class="hero-unit">
+            <h1>About Rango</h1>
+            This is <strong>Rango's about page</strong>.<br />
+        
+            You've visited the site on <strong>{{ visit_count }} occasion(s)</strong>.<br />
+        
+            Here's a picture of Rango!<br />
+            <img src="{% static 'rango.jpg' %}" alt="Picture of Rango" />
+        </div>
 	{% endblock %}
 
 .. _fig-about-page-before:
@@ -178,7 +180,7 @@ Now that we have the ``base.html`` all set up and ready to go, we can do a reall
 
 	A screenshot of the About page with Bootstrap Styling applied.
 
-With all pages fitted with hero unit ``<div>`` tags Rango you should be looking pretty good. However, you will notice that some of the page still look pretty ugly, especially the pages with forms (see the figure below). Later in this chapter we will update theses forms.
+With all pages fitted with hero unit ``<div>`` tags Rango you should be looking pretty good. However, you will notice that some of the pages still look pretty ugly, especially the pages with forms (see the figure below). Later in this chapter we will update these forms.
 
 .. _fig-register-initial:
 
@@ -191,7 +193,7 @@ Also, you'll probably have noticed the sidebar is empty. In the next chapter we 
 
 The Index Page
 ..............
-Since we have just encapsulated the content into a hero unit ``<div>`` we haven't really capitalise on the classes and styling that Bootstrap gives us. So here we have taken the columns from the fluid page and used them to house the top categories and top pages. Since the original page has three columns, we have taken two and made them slightly better by adjust the class so that the ``<span>`` is 6 for each instead of 4, so we can update the ``index.html`` template to look like the following.
+Since we have only encapsulated the content into a hero unit ``<div>``, we haven't really capitalised on the classes and styling that Bootstrap gives us. So here we have taken the columns from the fluid page and used them to house the top categories and top pages. Since the original page has three columns, we have taken two and made them slightly better by adjusting the class so that the ``<span>`` is 6 for each instead of 4, so we can update the ``index.html`` template to look like the following.
 
 .. code-block:: html
 
@@ -221,7 +223,7 @@ Since we have just encapsulated the content into a hero unit ``<div>`` we haven'
 	        {% if pages %}
 	        <ul>
 	            {% for page in pages %}
-	            <li><a href="{{ page.url}}">{{ page.title }}</a> - {{ page.category}} ({{ page.views }} view(s))</li>
+	            <li><a href="{{ page.url}}">{{ page.title }}</a> - {{ page.category }} ({{ page.views }} view(s))</li>
 	            {% endfor %}
 	        </ul>
 	        {% else %}
@@ -230,9 +232,8 @@ Since we have just encapsulated the content into a hero unit ``<div>`` we haven'
 
 	    </div>
 	    <!--/span-->
-	</div><!--/row-->
-
-
+	</div>
+        <!--/row-->
 	{% endblock %}
 
 The page should look a lot better now.
@@ -254,34 +255,35 @@ The page should look a lot better now.
 
 The Login Page
 --------------
-Now let's turn our attention to the login page. On the Bootstrap website you can see they have already made a `nice login form <http://getbootstrap.com/2.3.2/examples/signin.html>`_, see http://getbootstrap.com/2.3.2/examples/signin.html. If you take a look at the source, you'll notice that there are a number of classes that we need to include to pimp out basic log in form.
+Now let's turn our attention to the login page. On the Bootstrap website you can see they have already made a `nice login form <http://getbootstrap.com/2.3.2/examples/signin.html>`_, see http://getbootstrap.com/2.3.2/examples/signin.html. If you take a look at the source, you'll notice that there are a number of classes that we need to include to pimp out the basic login form.
 Update the ``login.html`` template as follows:
 
 .. code-block:: html
 	
 	{% block body_block %}
 	<div class="hero-unit">
-	<h1>Login to Rango</h1>
-	
-	<div class="container">
-	<form class="form-signin span4" id="login_form" method="post" action="/rango/login/">
-	    <h2 class="form-signin-heading">Please sign in</h2>
-	    {% csrf_token %}
-	    
-	    {% if bad_details %}
-	        <p><strong>Your username and/or password were incorrect!</strong></p>
-	    {% elif disabled_account %}
-	        <p><strong>Your Rango account is currently disabled; we can't log you in!</strong></p>
-	    {% endif %}
-	    
-	    Username: <input type="text" class="input-block-level" placeholder="Username" name="username" value="" size="50" />
-	    <br />
-	    Password: <input type="password" class="input-block-level" placeholder="Password" name="password" value="" size="50" />
-	    <br />
-	    <button class="btn btn-primary" type="submit">Sign in</button>
-	</form>
+            <h1>Login to Rango</h1>
+                
+            <div class="container">
+            <form class="form-signin span4" id="login_form" method="post" action="/rango/login/">
+                <h2 class="form-signin-heading">Please sign in</h2>
+                {% csrf_token %}
+                
+                {% if bad_details %}
+                <p><strong>Your username and/or password were incorrect!</strong></p>
+                {% elif disabled_account %}
+                <p><strong>Your Rango account is currently disabled; we can't log you in!</strong></p>
+                {% endif %}
+                
+                Username: <input type="text" class="input-block-level" placeholder="Username" name="username" value="" size="50" />
+                <br />
+                Password: <input type="password" class="input-block-level" placeholder="Password" name="password" value="" size="50" />
+                <br />
+                <button class="btn btn-primary" type="submit">Sign in</button>
+            </form>
 
-    </div> <!-- /container -->
+            </div>
+            <!-- /container -->
 	</div>
 	{% endblock %}
 
@@ -320,12 +322,12 @@ You can apply similar changes to ``add_category.html`` and ``add_page.html`` tem
 
 	            {% for field in form.visible_fields %}
 	            {{ field.errors }}
-	            {{ field.help_text}}<br/>
+	            {{ field.help_text }}<br/>
 	            {{ field }}
 	            {% endfor %}
 
 	            <br/>
-	            <input class="btn btn-primary" type="submit" name="submit" value="Create Category"/>
+                    <button class="btn btn-primary" type="submit" name="submit">Create Category</button>
 	        </form>
 	    </div>
 	</div>
@@ -335,9 +337,9 @@ And similarly for the ``add_page.html`` template (not shown).
 
 The Registration Template
 -------------------------
-The ``register.html`` template requires a bit more work. Currently, the template uses Django helper methods to convert the UserForm and ``UserProfileForm`` into html. However, we want a bit more control over the elements and how they are presented. This will require updating the ``UserForm`` and ``UserProfileForm`` as well as the ``register.html`` template.
+The ``register.html`` template requires a bit more work. Currently, the template uses Django helper methods to convert the UserForm and ``UserProfileForm`` into HTML. However, we want a bit more control over the elements and how they are presented. This will require updating the ``UserForm`` and ``UserProfileForm`` as well as the ``register.html`` template.
 
-Update the forms as follows.
+Update the ``forms.py`` as follows.
 
 .. code-block:: python
 
@@ -351,7 +353,6 @@ Update the forms as follows.
 	        fields = ['username', 'email', 'password']
 
 	class UserProfileForm(forms.ModelForm):
-
 	    website = forms.URLField(help_text="Please enter your website.", required=False)
 	    picture = forms.ImageField(help_text="Select a profile image to upload.", required=False)
 
@@ -366,15 +367,14 @@ Update the ``register.html`` template as follows.
 	{% block body_block %}
 	<div class="hero-unit">
 	    <h1>Register with Rango</h1>
-	    <br/>
+	    <br />
 
 	    <div class="container">
 	        {% if registered %}
-	        <p> Thank you for registering.
+	        <p>Thank you for registering.</p>
 
 	        <p><a href="/rango/login/">Login</a> when you are ready to rango.</p>
 	        {% else %}
-
 	        <form class="form-signin span8" id="user_form" method="post" action="/rango/register/"
 	              enctype="multipart/form-data">
 	            {% csrf_token %}
@@ -383,18 +383,17 @@ Update the ``register.html`` template as follows.
 
 	            {% for field in user_form.visible_fields %}
 	            {{ field.errors }}
-	            {{ field.help_text}}<br/>
-	            {{ field }}<br/>
+	            {{ field.help_text }}<br />
+	            {{ field }}<br />
 	            {% endfor %}
-
 
 	            {% for field in profile_form.visible_fields %}
 	            {{ field.errors }}
-	            {{ field.help_text}}<br/>
-	            {{ field }}<br/>
+	            {{ field.help_text }}<br />
+	            {{ field }}<br />
 	            {% endfor %}
 
-	            <br/>
+	            <br />
 	            <!-- Provide a button to click to submit the form. -->
 	            <input class="btn btn-primary" type="submit" name="submit" value="Register"/>
 	        </form>

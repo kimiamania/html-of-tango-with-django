@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/bootstrap.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 09 Nov 2013 03:05:56 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/bootstrap.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 21 Nov 2013 06:40:33 GMT -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
@@ -174,17 +174,6 @@
 </pre></div>
 </div>
 <p>By adding it to a file we can minimise the code in our template. Now update the <tt class="docutils literal"><span class="pre">&lt;head&gt;</span></tt> section of <tt class="docutils literal"><span class="pre">base.html</span></tt> as follows.</p>
-<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;head&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="nt">&gt;</span>
-    <span class="c">&lt;!-- Bootstrap --&gt;</span>
-    <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;{% static &#39;css/bootstrap-fluid-adj.css&#39;%} &quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;{% static &#39;css/bootstrap.min.css&#39;%} &quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">media=</span><span class="s">&quot;screen&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;{% static &#39;css/bootstrap-responsive.css&#39; %}&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span><span class="nt">&gt;</span>
-
-    <span class="nt">&lt;title&gt;</span>Rango - {% block title %}How to Tango with Django!{% endblock %}<span class="nt">&lt;/title&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
-</pre></div>
-</div>
 <p>Note how we are including all these files through by externally linking them in. We will also need to include the js files. Instead of adding them to the <tt class="docutils literal"><span class="pre">&lt;head&gt;</span></tt> section, we will added them in at the bottom of <tt class="docutils literal"><span class="pre">base.html</span></tt> just before we close the <tt class="docutils literal"><span class="pre">&lt;body&gt;</span></tt> tag, just like in the example below.</p>
 <div class="highlight-html"><div class="highlight"><pre>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;{% static &#39;js/jquery-2.0.3.min.js&#39; %}&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
     <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;{% static &#39;js/bootstrap.min.js&#39; %}&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
@@ -218,7 +207,7 @@
                     <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/rango/login/&quot;</span><span class="nt">&gt;</span>Login<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
                    {% endif %}
                <span class="nt">&lt;/ul&gt;</span>
-            <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;nav&quot;</span><span class="nt">&gt;</span>
+               <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;nav&quot;</span><span class="nt">&gt;</span>
                    {% if user.is_authenticated %}
                     <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/rango/restricted/&quot;</span><span class="nt">&gt;</span>Restricted<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
                     <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/rango/add_category/&quot;</span><span class="nt">&gt;</span>Add Category<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
@@ -234,21 +223,21 @@
 </div>
 <p>After this, you can add in the next <tt class="docutils literal"><span class="pre">&lt;div&gt;</span></tt> which will house the side bar navigation and the main content pane:</p>
 <div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;container-fluid&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;row-fluid&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span3&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;well sidebar-nav&quot;</span><span class="nt">&gt;</span>
-            <span class="c">&lt;!--- Empty for the timebeing --&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;row-fluid&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span3&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;well sidebar-nav&quot;</span><span class="nt">&gt;</span>
+                <span class="c">&lt;!--- Empty for the timebeing --&gt;</span>
+            <span class="nt">&lt;/div&gt;</span>
+            <span class="c">&lt;!--/.well --&gt;</span>
         <span class="nt">&lt;/div&gt;</span>
-        <span class="c">&lt;!--/.well --&gt;</span>
+        <span class="c">&lt;!--/span--&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span9&quot;</span><span class="nt">&gt;</span>
+            {% block body_block %}
+            {% endblock %}
+        <span class="nt">&lt;/div&gt;</span>
+        <span class="c">&lt;!--/span--&gt;</span>
     <span class="nt">&lt;/div&gt;</span>
-    <span class="c">&lt;!--/span--&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span9&quot;</span><span class="nt">&gt;</span>
-        {% block body_block %}
-        {% endblock %}
-    <span class="nt">&lt;/div&gt;</span>
-    <span class="c">&lt;!--/span--&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-<span class="c">&lt;!--/row--&gt;</span>
+    <span class="c">&lt;!--/row--&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
 <span class="c">&lt;!--/.fluid-container--&gt;</span>
 
@@ -268,17 +257,18 @@
 <div class="section" id="quick-style-change">
 <h2>11.2. Quick Style Change<a class="headerlink" href="#quick-style-change" title="Permalink to this headline">¶</a></h2>
 <p>Now that we have the <tt class="docutils literal"><span class="pre">base.html</span></tt> all set up and ready to go, we can do a really quick face light to Rango by adding <tt class="docutils literal"><span class="pre">&lt;div</span> <span class="pre">class=&quot;hero-unit&quot;&gt;</span></tt> around the contents within each <tt class="docutils literal"><span class="pre">body_block</span></tt> on each page.  For example, convert the <tt class="docutils literal"><span class="pre">body_block</span></tt> of the <tt class="docutils literal"><span class="pre">about.html</span></tt> template to be:</p>
-<div class="highlight-html"><pre>{% block body_block %}
-    &lt;div class="hero-unit"&gt;
-    &lt;h1&gt;About Rango&lt;/h1&gt;
-    This is &lt;strong&gt;Rango's about page&lt;/strong&gt;.&lt;br /&gt;
+<div class="highlight-html"><div class="highlight"><pre>{% block body_block %}
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;hero-unit&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>About Rango<span class="nt">&lt;/h1&gt;</span>
+    This is <span class="nt">&lt;strong&gt;</span>Rango&#39;s about page<span class="nt">&lt;/strong&gt;</span>.<span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
 
-    You've visited the site on &lt;strong&gt;{{ visit_count }} occasion(s).&lt;/strong&gt;&lt;br /&gt;
+    You&#39;ve visited the site on <span class="nt">&lt;strong&gt;</span>{{ visit_count }} occasion(s)<span class="nt">&lt;/strong&gt;</span>.<span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
 
-    Here's a picture of Rango!&lt;br /&gt;
-    &lt;img src="{% static "rango.jpg" %}" alt="Picture of Rango" /&gt;
-        &lt;/div&gt;
-{% endblock %}</pre>
+    Here&#39;s a picture of Rango!<span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;{% static &#39;rango.jpg&#39; %}&quot;</span> <span class="na">alt=</span><span class="s">&quot;Picture of Rango&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+{% endblock %}
+</pre></div>
 </div>
 <div class="align-center figure" id="fig-about-page-before">
 <img alt="../_images/ch4-rango-about.png" src="../_images/ch4-rango-about.png" />
@@ -288,7 +278,7 @@
 <img alt="../_images/ch11-bootstrap-about.png" src="../_images/ch11-bootstrap-about.png" />
 <p class="caption">Figure 2: A screenshot of the About page with Bootstrap Styling applied.</p>
 </div>
-<p>With all pages fitted with hero unit <tt class="docutils literal"><span class="pre">&lt;div&gt;</span></tt> tags Rango you should be looking pretty good. However, you will notice that some of the page still look pretty ugly, especially the pages with forms (see the figure below). Later in this chapter we will update theses forms.</p>
+<p>With all pages fitted with hero unit <tt class="docutils literal"><span class="pre">&lt;div&gt;</span></tt> tags Rango you should be looking pretty good. However, you will notice that some of the pages still look pretty ugly, especially the pages with forms (see the figure below). Later in this chapter we will update these forms.</p>
 <div class="align-center figure" id="fig-register-initial">
 <img alt="../_images/ch11-bootstrap-register-initial.png" src="../_images/ch11-bootstrap-register-initial.png" />
 <p class="caption">Figure 3: A screenshot of the Registration page with Bootstrap Styling applied but not customised.</p>
@@ -296,7 +286,7 @@
 <p>Also, you&#8217;ll probably have noticed the sidebar is empty. In the next chapter we will sort that out with some handy navigation links.</p>
 <div class="section" id="the-index-page">
 <h3>11.2.1. The Index Page<a class="headerlink" href="#the-index-page" title="Permalink to this headline">¶</a></h3>
-<p>Since we have just encapsulated the content into a hero unit <tt class="docutils literal"><span class="pre">&lt;div&gt;</span></tt> we haven&#8217;t really capitalise on the classes and styling that Bootstrap gives us. So here we have taken the columns from the fluid page and used them to house the top categories and top pages. Since the original page has three columns, we have taken two and made them slightly better by adjust the class so that the <tt class="docutils literal"><span class="pre">&lt;span&gt;</span></tt> is 6 for each instead of 4, so we can update the <tt class="docutils literal"><span class="pre">index.html</span></tt> template to look like the following.</p>
+<p>Since we have only encapsulated the content into a hero unit <tt class="docutils literal"><span class="pre">&lt;div&gt;</span></tt>, we haven&#8217;t really capitalised on the classes and styling that Bootstrap gives us. So here we have taken the columns from the fluid page and used them to house the top categories and top pages. Since the original page has three columns, we have taken two and made them slightly better by adjusting the class so that the <tt class="docutils literal"><span class="pre">&lt;span&gt;</span></tt> is 6 for each instead of 4, so we can update the <tt class="docutils literal"><span class="pre">index.html</span></tt> template to look like the following.</p>
 <div class="highlight-html"><div class="highlight"><pre>{% block body_block %}
 <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;hero-unit&quot;</span><span class="nt">&gt;</span>
     <span class="nt">&lt;h1&gt;</span>Ready to Rango<span class="nt">&lt;/h1&gt;</span>
@@ -323,7 +313,7 @@
         {% if pages %}
         <span class="nt">&lt;ul&gt;</span>
             {% for page in pages %}
-            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;{{ page.url}}&quot;</span><span class="nt">&gt;</span>{{ page.title }}<span class="nt">&lt;/a&gt;</span> - {{ page.category}} ({{ page.views }} view(s))<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;{{ page.url}}&quot;</span><span class="nt">&gt;</span>{{ page.title }}<span class="nt">&lt;/a&gt;</span> - {{ page.category }} ({{ page.views }} view(s))<span class="nt">&lt;/li&gt;</span>
             {% endfor %}
         <span class="nt">&lt;/ul&gt;</span>
         {% else %}
@@ -332,9 +322,8 @@
 
     <span class="nt">&lt;/div&gt;</span>
     <span class="c">&lt;!--/span--&gt;</span>
-<span class="nt">&lt;/div&gt;</span><span class="c">&lt;!--/row--&gt;</span>
-
-
+<span class="nt">&lt;/div&gt;</span>
+<span class="c">&lt;!--/row--&gt;</span>
 {% endblock %}
 </pre></div>
 </div>
@@ -351,10 +340,10 @@
 </div>
 <div class="section" id="the-login-page">
 <h2>11.3. The Login Page<a class="headerlink" href="#the-login-page" title="Permalink to this headline">¶</a></h2>
-<p>Now let&#8217;s turn our attention to the login page. On the Bootstrap website you can see they have already made a <a class="reference external" href="http://getbootstrap.com/2.3.2/examples/signin.html">nice login form</a>, see <a class="reference external" href="http://getbootstrap.com/2.3.2/examples/signin.html">http://getbootstrap.com/2.3.2/examples/signin.html</a>. If you take a look at the source, you&#8217;ll notice that there are a number of classes that we need to include to pimp out basic log in form.
+<p>Now let&#8217;s turn our attention to the login page. On the Bootstrap website you can see they have already made a <a class="reference external" href="http://getbootstrap.com/2.3.2/examples/signin.html">nice login form</a>, see <a class="reference external" href="http://getbootstrap.com/2.3.2/examples/signin.html">http://getbootstrap.com/2.3.2/examples/signin.html</a>. If you take a look at the source, you&#8217;ll notice that there are a number of classes that we need to include to pimp out the basic login form.
 Update the <tt class="docutils literal"><span class="pre">login.html</span></tt> template as follows:</p>
-<div class="highlight-html"><div class="highlight"><pre>    {% block body_block %}
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;hero-unit&quot;</span><span class="nt">&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre>{% block body_block %}
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;hero-unit&quot;</span><span class="nt">&gt;</span>
     <span class="nt">&lt;h1&gt;</span>Login to Rango<span class="nt">&lt;/h1&gt;</span>
 
     <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;container&quot;</span><span class="nt">&gt;</span>
@@ -363,9 +352,9 @@ Update the <tt class="docutils literal"><span class="pre">login.html</span></tt>
         {% csrf_token %}
 
         {% if bad_details %}
-            <span class="nt">&lt;p&gt;&lt;strong&gt;</span>Your username and/or password were incorrect!<span class="nt">&lt;/strong&gt;&lt;/p&gt;</span>
+        <span class="nt">&lt;p&gt;&lt;strong&gt;</span>Your username and/or password were incorrect!<span class="nt">&lt;/strong&gt;&lt;/p&gt;</span>
         {% elif disabled_account %}
-            <span class="nt">&lt;p&gt;&lt;strong&gt;</span>Your Rango account is currently disabled; we can&#39;t log you in!<span class="nt">&lt;/strong&gt;&lt;/p&gt;</span>
+        <span class="nt">&lt;p&gt;&lt;strong&gt;</span>Your Rango account is currently disabled; we can&#39;t log you in!<span class="nt">&lt;/strong&gt;&lt;/p&gt;</span>
         {% endif %}
 
         Username: <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">class=</span><span class="s">&quot;input-block-level&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;Username&quot;</span> <span class="na">name=</span><span class="s">&quot;username&quot;</span> <span class="na">value=</span><span class="s">&quot;&quot;</span> <span class="na">size=</span><span class="s">&quot;50&quot;</span> <span class="nt">/&gt;</span>
@@ -375,9 +364,10 @@ Update the <tt class="docutils literal"><span class="pre">login.html</span></tt>
         <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">&quot;btn btn-primary&quot;</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span><span class="nt">&gt;</span>Sign in<span class="nt">&lt;/button&gt;</span>
     <span class="nt">&lt;/form&gt;</span>
 
-<span class="nt">&lt;/div&gt;</span> <span class="c">&lt;!-- /container --&gt;</span>
     <span class="nt">&lt;/div&gt;</span>
-    {% endblock %}
+    <span class="c">&lt;!-- /container --&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+{% endblock %}
 </pre></div>
 </div>
 <p>We&#8217;ve made the following changes.</p>
@@ -408,12 +398,12 @@ Update the <tt class="docutils literal"><span class="pre">login.html</span></tt>
 
             {% for field in form.visible_fields %}
             {{ field.errors }}
-            {{ field.help_text}}<span class="nt">&lt;br/&gt;</span>
+            {{ field.help_text }}<span class="nt">&lt;br/&gt;</span>
             {{ field }}
             {% endfor %}
 
             <span class="nt">&lt;br/&gt;</span>
-            <span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">&quot;btn btn-primary&quot;</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">name=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;Create Category&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">&quot;btn btn-primary&quot;</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">name=</span><span class="s">&quot;submit&quot;</span><span class="nt">&gt;</span>Create Category<span class="nt">&lt;/button&gt;</span>
         <span class="nt">&lt;/form&gt;</span>
     <span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
@@ -425,8 +415,8 @@ Update the <tt class="docutils literal"><span class="pre">login.html</span></tt>
 </div>
 <div class="section" id="the-registration-template">
 <h2>11.4. The Registration Template<a class="headerlink" href="#the-registration-template" title="Permalink to this headline">¶</a></h2>
-<p>The <tt class="docutils literal"><span class="pre">register.html</span></tt> template requires a bit more work. Currently, the template uses Django helper methods to convert the UserForm and <tt class="docutils literal"><span class="pre">UserProfileForm</span></tt> into html. However, we want a bit more control over the elements and how they are presented. This will require updating the <tt class="docutils literal"><span class="pre">UserForm</span></tt> and <tt class="docutils literal"><span class="pre">UserProfileForm</span></tt> as well as the <tt class="docutils literal"><span class="pre">register.html</span></tt> template.</p>
-<p>Update the forms as follows.</p>
+<p>The <tt class="docutils literal"><span class="pre">register.html</span></tt> template requires a bit more work. Currently, the template uses Django helper methods to convert the UserForm and <tt class="docutils literal"><span class="pre">UserProfileForm</span></tt> into HTML. However, we want a bit more control over the elements and how they are presented. This will require updating the <tt class="docutils literal"><span class="pre">UserForm</span></tt> and <tt class="docutils literal"><span class="pre">UserProfileForm</span></tt> as well as the <tt class="docutils literal"><span class="pre">register.html</span></tt> template.</p>
+<p>Update the <tt class="docutils literal"><span class="pre">forms.py</span></tt> as follows.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">UserForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
     <span class="n">username</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">help_text</span><span class="o">=</span><span class="s">&quot;Please enter a username.&quot;</span><span class="p">)</span>
     <span class="n">email</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">help_text</span><span class="o">=</span><span class="s">&quot;Please enter your email.&quot;</span><span class="p">)</span>
@@ -437,7 +427,6 @@ Update the <tt class="docutils literal"><span class="pre">login.html</span></tt>
         <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;username&#39;</span><span class="p">,</span> <span class="s">&#39;email&#39;</span><span class="p">,</span> <span class="s">&#39;password&#39;</span><span class="p">]</span>
 
 <span class="k">class</span> <span class="nc">UserProfileForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
-
     <span class="n">website</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">URLField</span><span class="p">(</span><span class="n">help_text</span><span class="o">=</span><span class="s">&quot;Please enter your website.&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
     <span class="n">picture</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">ImageField</span><span class="p">(</span><span class="n">help_text</span><span class="o">=</span><span class="s">&quot;Select a profile image to upload.&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
@@ -450,15 +439,14 @@ Update the <tt class="docutils literal"><span class="pre">login.html</span></tt>
 <div class="highlight-html"><div class="highlight"><pre>{% block body_block %}
 <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;hero-unit&quot;</span><span class="nt">&gt;</span>
     <span class="nt">&lt;h1&gt;</span>Register with Rango<span class="nt">&lt;/h1&gt;</span>
-    <span class="nt">&lt;br/&gt;</span>
+    <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
 
     <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;container&quot;</span><span class="nt">&gt;</span>
         {% if registered %}
-        <span class="nt">&lt;p&gt;</span> Thank you for registering.
+        <span class="nt">&lt;p&gt;</span>Thank you for registering.<span class="nt">&lt;/p&gt;</span>
 
         <span class="nt">&lt;p&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/rango/login/&quot;</span><span class="nt">&gt;</span>Login<span class="nt">&lt;/a&gt;</span> when you are ready to rango.<span class="nt">&lt;/p&gt;</span>
         {% else %}
-
         <span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">&quot;form-signin span8&quot;</span> <span class="na">id=</span><span class="s">&quot;user_form&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="na">action=</span><span class="s">&quot;/rango/register/&quot;</span>
               <span class="na">enctype=</span><span class="s">&quot;multipart/form-data&quot;</span><span class="nt">&gt;</span>
             {% csrf_token %}
@@ -467,18 +455,17 @@ Update the <tt class="docutils literal"><span class="pre">login.html</span></tt>
 
             {% for field in user_form.visible_fields %}
             {{ field.errors }}
-            {{ field.help_text}}<span class="nt">&lt;br/&gt;</span>
-            {{ field }}<span class="nt">&lt;br/&gt;</span>
+            {{ field.help_text }}<span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+            {{ field }}<span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
             {% endfor %}
-
 
             {% for field in profile_form.visible_fields %}
             {{ field.errors }}
-            {{ field.help_text}}<span class="nt">&lt;br/&gt;</span>
-            {{ field }}<span class="nt">&lt;br/&gt;</span>
+            {{ field.help_text }}<span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+            {{ field }}<span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
             {% endfor %}
 
-            <span class="nt">&lt;br/&gt;</span>
+            <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
             <span class="c">&lt;!-- Provide a button to click to submit the form. --&gt;</span>
             <span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">&quot;btn btn-primary&quot;</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">name=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;Register&quot;</span><span class="nt">/&gt;</span>
         <span class="nt">&lt;/form&gt;</span>
@@ -529,5 +516,5 @@ Update the <tt class="docutils literal"><span class="pre">login.html</span></tt>
     </div>
   </body>
 
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/bootstrap.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 09 Nov 2013 03:05:56 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/bootstrap.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 21 Nov 2013 06:40:48 GMT -->
 </html>
