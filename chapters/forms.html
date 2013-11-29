@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/forms.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 21 Nov 2013 06:40:14 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/forms.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 29 Nov 2013 18:27:02 GMT -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
@@ -74,10 +74,15 @@
           </li>
 		
         <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+
       </ul>
+
     </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index-2.html">
+              <img class="logo" src="../_static/twd200x200.jpg" alt="Logo"/>
+            </a></p>
   <h3><a href="../index-2.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">7. Fun with Forms</a><ul>
@@ -322,7 +327,8 @@
 </div>
 <div class="section" id="cleaner-forms">
 <h3>7.2.7. Cleaner Forms<a class="headerlink" href="#cleaner-forms" title="Permalink to this headline">¶</a></h3>
-<p>Since we have defined the <tt class="docutils literal"><span class="pre">url</span></tt> attribute in the <tt class="docutils literal"><span class="pre">Page</span></tt> model to be a <tt class="docutils literal"><span class="pre">URLField</span></tt>, Django expects to be provided with a fully formed URL. Since it can be cumbersome for users to type in an entire URL like <tt class="docutils literal"><span class="pre">http://www.url.com</span></tt>, we can override the <tt class="docutils literal"><span class="pre">clean()</span></tt> method implemented in <tt class="docutils literal"><span class="pre">ModelForm</span></tt>. For example, in the <tt class="docutils literal"><span class="pre">PageForm</span></tt> class, include the following method that checks if <tt class="docutils literal"><span class="pre">http://</span></tt> is included at the start of a new URL - and if not, prepends <tt class="docutils literal"><span class="pre">http://</span></tt> to the string.</p>
+<p>Recall that our <tt class="docutils literal"><span class="pre">Page</span></tt> model has a <tt class="docutils literal"><span class="pre">url</span></tt> attribute set to an instance of the <tt class="docutils literal"><span class="pre">URLField</span></tt> type. In a corresponding HTML form, Django would reasonably expect any text entered into a <tt class="docutils literal"><span class="pre">url</span></tt> field to be a well-formed, complete URL. However, users can find entering something like <tt class="docutils literal"><span class="pre">http://www.url.com</span></tt> to be cumbersome - indeed, users <a class="reference external" href="https://support.google.com/webmasters/answer/76329?hl=en">may not even know what forms a correct URL</a>!</p>
+<p>In scenarios where user input may not be entirely correct, we can <em>override</em> the <tt class="docutils literal"><span class="pre">clean()</span></tt> method implemented in <tt class="docutils literal"><span class="pre">ModelForm</span></tt>. This method is called upon before saving form data to a new model instance, and thus provides us with a logical place to insert code which can verify - and even fix - any form data the user inputs. In our example above, we can check if the value of <tt class="docutils literal"><span class="pre">url</span></tt> field entered by the user starts with <tt class="docutils literal"><span class="pre">http://</span></tt> - and if it doesn&#8217;t, we can prepend <tt class="docutils literal"><span class="pre">http://</span></tt> to the user&#8217;s input.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">PageForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
 
     <span class="o">...</span>
@@ -330,15 +336,27 @@
     <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">cleaned_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;url&#39;</span><span class="p">)</span>
-        <span class="c"># If url is not empty and doesn&#39;t start with &#39;http://&#39; add &#39;http://&#39; to the beginning.</span>
+
+        <span class="c"># If url is not empty and doesn&#39;t start with &#39;http://&#39;, prepend &#39;http://&#39;.</span>
         <span class="k">if</span> <span class="n">url</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;http://&#39;</span><span class="p">):</span>
             <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://&#39;</span> <span class="o">+</span> <span class="n">url</span>
-
             <span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">url</span>
+
     <span class="k">return</span> <span class="n">cleaned_data</span>
 </pre></div>
 </div>
+<p>Within the <tt class="docutils literal"><span class="pre">clean()</span></tt> method, a simple pattern is observed which you can replicate in your own Django form handling code.</p>
+<ol class="arabic simple">
+<li>Form data is obtained from the <tt class="docutils literal"><span class="pre">ModelForm</span></tt> dictionary attribute <tt class="docutils literal"><span class="pre">cleaned_data</span></tt>.</li>
+<li>Form fields that you wish to check can then be taken from the <tt class="docutils literal"><span class="pre">cleaned_data</span></tt> dictionary. Use the <tt class="docutils literal"><span class="pre">.get()</span></tt> method provided by the dictionary object to obtain the form&#8217;s values. If a user does not enter a value into a form field, its entry will not exist in the <tt class="docutils literal"><span class="pre">cleaned_data</span></tt> dictionary. In this instance, <tt class="docutils literal"><span class="pre">.get()</span></tt> would return <tt class="docutils literal"><span class="pre">None</span></tt> rather than raise a <tt class="docutils literal"><span class="pre">KeyError</span></tt> exception. This helps your code look that little bit cleaner!</li>
+<li>For each form field that you wish to process, check that a value was retrieved. If something was entered, check what the value was. If it isn&#8217;t what you expect, you can then add some logic to fix this issue before <em>reassigning</em> the value in the <tt class="docutils literal"><span class="pre">cleaned_data</span></tt> dictionary for the given field.</li>
+<li>You <em>must</em> always end the <tt class="docutils literal"><span class="pre">clean()</span></tt> method by returning the reference to the <tt class="docutils literal"><span class="pre">cleaned_data</span></tt> dictionary. If you don&#8217;t, you&#8217;ll get some really frustrating errors!</li>
+</ol>
 <p>This trivial example shows how we can clean the data being passed through the form before being stored. This is pretty handy, especially when particular fields need to have default values - or data within the form is missing, and we need to handle such data entry problems.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Overriding methods that Django provides can provide you with an elegant way to add that extra but of functionality for your application. There are many methods which can you can safely override for your benefit, just like the <tt class="docutils literal"><span class="pre">clean()</span></tt> method in <tt class="docutils literal"><span class="pre">ModelForm</span></tt> as shown above. Check out <a class="reference external" href="https://docs.djangoproject.com/en/1.5/topics/db/models/#overriding-predefined-model-methods">the Official Django Documentation on Models</a> for more examples on how you can override default functionality to slot your own in.</p>
+</div>
 </div>
 </div>
 <div class="section" id="exercises">
@@ -426,7 +444,9 @@
           </li>
 		
         <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+
       </ul>
+
     </div>
     <div class="footer">
         &copy; Copyright 2013, Leif Azzopardi and David Maxwell.
@@ -434,5 +454,5 @@
     </div>
   </body>
 
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/forms.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 21 Nov 2013 06:40:18 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/forms.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 29 Nov 2013 18:27:02 GMT -->
 </html>

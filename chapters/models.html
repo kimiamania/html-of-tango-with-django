@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/models.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 21 Nov 2013 06:38:27 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/models.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 29 Nov 2013 18:27:01 GMT -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
@@ -74,10 +74,15 @@
           </li>
 		
         <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+
       </ul>
+
     </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index-2.html">
+              <img class="logo" src="../_static/twd200x200.jpg" alt="Logo"/>
+            </a></p>
   <h3><a href="../index-2.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">5. Models and Databases</a><ul>
@@ -95,7 +100,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#exercises">5.10. Exercises</a><ul>
-<li><a class="reference internal" href="#hint">5.10.1. Hint</a></li>
+<li><a class="reference internal" href="#hints">5.10.1. Hints</a></li>
 </ul>
 </li>
 </ul>
@@ -256,7 +261,7 @@ Installed 0 object(s) from 0 fixture(s)</pre>
 </div>
 <div class="section" id="generated-sql">
 <h2>5.5. Generated SQL<a class="headerlink" href="#generated-sql" title="Permalink to this headline">¶</a></h2>
-<p>The database synchronisation process essentially converts the Django models into SQL tables. To see the SQL that is produced, you can run the command <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">sql</span> <span class="pre">rango</span></tt>. This will output the SQL code that was issued to the database backend on your behalf. Notice that while we did not specify an <tt class="docutils literal"><span class="pre">id''</span> <span class="pre">attribute</span> <span class="pre">in</span> <span class="pre">our</span> <span class="pre">model,</span> <span class="pre">Django</span> <span class="pre">automatically</span> <span class="pre">assigns</span> <span class="pre">an</span> <span class="pre">``id</span></tt> to every model. You should also note that in the <tt class="docutils literal"><span class="pre">rango_page</span></tt> table, the reference to <tt class="docutils literal"><span class="pre">Category</span></tt> is created as a foreign key.</p>
+<p>The database synchronisation process essentially converts the Django models into SQL tables. To see the SQL that is produced, you can run the command <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">sql</span> <span class="pre">rango</span></tt>. This will output the SQL code that was issued to the database backend on your behalf. Notice that while we did not specify an <tt class="docutils literal"><span class="pre">id</span></tt> attribute in our model, Django automatically assigns an <tt class="docutils literal"><span class="pre">id</span></tt> to every model. You should also note that in the <tt class="docutils literal"><span class="pre">rango_page</span></tt> table, the reference to <tt class="docutils literal"><span class="pre">Category</span></tt> is created as a foreign key.</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">BEGIN</span><span class="p">;</span>
 <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="ss">&quot;rango_category&quot;</span> <span class="p">(</span>
     <span class="ss">&quot;id&quot;</span> <span class="nb">integer</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
@@ -379,7 +384,6 @@ Installed 0 object(s) from 0 fixture(s)</pre>
 <p>It&#8217;s highly likely that during the course of development, you&#8217;ll come to a point where you will need to modify a Django model. When you do this, the easiest option - without external software - is to re-create your entire database and run <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">syncdb</span></tt> ...again! Since this slow and repetitive task can be such a pain, it&#8217;s good practice to create what we call a <em>population script</em> for your database. This script is designed to automatically populate your database with test data for you, which can potentially save you lots of time.</p>
 <p>To create a population script for Rango&#8217;s database, we start by creating a new Python module within our Django project&#8217;s root directory (e.g. <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project/</span></tt>). Create the <tt class="docutils literal"><span class="pre">populate_rango.py</span></tt> file and add the following code.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="k">def</span> <span class="nf">populate</span><span class="p">():</span>
     <span class="n">python_cat</span> <span class="o">=</span> <span class="n">add_cat</span><span class="p">(</span><span class="s">&#39;Python&#39;</span><span class="p">)</span>
@@ -498,13 +502,13 @@ Starting Rango population script...
 <li>Undertake the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/intro/tutorial02/">part two of official Django tutorial</a> if you have not done so. This will help to reinforce further what you have learnt here, and to learn more about customising the admin interface.</li>
 <li>Customise the Admin Interface - so that when you view the Page model it displays in a list the category, the name of the page and the url.</li>
 </ul>
-<div class="section" id="hint">
-<h3>5.10.1. Hint<a class="headerlink" href="#hint" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="hints">
+<h3>5.10.1. Hints<a class="headerlink" href="#hints" title="Permalink to this headline">¶</a></h3>
 <p>If you require some help or inspiration to get these exercises done, these hints will hopefully help you out.</p>
 <ul class="simple">
-<li>To customise the admin interface, you will need to edit <tt class="docutils literal"><span class="pre">rango/admin.py</span></tt> and create a PageAdmin class that inherits from admin.ModelAdmin.</li>
-<li>Then set <tt class="docutils literal"><span class="pre">list_display</span> <span class="pre">=</span> <span class="pre">('category',</span> <span class="pre">'title',</span> <span class="pre">'url')</span></tt> in the PageAdmin class</li>
-<li>Finally, register it with Django&#8217;s admin interface by adding the line <tt class="docutils literal"><span class="pre">admin.site.register(Page,</span> <span class="pre">PageAdmin)</span></tt> to your app&#8217;s <tt class="docutils literal"><span class="pre">admin.py</span></tt> file.</li>
+<li>To customise the admin interface, you will need to edit <tt class="docutils literal"><span class="pre">rango/admin.py</span></tt> and create a <tt class="docutils literal"><span class="pre">PageAdmin</span></tt> class that inherits from <tt class="docutils literal"><span class="pre">admin.ModelAdmin</span></tt>.</li>
+<li>Within your new <tt class="docutils literal"><span class="pre">PageAdmin</span></tt> class, add <tt class="docutils literal"><span class="pre">list_display</span> <span class="pre">=</span> <span class="pre">('title',</span> <span class="pre">'category',</span> <span class="pre">'url')</span></tt>.</li>
+<li>Finally, register the <tt class="docutils literal"><span class="pre">PageAdmin</span></tt> class with Django&#8217;s admin interface. You should modify the line <tt class="docutils literal"><span class="pre">admin.site.register(Page)</span></tt>. Change it to <tt class="docutils literal"><span class="pre">admin.site.register(Page,</span> <span class="pre">PageAdmin)</span></tt> in Rango&#8217;s <tt class="docutils literal"><span class="pre">admin.py</span></tt> file.</li>
 </ul>
 <div class="align-center figure" id="fig-admin-customised">
 <img alt="../_images/ch5-rango-admin-custom.png" src="../_images/ch5-rango-admin-custom.png" />
@@ -535,7 +539,9 @@ Starting Rango population script...
           </li>
 		
         <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+
       </ul>
+
     </div>
     <div class="footer">
         &copy; Copyright 2013, Leif Azzopardi and David Maxwell.
@@ -543,5 +549,5 @@ Starting Rango population script...
     </div>
   </body>
 
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/models.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 21 Nov 2013 06:38:32 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/models.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 29 Nov 2013 18:27:01 GMT -->
 </html>

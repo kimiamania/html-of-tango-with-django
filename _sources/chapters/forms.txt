@@ -205,7 +205,9 @@ Now let's try it out! Run your Django development server, and navigate to ``http
 
 Cleaner Forms
 .............
-Since we have defined the ``url`` attribute in the ``Page`` model to be a ``URLField``, Django expects to be provided with a fully formed URL. Since it can be cumbersome for users to type in an entire URL like ``http://www.url.com``, we can override the ``clean()`` method implemented in ``ModelForm``. For example, in the ``PageForm`` class, include the following method that checks if ``http://`` is included at the start of a new URL - and if not, prepends ``http://`` to the string.
+Recall that our ``Page`` model has a ``url`` attribute set to an instance of the ``URLField`` type. In a corresponding HTML form, Django would reasonably expect any text entered into a ``url`` field to be a well-formed, complete URL. However, users can find entering something like ``http://www.url.com`` to be cumbersome - indeed, users `may not even know what forms a correct URL <https://support.google.com/webmasters/answer/76329?hl=en>`_!
+
+In scenarios where user input may not be entirely correct, we can *override* the ``clean()`` method implemented in ``ModelForm``. This method is called upon before saving form data to a new model instance, and thus provides us with a logical place to insert code which can verify - and even fix - any form data the user inputs. In our example above, we can check if the value of ``url`` field entered by the user starts with ``http://`` - and if it doesn't, we can prepend ``http://`` to the user's input.
 
 .. code-block:: python
 
@@ -216,14 +218,24 @@ Since we have defined the ``url`` attribute in the ``Page`` model to be a ``URLF
 	    def clean(self):
 	        cleaned_data = self.cleaned_data
 	        url = cleaned_data.get('url')
-	        # If url is not empty and doesn't start with 'http://' add 'http://' to the beginning.
+	        
+	        # If url is not empty and doesn't start with 'http://', prepend 'http://'.
 	        if url and not url.startswith('http://'):
 	            url = 'http://' + url
-	            
 	            cleaned_data['url'] = url
+	        
             return cleaned_data
 
+Within the ``clean()`` method, a simple pattern is observed which you can replicate in your own Django form handling code.
+
+#. Form data is obtained from the ``ModelForm`` dictionary attribute ``cleaned_data``.
+#. Form fields that you wish to check can then be taken from the ``cleaned_data`` dictionary. Use the ``.get()`` method provided by the dictionary object to obtain the form's values. If a user does not enter a value into a form field, its entry will not exist in the ``cleaned_data`` dictionary. In this instance, ``.get()`` would return ``None`` rather than raise a ``KeyError`` exception. This helps your code look that little bit cleaner!
+#. For each form field that you wish to process, check that a value was retrieved. If something was entered, check what the value was. If it isn't what you expect, you can then add some logic to fix this issue before *reassigning* the value in the ``cleaned_data`` dictionary for the given field.
+#. You *must* always end the ``clean()`` method by returning the reference to the ``cleaned_data`` dictionary. If you don't, you'll get some really frustrating errors!
+
 This trivial example shows how we can clean the data being passed through the form before being stored. This is pretty handy, especially when particular fields need to have default values - or data within the form is missing, and we need to handle such data entry problems.
+
+.. note:: Overriding methods that Django provides can provide you with an elegant way to add that extra but of functionality for your application. There are many methods which can you can safely override for your benefit, just like the ``clean()`` method in ``ModelForm`` as shown above. Check out `the Official Django Documentation on Models <https://docs.djangoproject.com/en/1.5/topics/db/models/#overriding-predefined-model-methods>`_ for more examples on how you can override default functionality to slot your own in.
 
 Exercises
 ---------

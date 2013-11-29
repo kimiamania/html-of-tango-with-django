@@ -29,32 +29,46 @@ To tell your Django project where the templates will be housed, open your projec
 	    '<workspace>/tango_with_django_project/templates/',
 	)
 
-Note that you are *required to use absolute paths* to locate the ``templates`` directory. If you are part of a team or working on different computers, this may become a problem in the future. You'll have different usernames, meaning different paths to your ``<workspace>`` directory. Of course, you could add in the template directory for each different setup, but that would be a pretty nasty way to tackle the problem.
+Note that you are *required to use absolute paths* to locate the ``templates`` directory. If you are part of a team or working on different computers, this may become a problem in the future. You'll have different usernames, meaning different paths to your ``<workspace>`` directory. The *hard-coded* path you entered above would not be the same on different computers. Of course, you could add in the template directory for each different setup, but that would be a pretty nasty way to tackle the problem. So, what can we do?
 
 .. warning::
 	The road to hell is paved with hard-coded paths. 
  	`Hard-coding <http://en.wikipedia.org/wiki/Hard_coding>`_ paths is considered to be a `software engineering anti-pattern <http://sourcemaking.com/antipatterns>`_, and will make your project less `portable <http://en.wikipedia.org/wiki/Software_portability>`_.
 
-Instead, we can be much smarter and make use of some built-in Python functions to obtain the path of our ``templates`` directory independently of where your project is stored on a filesystem. At the expense of a little bit more complexity in setting up our Django project, we can make our lives much easier later on when it comes to setting up and running our project on other computers. No pain, no gain!
+Dynamic Paths
+.............
+The solution to the problem of hard-coding paths is to make use of built-in Python functions to work out the path of our ``templates`` directory automatically for us. This way, an absolute path can be obtained regardless of where you place your Django project's code on your filesystem. This in turn means that your project's code becomes more *portable.* At the expense of a little bit more complexity in setting up your Django project now, you can make your life much easier later on. No pain, no gain!
 
-Modify the ``settings.py`` file to include a variable called ``PROJECT_PATH`` which will store the absolute path of the project. This is obtained by asking your operating system for the path of the *current working directory*. At the top of ``settings.py``, add the following two lines of code.
+To start, modify the ``settings.py`` file to include a variable called ``SETTINGS_DIR``. This will store the path to the directory in which your project's ``settings.py`` module will be contained. This is obtained by using the special Python ``__file__`` attribute, which is `set to the absolute path of your settings module <http://stackoverflow.com/a/9271479>`_. We then take the absolute path to the settings file, extracting the path to the directory in which the settings module is contained. For example, calling ``os.path.dirname()`` on the absolute path of ``<workspace>/tango_with_django_project/tango_with_django_project/settings.py`` would yield a directory of ``<workspace>/tango_with_django_project/tango_with_django_project/``.
+
+To implement this functionality, add the following code to the top of ``settings.py``. Note the importing of the ``os`` module.
 
 .. code-block:: python
 	
 	import os
-	PROJECT_PATH = os.getcwd()
+	SETTINGS_DIR = os.path.dirname(__file__)
 
-This code imports the Python ``os`` module and asks for the path of the current working directory. This is the path in which you launched ``python manage.py runserver`` from. The path is assigned to variable ``PROJECT_PATH``. 
+Now that we have the absolute path to our project's configuration directory, we need to get the root directory of our project. This is exactly one level up from the project configuration directory. We can therefore make use of the `pardir <http://docs.python.org/2/library/os#os.pardir>`_ string within the Python ``os`` module to help us obtain the path to the `parent directory <http://www.webopedia.com/TERM/P/parent_directory.html>`_. A project configuration directory path of ``<workspace>/tango_with_django_project/tango_with_django_project/`` would for example return the path ``<workspace>/tango_with_django_project/``.
 
-With the absolute to our project's root directory now stored in ``PROJECT_PATH``, we can then join the path together with a further directory or filename to obtain a complete path to our project's filesystem resources.
+Add the following two lines to ``settings.py`` directly underneath what you entered above.
 
-Create a new variable called TEMPLATE_PATH in the ``settings.py`` file and store the path to the templates directory in it as follows:
+.. code-block:: python
+	
+	PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
+	PROJECT_PATH = os.path.abspath(PROJECT_PATH)
+
+First, we use the ``os.path.join()`` function to join together our ``SETTINGS_DIR`` variable and the ``os.pardir`` string.
+Typically, this will return ``<workspace>/tango_with_django_project/tango_with_django_project/..``. Calling ``os.path.absdir()`` on that path will then yield the absolute path to the next directory up the hierarchy, which would be ``<workspace>/tango_with_django_project/`` in our example. In other words, ``PROJECT_PATH`` now contains the absolute path to our Django project's root. We can then use this path to point to special directories in our project, such as the directory which stores our templates!
+
+.. warning:: When joining or concatenating system paths together, using ``os.path.join()`` is the preferred approach. Using this function ensures that the correct slashes are used depending on your operating system. On a POSIX-compatible operating system, forward slashes would be used to separate directories, whereas a Windows operating system would use backward slashes. If you manually append slashes to paths, you may end up with path errors when attempting to run your code on a different operating system.
+
+Let's make use of it now. Create a new variable in ``settings.py`` called ``TEMPLATE_PATH`` and store the path to the ``templates`` directory you created earlier. Using the ``os.path.join()`` function, your code should look like the following example.
 
 .. code-block:: python
 	
 	TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'templates')
 
-Here, we use the ``os.path.join()`` function to let Python handle the concatenation. This is the preferred approach - using this function makes sure that the correct slashes are used depending on our operating system. In the ``TEMPLATES_DIR`` tuple, add a reference to ``TEMPLATE_PATH`` like in the example below.
+We again make use of ``os.path.join()`` to mash together the ``PROJECT_PATH`` variable and ``'templates'``, which would for example yield ``<workspace>/tango_with_django_project/templates/``. We can then replace the hard-coded path we put in the ``TEMPLATE_DIRS`` tuple earlier with ``TEMPLATE_PATH``, just like in the example below.
 
 .. code-block:: python
 	
@@ -65,7 +79,7 @@ Here, we use the ``os.path.join()`` function to let Python handle the concatenat
 	    TEMPLATE_PATH,
 	)
 
-We can keep the ``TEMPLATE_PATH`` variable at the top of our ``settings.py`` to make it easy to access. This is why we created an additional variable to store the template path.
+We can keep the ``TEMPLATE_PATH`` variable at the top of our ``settings.py`` module to make it easy to access should it ever need to be changed. This is why we created an additional variable to store the template path.
 
 Adding a Template
 .................

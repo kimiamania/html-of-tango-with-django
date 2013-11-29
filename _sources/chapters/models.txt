@@ -134,7 +134,7 @@ After this process has been completed you will be able to see a new file called 
 
 Generated SQL 
 -------------
-The database synchronisation process essentially converts the Django models into SQL tables. To see the SQL that is produced, you can run the command ``python manage.py sql rango``. This will output the SQL code that was issued to the database backend on your behalf. Notice that while we did not specify an ``id'' attribute in our model, Django automatically assigns an ``id`` to every model. You should also note that in the ``rango_page`` table, the reference to ``Category`` is created as a foreign key.
+The database synchronisation process essentially converts the Django models into SQL tables. To see the SQL that is produced, you can run the command ``python manage.py sql rango``. This will output the SQL code that was issued to the database backend on your behalf. Notice that while we did not specify an ``id`` attribute in our model, Django automatically assigns an ``id`` to every model. You should also note that in the ``rango_page`` table, the reference to ``Category`` is created as a foreign key.
 
 .. code-block:: sql
 	
@@ -276,7 +276,6 @@ To create a population script for Rango's database, we start by creating a new P
 .. code-block:: python
 	
 	import os
-	import sys
 	
 	def populate():
 	    python_cat = add_cat('Python')
@@ -399,13 +398,13 @@ Now that you've completed the chapter, try out these exercises to reinforce and 
 * Undertake the `part two of official Django tutorial <https://docs.djangoproject.com/en/1.5/intro/tutorial02/>`_ if you have not done so. This will help to reinforce further what you have learnt here, and to learn more about customising the admin interface.
 * Customise the Admin Interface - so that when you view the Page model it displays in a list the category, the name of the page and the url.
 
-Hint
-....
+Hints
+.....
 If you require some help or inspiration to get these exercises done, these hints will hopefully help you out.
 
-* To customise the admin interface, you will need to edit ``rango/admin.py`` and create a PageAdmin class that inherits from admin.ModelAdmin. 
-* Then set ``list_display = ('category', 'title', 'url')`` in the PageAdmin class
-* Finally, register it with Django's admin interface by adding the line ``admin.site.register(Page, PageAdmin)`` to your app's ``admin.py`` file.
+* To customise the admin interface, you will need to edit ``rango/admin.py`` and create a ``PageAdmin`` class that inherits from ``admin.ModelAdmin``. 
+* Within your new ``PageAdmin`` class, add ``list_display = ('title', 'category', 'url')``.
+* Finally, register the ``PageAdmin`` class with Django's admin interface. You should modify the line ``admin.site.register(Page)``. Change it to ``admin.site.register(Page, PageAdmin)`` in Rango's ``admin.py`` file.
 
 .. _fig-admin-customised:
 

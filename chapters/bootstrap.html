@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/bootstrap.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 21 Nov 2013 06:40:33 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/bootstrap.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 29 Nov 2013 18:27:04 GMT -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
@@ -74,10 +74,15 @@
           </li>
 		
         <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+
       </ul>
+
     </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index-2.html">
+              <img class="logo" src="../_static/twd200x200.jpg" alt="Logo"/>
+            </a></p>
   <h3><a href="../index-2.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">11. Bootstrapping Rango</a><ul>
@@ -174,6 +179,20 @@
 </pre></div>
 </div>
 <p>By adding it to a file we can minimise the code in our template. Now update the <tt class="docutils literal"><span class="pre">&lt;head&gt;</span></tt> section of <tt class="docutils literal"><span class="pre">base.html</span></tt> as follows.</p>
+<div class="highlight-html"><div class="highlight"><pre>{% load static %}
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- Bootstrap --&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;{% static &#39;css/bootstrap-fluid-adj.css&#39; %}&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;{% static &#39;css/bootstrap.min.css&#39;% }&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">media=</span><span class="s">&quot;screen&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;{% static &#39;css/bootstrap-responsive.css&#39; %}&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;title&gt;</span>Rango - {% block title %}How to Tango with Django!{% endblock %}<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+</pre></div>
+</div>
 <p>Note how we are including all these files through by externally linking them in. We will also need to include the js files. Instead of adding them to the <tt class="docutils literal"><span class="pre">&lt;head&gt;</span></tt> section, we will added them in at the bottom of <tt class="docutils literal"><span class="pre">base.html</span></tt> just before we close the <tt class="docutils literal"><span class="pre">&lt;body&gt;</span></tt> tag, just like in the example below.</p>
 <div class="highlight-html"><div class="highlight"><pre>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;{% static &#39;js/jquery-2.0.3.min.js&#39; %}&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
     <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;{% static &#39;js/bootstrap.min.js&#39; %}&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
@@ -508,7 +527,9 @@ Update the <tt class="docutils literal"><span class="pre">login.html</span></tt>
           </li>
 		
         <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+
       </ul>
+
     </div>
     <div class="footer">
         &copy; Copyright 2013, Leif Azzopardi and David Maxwell.
@@ -516,5 +537,5 @@ Update the <tt class="docutils literal"><span class="pre">login.html</span></tt>
     </div>
   </body>
 
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/bootstrap.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 21 Nov 2013 06:40:48 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/bootstrap.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 29 Nov 2013 18:27:04 GMT -->
 </html>

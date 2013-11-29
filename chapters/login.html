@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/login.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 21 Nov 2013 06:40:18 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/login.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 29 Nov 2013 18:27:03 GMT -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
@@ -74,10 +74,15 @@
           </li>
 		
         <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+
       </ul>
+
     </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index-2.html">
+              <img class="logo" src="../_static/twd200x200.jpg" alt="Logo"/>
+            </a></p>
   <h3><a href="../index-2.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">8. User Authentication</a><ul>
@@ -147,14 +152,14 @@
 <span id="login-label"></span><h1>8. User Authentication<a class="headerlink" href="#user-authentication" title="Permalink to this headline">¶</a></h1>
 <p>The aim of this next part of the tutorial is to get you familiar with the user authentication mechanisms provided by Django. We&#8217;ll by using the <tt class="docutils literal"><span class="pre">auth</span></tt> application provided as part of a standard Django installation in package <tt class="docutils literal"><span class="pre">django.contrib.auth</span></tt>. According to <a class="reference external" href="https://docs.djangoproject.com/en/1.5/topics/auth/">Django&#8217;s official documentation on Authentication</a>, the application consists of the following aspects.</p>
 <ul class="simple">
-<li>Users.</li>
-<li>Permissions: a series of binary flags (e.g. yes/no) determining what a user may or may not do.</li>
-<li>Groups: a method of applying permissions to more than one user.</li>
-<li>A configurable password hashing system: a must for ensuring data security.</li>
-<li>Forms and view tools for logging in users, or restricting content.</li>
-<li>A pluggable backend system.</li>
+<li><em>Users.</em></li>
+<li><em>Permissions:</em> a series of binary flags (e.g. yes/no) determining what a user may or may not do.</li>
+<li><em>Groups:</em> a method of applying permissions to more than one user.</li>
+<li>A configurable <em>password hashing system:</em> a must for ensuring data security.</li>
+<li><em>Forms and view tools for logging in users,</em> or restricting content.</li>
+<li>A <em>pluggable backend system,</em> allowing you to provide your own authentication-related functionality.</li>
 </ul>
-<p>There&#8217;s lots that Django can do for you in the area of user authentication. We&#8217;ll be covering the basics to get your started.</p>
+<p>There&#8217;s lots that Django can do for you in the area of user authentication. We&#8217;ll be covering the basics to get you started. This&#8217;ll help you build your confidence with the available tools and their underlying concepts.</p>
 <div class="section" id="setting-up-authentication">
 <h2>8.1. Setting up Authentication<a class="headerlink" href="#setting-up-authentication" title="Permalink to this headline">¶</a></h2>
 <p>Before you can begin to play around with Django&#8217;s authentication offering, you&#8217;ll need to make sure that the relevant settings are present in your Rango project&#8217;s <tt class="docutils literal"><span class="pre">settings.py</span></tt> file.</p>
@@ -174,7 +179,7 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>While <tt class="docutils literal"><span class="pre">django.contrib.auth</span></tt> provides Django with access to the authentication system, <tt class="docutils literal"><span class="pre">django.contrib.contenttypes</span></tt> is used by the authentication application to track models installed in your database.</p>
+<p>While <tt class="docutils literal"><span class="pre">django.contrib.auth</span></tt> provides Django with access to the authentication system, <tt class="docutils literal"><span class="pre">django.contrib.contenttypes</span></tt> is used by the authentication application to track models installed in your database. Check out the <a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/contrib/contenttypes/">Official Django documentation for more details</a> on what <tt class="docutils literal"><span class="pre">django.contrib.contenttypes</span></tt> is and does to make your life easier.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Remember, if you had to add either one of the <tt class="docutils literal"><span class="pre">auth</span></tt> or <tt class="docutils literal"><span class="pre">contenttypes</span></tt> applications to your <tt class="docutils literal"><span class="pre">INSTALLED_APPS</span></tt> tuple, you will need to resynchronise your database with the <tt class="docutils literal"><span class="pre">$</span> <span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">syncdb</span></tt> command.</p>
@@ -242,7 +247,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Remember that with the creation of a new model, you must synchronise your database. Run <tt class="docutils literal"><span class="pre">$</span> <span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">syncb</span></tt> from your terminal to synchronise the new <tt class="docutils literal"><span class="pre">UserProfile</span></tt> model. Not doing so will result in errors explaining that the required database tables cannot be found.</p>
+<p class="last">Remember that your database must be synchronised with the creation of a new model. Run <tt class="docutils literal"><span class="pre">$</span> <span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">syncdb</span></tt> from your terminal to synchronise the new <tt class="docutils literal"><span class="pre">UserProfile</span></tt> model. This process involves Django creating one or more underlying database tables for the given model. Forgetting to synchronise your changes will result in errors explaining that the required database tables cannot be found.</p>
 </div>
 </div>
 <div class="section" id="creating-a-user-registration-view-and-template">
@@ -395,8 +400,7 @@
 <p>This HTML template makes use of the <tt class="docutils literal"><span class="pre">register</span></tt> variable we used in our view indicating whether registration was successful or not. Note that <tt class="docutils literal"><span class="pre">registered</span></tt> must be <tt class="docutils literal"><span class="pre">False</span></tt> in order for the template to display the registration form - otherwise, apart from the title, only a success message is displayed.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p>You should be aware of the <tt class="docutils literal"><span class="pre">enctype</span></tt> attribute for the <tt class="docutils literal"><span class="pre">&lt;form&gt;</span></tt> element. When you want users to upload files, you <strong>need</strong> to set <tt class="docutils literal"><span class="pre">enctype</span></tt> to <tt class="docutils literal"><span class="pre">multipart/form-data</span></tt>. This is because the browser needs to encode the data in a number of chunks in order to send the file.</p>
-<p class="last">Also, remember to make sure you include the CSRF token too <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">csrf_token</span> <span class="pre">%}</span></tt>.</p>
+<p class="last">You should be aware of the <tt class="docutils literal"><span class="pre">enctype</span></tt> attribute for the <tt class="docutils literal"><span class="pre">&lt;form&gt;</span></tt> element. When you want users to upload files from a form, it&#8217;s an absolute <em>must</em> to set <tt class="docutils literal"><span class="pre">enctype</span></tt> to <tt class="docutils literal"><span class="pre">multipart/form-data</span></tt>. This attribute and value combination instructs your browser to send form data in a special way back to the server. Essentially, the data representing your file is split into a series of chunks and sent. For more information, check out <a class="reference external" href="http://stackoverflow.com/a/4526286">this great Stack Overflow answer</a>. You should also should remember to include the CSRF token, too. Ensure that you include <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">csrf_token</span> <span class="pre">%}</span></tt> within your <tt class="docutils literal"><span class="pre">&lt;form&gt;</span></tt> element.</p>
 </div>
 </div>
 <div class="section" id="the-register-view-url-mapping">
@@ -697,7 +701,9 @@
           </li>
 		
         <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+
       </ul>
+
     </div>
     <div class="footer">
         &copy; Copyright 2013, Leif Azzopardi and David Maxwell.
@@ -705,5 +711,5 @@
     </div>
   </body>
 
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/login.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 21 Nov 2013 06:40:23 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/login.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 29 Nov 2013 18:27:03 GMT -->
 </html>

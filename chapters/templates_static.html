@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/templates_static.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 21 Nov 2013 06:38:26 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/templates_static.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 29 Nov 2013 18:27:00 GMT -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
@@ -74,16 +74,22 @@
           </li>
 		
         <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+
       </ul>
+
     </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index-2.html">
+              <img class="logo" src="../_static/twd200x200.jpg" alt="Logo"/>
+            </a></p>
   <h3><a href="../index-2.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">4. Templates and Static Media</a><ul>
 <li><a class="reference internal" href="#using-templates">4.1. Using Templates</a><ul>
 <li><a class="reference internal" href="#configuring-the-templates-directory">4.1.1. Configuring the Templates Directory</a></li>
-<li><a class="reference internal" href="#adding-a-template">4.1.2. Adding a Template</a></li>
+<li><a class="reference internal" href="#dynamic-paths">4.1.2. Dynamic Paths</a></li>
+<li><a class="reference internal" href="#adding-a-template">4.1.3. Adding a Template</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#serving-static-media">4.2. Serving Static Media</a><ul>
@@ -150,25 +156,39 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>Note that you are <em>required to use absolute paths</em> to locate the <tt class="docutils literal"><span class="pre">templates</span></tt> directory. If you are part of a team or working on different computers, this may become a problem in the future. You&#8217;ll have different usernames, meaning different paths to your <tt class="docutils literal"><span class="pre">&lt;workspace&gt;</span></tt> directory. Of course, you could add in the template directory for each different setup, but that would be a pretty nasty way to tackle the problem.</p>
+<p>Note that you are <em>required to use absolute paths</em> to locate the <tt class="docutils literal"><span class="pre">templates</span></tt> directory. If you are part of a team or working on different computers, this may become a problem in the future. You&#8217;ll have different usernames, meaning different paths to your <tt class="docutils literal"><span class="pre">&lt;workspace&gt;</span></tt> directory. The <em>hard-coded</em> path you entered above would not be the same on different computers. Of course, you could add in the template directory for each different setup, but that would be a pretty nasty way to tackle the problem. So, what can we do?</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">The road to hell is paved with hard-coded paths.
 <a class="reference external" href="http://en.wikipedia.org/wiki/Hard_coding">Hard-coding</a> paths is considered to be a <a class="reference external" href="http://sourcemaking.com/antipatterns">software engineering anti-pattern</a>, and will make your project less <a class="reference external" href="http://en.wikipedia.org/wiki/Software_portability">portable</a>.</p>
 </div>
-<p>Instead, we can be much smarter and make use of some built-in Python functions to obtain the path of our <tt class="docutils literal"><span class="pre">templates</span></tt> directory independently of where your project is stored on a filesystem. At the expense of a little bit more complexity in setting up our Django project, we can make our lives much easier later on when it comes to setting up and running our project on other computers. No pain, no gain!</p>
-<p>Modify the <tt class="docutils literal"><span class="pre">settings.py</span></tt> file to include a variable called <tt class="docutils literal"><span class="pre">PROJECT_PATH</span></tt> which will store the absolute path of the project. This is obtained by asking your operating system for the path of the <em>current working directory</em>. At the top of <tt class="docutils literal"><span class="pre">settings.py</span></tt>, add the following two lines of code.</p>
+</div>
+<div class="section" id="dynamic-paths">
+<h3>4.1.2. Dynamic Paths<a class="headerlink" href="#dynamic-paths" title="Permalink to this headline">¶</a></h3>
+<p>The solution to the problem of hard-coding paths is to make use of built-in Python functions to work out the path of our <tt class="docutils literal"><span class="pre">templates</span></tt> directory automatically for us. This way, an absolute path can be obtained regardless of where you place your Django project&#8217;s code on your filesystem. This in turn means that your project&#8217;s code becomes more <em>portable.</em> At the expense of a little bit more complexity in setting up your Django project now, you can make your life much easier later on. No pain, no gain!</p>
+<p>To start, modify the <tt class="docutils literal"><span class="pre">settings.py</span></tt> file to include a variable called <tt class="docutils literal"><span class="pre">SETTINGS_DIR</span></tt>. This will store the path to the directory in which your project&#8217;s <tt class="docutils literal"><span class="pre">settings.py</span></tt> module will be contained. This is obtained by using the special Python <tt class="docutils literal"><span class="pre">__file__</span></tt> attribute, which is <a class="reference external" href="http://stackoverflow.com/a/9271479">set to the absolute path of your settings module</a>. We then take the absolute path to the settings file, extracting the path to the directory in which the settings module is contained. For example, calling <tt class="docutils literal"><span class="pre">os.path.dirname()</span></tt> on the absolute path of <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project/tango_with_django_project/settings.py</span></tt> would yield a directory of <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project/tango_with_django_project/</span></tt>.</p>
+<p>To implement this functionality, add the following code to the top of <tt class="docutils literal"><span class="pre">settings.py</span></tt>. Note the importing of the <tt class="docutils literal"><span class="pre">os</span></tt> module.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
-<span class="n">PROJECT_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="n">SETTINGS_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This code imports the Python <tt class="docutils literal"><span class="pre">os</span></tt> module and asks for the path of the current working directory. This is the path in which you launched <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">runserver</span></tt> from. The path is assigned to variable <tt class="docutils literal"><span class="pre">PROJECT_PATH</span></tt>.</p>
-<p>With the absolute to our project&#8217;s root directory now stored in <tt class="docutils literal"><span class="pre">PROJECT_PATH</span></tt>, we can then join the path together with a further directory or filename to obtain a complete path to our project&#8217;s filesystem resources.</p>
-<p>Create a new variable called TEMPLATE_PATH in the <tt class="docutils literal"><span class="pre">settings.py</span></tt> file and store the path to the templates directory in it as follows:</p>
+<p>Now that we have the absolute path to our project&#8217;s configuration directory, we need to get the root directory of our project. This is exactly one level up from the project configuration directory. We can therefore make use of the <a class="reference external" href="http://docs.python.org/2/library/os#os.pardir">pardir</a> string within the Python <tt class="docutils literal"><span class="pre">os</span></tt> module to help us obtain the path to the <a class="reference external" href="http://www.webopedia.com/TERM/P/parent_directory.html">parent directory</a>. A project configuration directory path of <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project/tango_with_django_project/</span></tt> would for example return the path <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project/</span></tt>.</p>
+<p>Add the following two lines to <tt class="docutils literal"><span class="pre">settings.py</span></tt> directly underneath what you entered above.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">PROJECT_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SETTINGS_DIR</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)</span>
+<span class="n">PROJECT_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">PROJECT_PATH</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>First, we use the <tt class="docutils literal"><span class="pre">os.path.join()</span></tt> function to join together our <tt class="docutils literal"><span class="pre">SETTINGS_DIR</span></tt> variable and the <tt class="docutils literal"><span class="pre">os.pardir</span></tt> string.
+Typically, this will return <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project/tango_with_django_project/..</span></tt>. Calling <tt class="docutils literal"><span class="pre">os.path.absdir()</span></tt> on that path will then yield the absolute path to the next directory up the hierarchy, which would be <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project/</span></tt> in our example. In other words, <tt class="docutils literal"><span class="pre">PROJECT_PATH</span></tt> now contains the absolute path to our Django project&#8217;s root. We can then use this path to point to special directories in our project, such as the directory which stores our templates!</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">When joining or concatenating system paths together, using <tt class="docutils literal"><span class="pre">os.path.join()</span></tt> is the preferred approach. Using this function ensures that the correct slashes are used depending on your operating system. On a POSIX-compatible operating system, forward slashes would be used to separate directories, whereas a Windows operating system would use backward slashes. If you manually append slashes to paths, you may end up with path errors when attempting to run your code on a different operating system.</p>
+</div>
+<p>Let&#8217;s make use of it now. Create a new variable in <tt class="docutils literal"><span class="pre">settings.py</span></tt> called <tt class="docutils literal"><span class="pre">TEMPLATE_PATH</span></tt> and store the path to the <tt class="docutils literal"><span class="pre">templates</span></tt> directory you created earlier. Using the <tt class="docutils literal"><span class="pre">os.path.join()</span></tt> function, your code should look like the following example.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">TEMPLATE_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_PATH</span><span class="p">,</span> <span class="s">&#39;templates&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Here, we use the <tt class="docutils literal"><span class="pre">os.path.join()</span></tt> function to let Python handle the concatenation. This is the preferred approach - using this function makes sure that the correct slashes are used depending on our operating system. In the <tt class="docutils literal"><span class="pre">TEMPLATES_DIR</span></tt> tuple, add a reference to <tt class="docutils literal"><span class="pre">TEMPLATE_PATH</span></tt> like in the example below.</p>
+<p>We again make use of <tt class="docutils literal"><span class="pre">os.path.join()</span></tt> to mash together the <tt class="docutils literal"><span class="pre">PROJECT_PATH</span></tt> variable and <tt class="docutils literal"><span class="pre">'templates'</span></tt>, which would for example yield <tt class="docutils literal"><span class="pre">&lt;workspace&gt;/tango_with_django_project/templates/</span></tt>. We can then replace the hard-coded path we put in the <tt class="docutils literal"><span class="pre">TEMPLATE_DIRS</span></tt> tuple earlier with <tt class="docutils literal"><span class="pre">TEMPLATE_PATH</span></tt>, just like in the example below.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">TEMPLATE_DIRS</span> <span class="o">=</span> <span class="p">(</span>
     <span class="c"># Put strings here, like &quot;/home/html/django_templates&quot; or &quot;C:/www/django/templates&quot;.</span>
     <span class="c"># Always use forward slashes, even on Windows.</span>
@@ -177,10 +197,10 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>We can keep the <tt class="docutils literal"><span class="pre">TEMPLATE_PATH</span></tt> variable at the top of our <tt class="docutils literal"><span class="pre">settings.py</span></tt> to make it easy to access. This is why we created an additional variable to store the template path.</p>
+<p>We can keep the <tt class="docutils literal"><span class="pre">TEMPLATE_PATH</span></tt> variable at the top of our <tt class="docutils literal"><span class="pre">settings.py</span></tt> module to make it easy to access should it ever need to be changed. This is why we created an additional variable to store the template path.</p>
 </div>
 <div class="section" id="adding-a-template">
-<h3>4.1.2. Adding a Template<a class="headerlink" href="#adding-a-template" title="Permalink to this headline">¶</a></h3>
+<h3>4.1.3. Adding a Template<a class="headerlink" href="#adding-a-template" title="Permalink to this headline">¶</a></h3>
 <p>With your template directory and path set up, create a file called <tt class="docutils literal"><span class="pre">index.html</span></tt> and place it in the <tt class="docutils literal"><span class="pre">templates/rango/</span></tt> directory. Within this new file, add the following HTML code:</p>
 <div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="nt">&lt;html&gt;</span>
@@ -402,7 +422,9 @@
           </li>
 		
         <li><a href="../index-2.html">How to Tango with Django</a> &raquo;</li> 
+
       </ul>
+
     </div>
     <div class="footer">
         &copy; Copyright 2013, Leif Azzopardi and David Maxwell.
@@ -410,5 +432,5 @@
     </div>
   </body>
 
-<!-- Mirrored from www.tangowithdjango.com/book/chapters/templates_static.html by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 21 Nov 2013 06:38:27 GMT -->
+<!-- Mirrored from www.tangowithdjango.com/book/chapters/templates_static.html by HTTrack Website Copier/3.x [XR&CO'2008], Fri, 29 Nov 2013 18:27:00 GMT -->
 </html>
